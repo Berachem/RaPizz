@@ -14,6 +14,6 @@ Deadline : fin mars 🚀
 
 ## TODO
 
-- [ ] Faire un script d'insertion de Fake Datas dans toutes les tables
+- [x] Faire un script d'insertion de Fake Datas dans toutes les tables
 - [ ] Configurer projet JAVA
 - [ ] préparer les requêtes complexes
