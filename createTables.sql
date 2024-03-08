@@ -54,7 +54,7 @@ CREATE TABLE Commande(
    DateLivraison DATETIME,
    IdClient INT NOT NULL,
    IdLivreur INT NOT NULL,
-   IdVehicule DATE NOT NULL,
+   IdVehicule INT NOT NULL,
    PRIMARY KEY(idCommande),
    FOREIGN KEY(IdClient) REFERENCES Client(IdClient),
    FOREIGN KEY(IdLivreur) REFERENCES Livreur(IdLivreur),
