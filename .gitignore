@@ -1,0 +1,5 @@
+
+# Dossiers et fichiers liées à iNTELLIJ
+*.xml
+*.iml
+.idea
