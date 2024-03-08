@@ -41,8 +41,9 @@ CREATE TABLE Client(
 );
 
 CREATE TABLE Vehicule(
-   IdVehicule DATE,
+   IdVehicule INT,
    IdType INT NOT NULL,
+   Nom VARCHAR(255),
    PRIMARY KEY(IdVehicule),
    FOREIGN KEY(IdType) REFERENCES TypeVehicule(IdType)
 );
