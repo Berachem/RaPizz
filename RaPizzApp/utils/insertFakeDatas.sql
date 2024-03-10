@@ -45,10 +45,10 @@ INSERT INTO Vehicule(IdVehicule, IdType, Nom) VALUES
 (3, 1, 'Citroen C3');
 
 -- Insertion de données pour la table Commande
-INSERT INTO Commande(idCommande, DateCommande, DateLivraison, IdClient, IdLivreur, IdVehicule) VALUES
-(1, '2023-03-08 18:00:00', '2023-03-08 19:00:00', 1, 1, 1),
-(2, '2023-03-09 12:00:00', '2023-03-09 13:00:00', 2, 2, 2),
-(3, '2023-03-10 20:00:00', '2023-03-10 21:00:00', 3, 3, 3);
+INSERT INTO Commande(idCommande, adresseCommande, DateCommande, DateLivraison, IdClient, IdLivreur, IdVehicule) VALUES
+(1, '48 avenue ronsard, Gagny 93220','2023-03-08 18:00:00', '2023-03-08 19:00:00', 1, 1, 1),
+(2, '74 rue martin, Chelles 77500', '2023-03-09 12:00:00', '2023-03-09 13:00:00', 2, 2, 2),
+(3, '12 avenue paul, Aulnay-sous-bois 93330', '2023-03-10 20:00:00', '2023-03-10 21:00:00', 3, 3, 3);
 
 -- Insertion de données pour la table Compose
 -- Associant chaque pizza à ses ingrédients

@@ -50,6 +50,7 @@ CREATE TABLE Vehicule(
 
 CREATE TABLE Commande(
    idCommande INT,
+   adresseCommande VARCHAR(500),
    DateCommande DATETIME,
    DateLivraison DATETIME,
    IdClient INT NOT NULL,
