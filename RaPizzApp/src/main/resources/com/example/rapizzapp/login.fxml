@@ -17,13 +17,13 @@
     <!-- Titre de la page -->
     <Label text="Bienvenue sur RaPizzApp" styleClass="label-heading" />
     <!-- Champ identifiant -->
-    <VBox spacing="5.0" alignment="CENTER_LEFT" styleClass="form-group">
+    <VBox spacing="5.0" alignment="CENTER" styleClass="form-group">
         <Label text="Identifiant :" styleClass="label-info"/>
         <TextField fx:id="usernameField" maxWidth="200.0" styleClass="form-control"/>
     </VBox>
 
     <!-- Champ mot de passe -->
-    <VBox spacing="5.0" alignment="CENTER_LEFT" styleClass="form-group">
+    <VBox spacing="5.0" alignment="CENTER" styleClass="form-group">
         <Label text="Mot de passe :" styleClass="label-info"  />
         <PasswordField fx:id="passwordField" maxWidth="200.0" styleClass="form-control"/>
     </VBox>
