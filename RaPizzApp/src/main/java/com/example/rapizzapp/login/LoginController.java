@@ -20,6 +20,7 @@ public class LoginController {
 
     @FXML
     public void createAccountAction() {
+        System.out.println("hello");
         // Ajoutez ici la logique pour créer un compte
     }
 }
