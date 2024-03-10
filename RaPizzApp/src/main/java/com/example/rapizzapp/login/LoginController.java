@@ -5,13 +5,13 @@ import javafx.scene.control.TextField;
 
 public class LoginController {
     @FXML
-    private TextField usernameField;
+    public TextField usernameField;
 
     @FXML
-    private TextField passwordField;
+    public TextField passwordField;
 
     @FXML
-    protected void loginAction() {
+    public void loginAction() {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
@@ -19,7 +19,7 @@ public class LoginController {
     }
 
     @FXML
-    protected void createAccountAction() {
+    public void createAccountAction() {
         // Ajoutez ici la logique pour créer un compte
     }
 }
