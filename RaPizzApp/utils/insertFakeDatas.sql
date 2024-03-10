@@ -33,7 +33,7 @@ INSERT INTO Livreur(IdLivreur, Nom, Prenom) VALUES
 
 -- Insertion de données pour la table Client
 INSERT INTO Client(IdClient, Nom, Prenom, NumeroAbonnement, Solde) VALUES
-(1, 'Lefebvre', 'Sophie', 12345, 50),
+(1, 'Mike', 'Sophie', 12345, 50),
 (2, 'Petit', 'Pierre', 12346, 75),
 (3, 'Moreau', 'Juliette', 12347, 30);
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rapizzapp.controllers.ClientDashboardController"
+      xmlns="http://javafx.com/javafx/8" alignment="TOP_CENTER" spacing="10">
+
+
+    <Label text="Tableau de bord du client" styleClass="h1"/>
+
+    <HBox alignment="CENTER" spacing="10">
+        <VBox alignment="CENTER_LEFT" spacing="5">
+            <Label text="Informations du Client" styleClass="h2"/>
+            <!-- D'autres éléments d'informations du client ici -->
+        </VBox>
+        <VBox alignment="CENTER_LEFT" spacing="5">
+            <Label text="Commande en Cours" styleClass="h2"/>
+            <!-- Détails de la commande en cours ici -->
+        </VBox>
+    </HBox>
+
+    <VBox alignment="CENTER_LEFT" spacing="5">
+        <Label text="Historique des Commandes" styleClass="h2"/>
+        <!-- Liste de l'historique des commandes ici -->
+    </VBox>
+
+    <Button text="Créer une Nouvelle Commande" onAction="#createNewOrder" styleClass="btn-primary"/>
+</VBox>

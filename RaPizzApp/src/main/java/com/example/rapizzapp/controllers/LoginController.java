@@ -1,4 +1,4 @@
-package com.example.rapizzapp.login;
+package com.example.rapizzapp.controllers;
 
 import com.example.rapizzapp.HelloApplication;
 import javafx.event.ActionEvent;
@@ -43,5 +43,22 @@ public class LoginController {
             e.printStackTrace();
         }
         // Ajoutez ici la logique pour créer un compte
+    }
+
+    @FXML
+    public void passLogin(){
+        Parent root;
+        try {
+            root = FXMLLoader.load(HelloApplication.class.getResource("dashboard.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Dashboard");
+            stage.setScene(new Scene(root, 450, 450));
+            stage.show();
+            // Hide this current window (if this is what you want)
+            //((Node)(event.getSource())).getScene().getWindow().hide();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

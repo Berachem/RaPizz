@@ -35,7 +35,7 @@ CREATE TABLE Client(
    IdClient INT,
    Nom VARCHAR(50),
    Prenom VARCHAR(50),
-   NumeroAbonnement INT,
+   NumeroAbonnement INT UNIQUE,
    Solde INT,
    PRIMARY KEY(IdClient)
 );

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" spacing="10" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.rapizzapp.login.LoginController" styleClass="panel-primary">
+      fx:controller="com.example.rapizzapp.controllers.LoginController" styleClass="panel-primary">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
@@ -18,7 +18,7 @@
     <Label text="Bienvenue sur RaPizzApp" styleClass="label-heading" />
     <!-- Champ identifiant -->
     <VBox spacing="5.0" alignment="CENTER" styleClass="form-group">
-        <Label text="Identifiant :" styleClass="label-info"/>
+        <Label text="Numéro d'abonnement :" styleClass="label-info"/>
         <TextField fx:id="usernameField" maxWidth="200.0" styleClass="form-control"/>
     </VBox>
 
@@ -32,5 +32,6 @@
     <VBox spacing="10" alignment="CENTER">
         <Button text="Se connecter" styleClass="btn-primary" onAction="#loginAction"/>
         <Button text="Créer un compte" styleClass="btn-warning" onAction="#createAccountAction"/>
+        <Button text="(DEV) Passer" styleClass="btn-success" onAction="#passLogin"/>
     </VBox>
 </VBox>
