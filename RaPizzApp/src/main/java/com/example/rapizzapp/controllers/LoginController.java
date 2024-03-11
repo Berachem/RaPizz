@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.IOException;
 
@@ -57,7 +58,9 @@ public class LoginController {
             //load next window
             root = FXMLLoader.load(HelloApplication.class.getResource("createAccount.fxml"));
             stage.setTitle("Créer un compte");
-            stage.setScene(new Scene(root, 450, 450));
+            Scene scene = new Scene(root, 340, 440);
+            scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+            stage.setScene(scene);
             stage.show();
         }
         catch (IOException e) {
@@ -79,7 +82,9 @@ public class LoginController {
             //load next window
             root = FXMLLoader.load(HelloApplication.class.getResource("dashboard.fxml"));
             stage.setTitle("Dashboard");
-            stage.setScene(new Scene(root, 450, 450));
+            Scene scene = new Scene(root, 450, 450);
+            scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+            stage.setScene(scene);
             stage.show();
 
         }

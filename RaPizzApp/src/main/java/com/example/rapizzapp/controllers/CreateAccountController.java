@@ -1,10 +1,20 @@
 package com.example.rapizzapp.controllers;
 
+import com.example.rapizzapp.HelloApplication;
 import com.example.rapizzapp.entities.Client;
 import com.example.rapizzapp.utils.ClientService;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import org.kordamp.bootstrapfx.BootstrapFX;
+
+import java.io.IOException;
 
 public class CreateAccountController {
 
@@ -42,6 +52,7 @@ public class CreateAccountController {
         }
     }
 
+
     private void showAlert(String title, String content, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -51,4 +62,26 @@ public class CreateAccountController {
     }
 
 
+    public void handleBack(ActionEvent event) {
+        Parent root;
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        try {
+            // Hide this current window
+            node.getScene().getWindow().hide();
+
+            //load next window
+            root = FXMLLoader.load(HelloApplication.class.getResource("login.fxml"));
+            stage.setTitle("Bienvenue sur RapizzApp ! 🍕");
+            Scene scene = new Scene(root, 320, 440);
+            scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+            stage.setScene(scene);
+            stage.show();
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

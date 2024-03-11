@@ -16,11 +16,11 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <!-- Logo de la page 
-    <ImageView>
-        <Image url="images/rapizz_logo.png"/>
+    <!-- Logo de la page -->
+    <ImageView fitHeight="150.0" fitWidth="150.0">
+        <Image url="@images/rapizz_logo.png"/>
     </ImageView>
-    -->
+
 
     <!-- Titre de la page -->
     <Label text="Bienvenue sur RaPizzApp" styleClass="label-heading" />
@@ -35,6 +35,6 @@
     <VBox spacing="10" alignment="CENTER">
         <Button text="Se connecter" styleClass="btn-primary" onAction="#loginAction"/>
         <Button text="Créer un compte" styleClass="btn-warning" onAction="#createAccountAction"/>
-        <Button text="(DEV) Passer" styleClass="btn-success" onAction="#passLogin"/>
+        <!-- <Button text="(DEV) Passer" styleClass="btn-success" onAction="#passLogin"/> -->
     </VBox>
 </VBox>
