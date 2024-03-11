@@ -1,7 +1,7 @@
 package com.example.rapizzapp.controllers;
 
 import com.example.rapizzapp.entities.Client;
-import com.example.rapizzapp.utils.CustomerService;
+import com.example.rapizzapp.utils.ClientService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -15,10 +15,10 @@ public class CreateAccountController {
     @FXML
     private TextField soldeField;
 
-    private CustomerService customerService;
+    private ClientService customerService;
 
     public void initialize() {
-        customerService = new CustomerService();
+        customerService = new ClientService();
     }
 
     @FXML

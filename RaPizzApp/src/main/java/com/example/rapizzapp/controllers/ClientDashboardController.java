@@ -1,26 +1,37 @@
 package com.example.rapizzapp.controllers;
 
-import com.example.rapizzapp.utils.CustomerService;
+import com.example.rapizzapp.entities.Client;
+import com.example.rapizzapp.utils.ClientService;
+import com.example.rapizzapp.utils.UserHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class ClientDashboardController {
 
-    private CustomerService customerService;
+    private ClientService customerService;
+    private UserHandler userHandler = UserHandler.getInstance();
 
     @FXML
-    private Label clientInformation;
+    private Label infoClient;
 
     // Supposons que vous avez un modèle pour Client, Commande et d'autres données nécessaires.
 
     public void initialize() {
-        customerService = new CustomerService();
+        customerService = new ClientService();
         updateClientInformation();
         updateOrderHistory();
         showCurrentOrder();
     }
 
     private void updateClientInformation() {
+        Client client = userHandler.getClient();
+        infoClient.setText(
+                "nom : "+client.getNom()+"\n"+
+                "prenom : "+client.getPrenom()+"\n"+
+                "abonnement : "+client.getNumeroAbonnement()+"\n"+
+                "solde : "+client.getSolde()+"$"
+        );
+
         // Utilisez customerService pour obtenir les informations du client et les afficher
     }
 
