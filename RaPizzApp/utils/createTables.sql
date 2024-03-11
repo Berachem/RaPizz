@@ -1,38 +1,38 @@
 CREATE TABLE Ingrédient(
-   IdIngredient INT,
+   IdIngredient INT AUTO_INCREMENT,
    libelleIngredient VARCHAR(50),
    PRIMARY KEY(IdIngredient)
 );
 
 CREATE TABLE Pizza(
-   IdPizza INT,
+   IdPizza INT AUTO_INCREMENT,
    LibellePizza VARCHAR(50),
    Prix DECIMAL(15,2),
    PRIMARY KEY(IdPizza)
 );
 
 CREATE TABLE Taille(
-   idTaille INT,
+   idTaille INT AUTO_INCREMENT,
    LibelleTaille VARCHAR(50),
    ModificateurPrix VARCHAR(50),
    PRIMARY KEY(idTaille)
 );
 
 CREATE TABLE TypeVehicule(
-   IdType INT,
+   IdType INT AUTO_INCREMENT,
    LibelleVehicule VARCHAR(50),
    PRIMARY KEY(IdType)
 );
 
 CREATE TABLE Livreur(
-   IdLivreur INT,
+   IdLivreur INT AUTO_INCREMENT,
    Nom VARCHAR(50),
    Prenom VARCHAR(50),
    PRIMARY KEY(IdLivreur)
 );
 
 CREATE TABLE Client(
-   IdClient INT,
+   IdClient INT AUTO_INCREMENT,
    Nom VARCHAR(50),
    Prenom VARCHAR(50),
    NumeroAbonnement INT UNIQUE,
@@ -41,7 +41,7 @@ CREATE TABLE Client(
 );
 
 CREATE TABLE Vehicule(
-   IdVehicule INT,
+   IdVehicule INT AUTO_INCREMENT,
    IdType INT NOT NULL,
    Nom VARCHAR(255),
    PRIMARY KEY(IdVehicule),
@@ -49,7 +49,7 @@ CREATE TABLE Vehicule(
 );
 
 CREATE TABLE Commande(
-   idCommande INT,
+   idCommande INT AUTO_INCREMENT,
    adresseCommande VARCHAR(500),
    DateCommande DATETIME,
    DateLivraison DATETIME,
@@ -63,7 +63,7 @@ CREATE TABLE Commande(
 );
 
 CREATE TABLE Compose(
-   IdIngredient INT,
+   IdIngredient INT AUTO_INCREMENT,
    IdPizza INT,
    PRIMARY KEY(IdIngredient, IdPizza),
    FOREIGN KEY(IdIngredient) REFERENCES Ingrédient(IdIngredient),
@@ -71,7 +71,7 @@ CREATE TABLE Compose(
 );
 
 CREATE TABLE Contient(
-   IdPizza INT,
+   IdPizza INT AUTO_INCREMENT,
    idTaille INT,
    idCommande INT,
    PRIMARY KEY(IdPizza, idTaille, idCommande),

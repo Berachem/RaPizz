@@ -8,25 +8,28 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <VBox alignment="CENTER" spacing="10" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.rapizzapp.controllers.LoginController" styleClass="panel-primary">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
+    <!-- Logo de la page 
+    <ImageView>
+        <Image url="images/rapizz_logo.png"/>
+    </ImageView>
+    -->
+
     <!-- Titre de la page -->
     <Label text="Bienvenue sur RaPizzApp" styleClass="label-heading" />
     <!-- Champ identifiant -->
     <VBox spacing="5.0" alignment="CENTER" styleClass="form-group">
         <Label text="Numéro d'abonnement :" styleClass="label-info"/>
-        <TextField fx:id="usernameField" maxWidth="200.0" styleClass="form-control"/>
+        <TextField fx:id="abonnementField" maxWidth="200.0" styleClass="form-control"/>
     </VBox>
 
-    <!-- Champ mot de passe -->
-    <VBox spacing="5.0" alignment="CENTER" styleClass="form-group">
-        <Label text="Mot de passe :" styleClass="label-info"  />
-        <PasswordField fx:id="passwordField" maxWidth="200.0" styleClass="form-control"/>
-    </VBox>
 
     <!-- Boutons d'action -->
     <VBox spacing="10" alignment="CENTER">

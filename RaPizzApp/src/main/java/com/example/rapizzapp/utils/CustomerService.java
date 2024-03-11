@@ -29,12 +29,28 @@ public class CustomerService {
         return clients;
     }
 
-    public Client getClientInformation(int clientId) {
+    public Client getClient(int clientId) {
         String sql = "SELECT * FROM Client WHERE IdClient = ?";
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, clientId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new Client(rs.getInt("IdClient"), rs.getString("Nom"), rs.getString("Prenom"), rs.getInt("NumeroAbonnement"), rs.getInt("Solde"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public Client getClientByNumeroAbonnement(int numeroAbonnement) {
+        String sql = "SELECT * FROM Client WHERE NumeroAbonnement = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, numeroAbonnement);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return new Client(rs.getInt("IdClient"), rs.getString("Nom"), rs.getString("Prenom"), rs.getInt("NumeroAbonnement"), rs.getInt("Solde"));

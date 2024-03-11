@@ -13,8 +13,6 @@ public class CreateAccountController {
     @FXML
     private TextField prenomField;
     @FXML
-    private TextField numeroAbonnementField;
-    @FXML
     private TextField soldeField;
 
     private CustomerService customerService;
@@ -28,13 +26,14 @@ public class CreateAccountController {
         try {
             String nom = nomField.getText();
             String prenom = prenomField.getText();
-            int numeroAbonnement = Integer.parseInt(numeroAbonnementField.getText());
+            // numero est généré aléatoirement
+            int numeroAbonnement = (int) (Math.random() * 1000000);
             int solde = Integer.parseInt(soldeField.getText());
 
             Client newClient = new Client(0, nom, prenom, numeroAbonnement, solde); // Assumer que l'ID est auto-généré ou ignoré pour l'insertion
 
             if (customerService.insertClient(newClient)) {
-                showAlert("Succès", "Le compte a été créé avec succès.", Alert.AlertType.INFORMATION);
+                showAlert("Succès", "Le compte a été créé avec succès. Votre numéro d'abonnement qui vous servira pour la connexion est : "+numeroAbonnement, Alert.AlertType.INFORMATION);
             } else {
                 showAlert("Erreur", "Impossible de créer le compte.", Alert.AlertType.ERROR);
             }

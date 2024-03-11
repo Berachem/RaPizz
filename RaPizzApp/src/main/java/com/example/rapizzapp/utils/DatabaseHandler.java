@@ -6,9 +6,10 @@ import java.sql.SQLException;
 
 public class DatabaseHandler {
 
+    // Berachem :
     private String url = "jdbc:mysql://localhost:3306/projetbdd";
     private String user = "root";
-    private String password = "";
+    private String password = "Bouzened93";
 
     private Connection conn;
 
@@ -26,6 +27,13 @@ public class DatabaseHandler {
     }
 
     public Connection getConnection() {
+        try {
+            if (conn == null || conn.isClosed()) {
+                establishConnection();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         return conn;
     }
 

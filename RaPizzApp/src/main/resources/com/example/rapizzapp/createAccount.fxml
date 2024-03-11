@@ -14,9 +14,9 @@
     <VBox alignment="CENTER" maxWidth="250">
         <TextField fx:id="nomField" promptText="Nom" maxWidth="250"/>
         <TextField fx:id="prenomField" promptText="Prénom" maxWidth="250"/>
-        <TextField fx:id="numeroAbonnementField" promptText="Numéro d'abonnement" maxWidth="250"/>
-        <TextField fx:id="soldeField" promptText="Solde" maxWidth="250"/>
+        <TextField fx:id="soldeField" promptText="Solde initial" maxWidth="250"/>
     </VBox>
+    <Label text="A la fin de la création, un numéro d'abonnement vous sera attribué." styleClass="label-info"/>
 
     <Button text="Créer" onAction="#handleCreateAccount" styleClass="btn-primary"/>
 </VBox>

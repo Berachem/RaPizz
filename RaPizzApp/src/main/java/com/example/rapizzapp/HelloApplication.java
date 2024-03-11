@@ -17,7 +17,7 @@ public class HelloApplication extends Application {
         // Si on est en avance : utiliser un Boostrap Custom
         // String css = this.getClass().getResource("/com/example/rapizzapp/styles/bootstrap.css").toExternalForm();
         // scene.getStylesheets().add(css);        scene.getStylesheets().add(css);
-        stage.setTitle("Hello!");
+        stage.setTitle("Bienvenue sur RapizzApp ! 🍕");
         stage.setScene(scene);
         stage.show();
     }
