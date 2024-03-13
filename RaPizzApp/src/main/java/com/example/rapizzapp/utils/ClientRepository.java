@@ -6,10 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientService {
+public class ClientRepository {
     private DatabaseHandler dbHandler;
 
-    public ClientService() {
+    public ClientRepository() {
         dbHandler = new DatabaseHandler();
     }
 

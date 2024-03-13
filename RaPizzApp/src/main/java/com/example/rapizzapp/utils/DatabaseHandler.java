@@ -7,9 +7,9 @@ import java.sql.SQLException;
 public class DatabaseHandler {
 
     // Berachem :
-    private String url = "jdbc:mysql://localhost:3306/projetbdd";
+    private String url = "jdbc:mysql://localhost:3306/rapizz";
     private String user = "root";
-    private String password = "Bouzened93";
+    private String password = "";
 
     private Connection conn;
 

@@ -1,8 +1,8 @@
 package com.example.rapizzapp.controllers;
 
-import com.example.rapizzapp.HelloApplication;
+import com.example.rapizzapp.RaPizzApplication;
 import com.example.rapizzapp.entities.Client;
-import com.example.rapizzapp.utils.ClientService;
+import com.example.rapizzapp.utils.ClientRepository;
 import com.example.rapizzapp.utils.UserHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,11 +20,11 @@ import java.io.IOException;
 public class LoginController {
     @FXML
     public TextField abonnementField;
-    private ClientService customerService;
+    private ClientRepository customerService;
 
     private UserHandler userHandler = UserHandler.getInstance();
     public void initialize() {
-        customerService = new ClientService();
+        customerService = new ClientRepository();
     }
 
     @FXML
@@ -56,7 +56,7 @@ public class LoginController {
             node.getScene().getWindow().hide();
 
             //load next window
-            root = FXMLLoader.load(HelloApplication.class.getResource("createAccount.fxml"));
+            root = FXMLLoader.load(RaPizzApplication.class.getResource("createAccount.fxml"));
             stage.setTitle("Créer un compte");
             Scene scene = new Scene(root, 340, 440);
             scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
@@ -80,7 +80,7 @@ public class LoginController {
             node.getScene().getWindow().hide();
 
             //load next window
-            root = FXMLLoader.load(HelloApplication.class.getResource("dashboard.fxml"));
+            root = FXMLLoader.load(RaPizzApplication.class.getResource("dashboard.fxml"));
             stage.setTitle("Dashboard");
             Scene scene = new Scene(root, 1000, 550);
             scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());

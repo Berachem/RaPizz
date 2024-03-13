@@ -1,8 +1,8 @@
 package com.example.rapizzapp.controllers;
 
-import com.example.rapizzapp.HelloApplication;
+import com.example.rapizzapp.RaPizzApplication;
 import com.example.rapizzapp.entities.Client;
-import com.example.rapizzapp.utils.ClientService;
+import com.example.rapizzapp.utils.ClientRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,10 +25,10 @@ public class CreateAccountController {
     @FXML
     private TextField soldeField;
 
-    private ClientService customerService;
+    private ClientRepository customerService;
 
     public void initialize() {
-        customerService = new ClientService();
+        customerService = new ClientRepository();
     }
 
     @FXML
@@ -72,7 +72,7 @@ public class CreateAccountController {
             node.getScene().getWindow().hide();
 
             //load next window
-            root = FXMLLoader.load(HelloApplication.class.getResource("login.fxml"));
+            root = FXMLLoader.load(RaPizzApplication.class.getResource("login.fxml"));
             stage.setTitle("Bienvenue sur RapizzApp ! 🍕");
             Scene scene = new Scene(root, 320, 440);
             scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());

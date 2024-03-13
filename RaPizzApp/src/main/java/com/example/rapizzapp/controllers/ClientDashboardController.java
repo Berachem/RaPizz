@@ -1,24 +1,33 @@
 package com.example.rapizzapp.controllers;
 
+import com.example.rapizzapp.RaPizzApplication;
 import com.example.rapizzapp.entities.Client;
 import com.example.rapizzapp.entities.Commande;
-import com.example.rapizzapp.utils.ClientService;
+import com.example.rapizzapp.utils.ClientRepository;
 import com.example.rapizzapp.utils.UserHandler;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.io.IOException;
 import java.util.List;
 
 public class ClientDashboardController {
 
-    private ClientService customerService;
+    private ClientRepository customerService;
     private UserHandler userHandler = UserHandler.getInstance();
 
     @FXML
@@ -46,7 +55,7 @@ public class ClientDashboardController {
     // Supposons que vous avez un modèle pour Client, Commande et d'autres données nécessaires.
 
     public void initialize() {
-        customerService = new ClientService();
+        customerService = new ClientRepository();
 
 
         // Configure les colonnes
@@ -94,8 +103,26 @@ public class ClientDashboardController {
     }
 
     @FXML
-    private void createNewOrder() {
-        // L'action pour créer une nouvelle commande sera implémentée ici
-        // Pour le moment, vous pouvez commenter le code ou afficher un message.
+    private void createNewOrder(ActionEvent event) {
+        Parent root;
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        try {
+            // Hide this current window
+            node.getScene().getWindow().hide();
+
+            //load next window
+            root = FXMLLoader.load(RaPizzApplication.class.getResource("createCommand.fxml"));
+            stage.setTitle("Créer une commande");
+            Scene scene = new Scene(root, 1000, 550);
+            scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+            stage.setScene(scene);
+            stage.show();
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
