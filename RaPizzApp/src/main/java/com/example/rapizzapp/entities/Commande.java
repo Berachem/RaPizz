@@ -11,6 +11,8 @@ public class Commande {
     private int idLivreur;
     private int idVehicule;
 
+    private double montant = 0.0; // Valeur par défaut
+
     // Constructeur
     public Commande() {
         this.idCommande = 0;
@@ -87,5 +89,13 @@ public class Commande {
 
     public void setIdVehicule(int idVehicule) {
         this.idVehicule = idVehicule;
+    }
+
+    public double getMontant() {
+        return montant;
+    }
+
+    public void setMontant(double montant) {
+        this.montant = montant;
     }
 }

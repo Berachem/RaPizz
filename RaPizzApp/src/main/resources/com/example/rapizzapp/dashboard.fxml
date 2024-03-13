@@ -5,7 +5,9 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rapizzapp.controllers.ClientDashboardController"
       xmlns="http://javafx.com/javafx/8" alignment="TOP_CENTER" spacing="10">
-
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
 
     <Label text="Tableau de bord du client" styleClass="h1"/>
 
@@ -20,12 +22,13 @@
 
     <Button text="Créer une Nouvelle Commande" onAction="#createNewOrder" styleClass="btn-primary"/>
 
-    <VBox alignment="CENTER" spacing="5" maxWidth="400" maxHeight="300">
+    <VBox alignment="CENTER" spacing="5" maxWidth="440" maxHeight="300">
         <Label text="Historique des Commandes" styleClass="h2"/>
         <!-- Liste de l'historique des commandes ici -->
-        <TableView fx:id="tableHistoriqueCommandes">
+        <TableView fx:id="tableHistoriqueCommandes" styleClass="table-primary" prefWidth="440" prefHeight="300">
             <columns>
-                <TableColumn fx:id="idCommandeColumn" text="ID Commande"/>
+                <TableColumn fx:id="idCommandeColumn" text="ID"/>
+                <TableColumn fx:id="adresseColumn" text="Adresse"/>
                 <TableColumn fx:id="dateLivraisonColumn" text="Date de livraison"/>
                 <TableColumn fx:id="montantColumn" text="Montant"/>
             </columns>
