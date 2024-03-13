@@ -17,6 +17,8 @@ Deadline : fin mars 🚀
 ## Pages 
 ![image](https://github.com/Berachem/RaPizz/assets/75014657/e4b0fd03-58ba-4ce6-89fa-c44203dd1b5b)
 
+Les labels correspondent à une fonctionnalité. TODO : partie BackEnd à enrichir.
+
 ## Schéma (MCD)
 
 <img width="1451" alt="image" src="./documents/MCD.png">
