@@ -5,6 +5,12 @@ public class Taille {
     private String libelleTaille;
     private String modificateurPrix;
 
+    public Taille(int idTaille,String libelleTaille,String modificateurPrix){
+        this.idTaille=idTaille;
+        this.libelleTaille=libelleTaille;
+        this.modificateurPrix=modificateurPrix;
+    }
+
     public int getIdTaille() {
         return idTaille;
     }
@@ -27,6 +33,11 @@ public class Taille {
 
     public void setModificateurPrix(String modificateurPrix) {
         this.modificateurPrix = modificateurPrix;
+    }
+
+    @Override
+    public String toString(){
+        return libelleTaille;
     }
 }
 

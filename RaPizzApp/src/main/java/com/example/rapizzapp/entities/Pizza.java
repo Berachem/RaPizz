@@ -5,6 +5,12 @@ public class Pizza {
     private String libellePizza;
     private double prix;
 
+    public Pizza(int idPizza,String libellePizza,double prix){
+        this.idPizza = idPizza;
+        this.libellePizza = libellePizza;
+        this.prix = prix;
+    }
+
     public int getIdPizza() {
         return idPizza;
     }
@@ -27,6 +33,11 @@ public class Pizza {
 
     public void setPrix(double prix) {
         this.prix = prix;
+    }
+
+    @Override
+    public String toString(){
+        return libellePizza;
     }
 }
 
