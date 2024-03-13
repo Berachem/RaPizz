@@ -82,7 +82,7 @@ public class LoginController {
             //load next window
             root = FXMLLoader.load(HelloApplication.class.getResource("dashboard.fxml"));
             stage.setTitle("Dashboard");
-            Scene scene = new Scene(root, 450, 450);
+            Scene scene = new Scene(root, 1000, 550);
             scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
             stage.setScene(scene);
             stage.show();

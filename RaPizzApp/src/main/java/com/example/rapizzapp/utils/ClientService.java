@@ -1,7 +1,7 @@
 package com.example.rapizzapp.utils;
 
 import com.example.rapizzapp.entities.Client;
-
+import com.example.rapizzapp.entities.Commande;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,14 +78,35 @@ public class ClientService {
     }
 
 
-
-
-
-    /*
     public List<Commande> getClientOrderHistory(int clientId) {
-        // Implémentation pour obtenir l'historique des commandes du client
+        List<Commande> commandes = new ArrayList<>();
+        String sql = "SELECT * FROM Commande WHERE IdClient = ?";
+
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, clientId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Commande commande = new Commande();
+                commande.setIdCommande(rs.getInt("idCommande"));
+                commande.setAdresseCommande(rs.getString("adresseCommande"));
+                commande.setDateCommande(rs.getTimestamp("DateCommande").toLocalDateTime());
+                commande.setDateLivraison(rs.getTimestamp("DateLivraison") != null ? rs.getTimestamp("DateLivraison").toLocalDateTime() : null);
+                commande.setIdClient(rs.getInt("IdClient"));
+                commande.setIdLivreur(rs.getInt("IdLivreur"));
+                commande.setIdVehicule(rs.getInt("IdVehicule"));
+
+                commandes.add(commande);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return commandes;
     }
 
+/*
     public Commande getCurrentOrder(int clientId) {
         // Implémentation pour obtenir la commande en cours du client
     }

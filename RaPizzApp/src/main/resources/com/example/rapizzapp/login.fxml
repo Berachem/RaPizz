@@ -23,7 +23,7 @@
 
 
     <!-- Titre de la page -->
-    <Label text="Bienvenue sur RaPizzApp" styleClass="label-heading" />
+    <Label text="Connexion" styleClass="h2" />
     <!-- Champ identifiant -->
     <VBox spacing="5.0" alignment="CENTER" styleClass="form-group">
         <Label text="Numéro d'abonnement :" styleClass="label-info"/>

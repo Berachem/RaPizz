@@ -12,6 +12,16 @@ public class Commande {
     private int idVehicule;
 
     // Constructeur
+    public Commande() {
+        this.idCommande = 0;
+        this.adresseCommande = "";
+        this.dateCommande = LocalDateTime.now();
+        this.dateLivraison = LocalDateTime.now();
+        this.idClient = 0;
+        this.idLivreur = 0;
+        this.idVehicule = 0;
+    }
+
     public Commande(int idCommande, String adresseCommande, LocalDateTime dateCommande, LocalDateTime dateLivraison, int idClient, int idLivreur, int idVehicule) {
         this.idCommande = idCommande;
         this.adresseCommande = adresseCommande;
