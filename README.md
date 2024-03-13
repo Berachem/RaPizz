@@ -14,6 +14,8 @@ Deadline : fin mars 🚀
 7. **Configurer mySQL avec IntelliJ IDEA (ou autre) pour pouvoir utiliser la base de données. Pour cela, vous pouvez suivre ce tutoriel : https://www.jetbrains.com/help/idea/connecting-to-a-database.html#connect-to-mysql**
 8. (Optionnel) Pour enfin pouvoir réaliser des pages fxml, vous pouvez installer SceneBuilder (https://gluonhq.com/products/scene-builder/)
 
+## Pages 
+![image](https://github.com/Berachem/RaPizz/assets/75014657/e4b0fd03-58ba-4ce6-89fa-c44203dd1b5b)
 
 ## Schéma (MCD)
 
