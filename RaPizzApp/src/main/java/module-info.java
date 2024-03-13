@@ -9,7 +9,7 @@ module com.example.rapizzapp {
     opens com.example.rapizzapp to javafx.fxml;
     opens com.example.rapizzapp.controllers to javafx.fxml;
     opens com.example.rapizzapp.entities to javafx.base, javafx.fxml;
-    exports com.example.rapizzapp.controllers to javafx.fxml;
     exports com.example.rapizzapp;
+    exports com.example.rapizzapp.controllers;
 
 }

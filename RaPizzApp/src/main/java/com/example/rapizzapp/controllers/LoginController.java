@@ -78,11 +78,17 @@ public class LoginController {
         try {
             // Hide this current window
             node.getScene().getWindow().hide();
+            Scene scene = null;
+            System.out.println("Connected as "+userHandler.getClient().getRole() + " : "+userHandler.getClient().getNom()+" "+userHandler.getClient().getPrenom() + " | "+userHandler.getClient().getNumeroAbonnement());
+            if (userHandler.getClient().isAdmin()){ // ADMIN
+                root = FXMLLoader.load(RaPizzApplication.class.getResource("dashboardAdmin.fxml"));
+                stage.setTitle("Dashboard Admin");
+            }else { // CLIENT
+                root = FXMLLoader.load(RaPizzApplication.class.getResource("dashboard.fxml"));
+                stage.setTitle("Dashboard");
+            }
+            scene = new Scene(root, 1000, 550);
 
-            //load next window
-            root = FXMLLoader.load(RaPizzApplication.class.getResource("dashboard.fxml"));
-            stage.setTitle("Dashboard");
-            Scene scene = new Scene(root, 1000, 550);
             scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
             stage.setScene(scene);
             stage.show();

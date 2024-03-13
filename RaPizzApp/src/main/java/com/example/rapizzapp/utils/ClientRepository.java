@@ -21,7 +21,7 @@ public class ClientRepository {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                clients.add(new Client(rs.getInt("IdClient"), rs.getString("Nom"), rs.getString("Prenom"), rs.getInt("NumeroAbonnement"), rs.getInt("Solde")));
+                clients.add(new Client(rs.getInt("IdClient"), rs.getString("Nom"), rs.getString("Prenom"), rs.getInt("NumeroAbonnement"), rs.getInt("Solde"), rs.getString("Role")));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -37,7 +37,7 @@ public class ClientRepository {
             pstmt.setInt(1, clientId);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new Client(rs.getInt("IdClient"), rs.getString("Nom"), rs.getString("Prenom"), rs.getInt("NumeroAbonnement"), rs.getInt("Solde"));
+                return new Client(rs.getInt("IdClient"), rs.getString("Nom"), rs.getString("Prenom"), rs.getInt("NumeroAbonnement"), rs.getInt("Solde"), rs.getString("Role"));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -53,7 +53,7 @@ public class ClientRepository {
             pstmt.setInt(1, numeroAbonnement);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new Client(rs.getInt("IdClient"), rs.getString("Nom"), rs.getString("Prenom"), rs.getInt("NumeroAbonnement"), rs.getInt("Solde"));
+                return new Client(rs.getInt("IdClient"), rs.getString("Nom"), rs.getString("Prenom"), rs.getInt("NumeroAbonnement"), rs.getInt("Solde"), rs.getString("Role"));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

@@ -7,13 +7,20 @@ public class Client {
     private int numeroAbonnement;
     private int solde;
 
+    private String role;
+
+
     // Constructeur
-    public Client(int idClient, String nom, String prenom, int numeroAbonnement, int solde) {
+    public Client(int idClient, String nom, String prenom, int numeroAbonnement, int solde, String role ) {
         this.idClient = idClient;
         this.nom = nom;
         this.prenom = prenom;
         this.numeroAbonnement = numeroAbonnement;
         this.solde = solde;
+        this.role = role;
+    }
+    public Client(String nom, String prenom, int numeroAbonnement, int solde) {
+        this(0, nom, prenom, numeroAbonnement, solde, "USER");
     }
 
     // Getters et setters
@@ -55,5 +62,17 @@ public class Client {
 
     public void setSolde(int solde) {
         this.solde = solde;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean isAdmin() {
+        return role.equalsIgnoreCase("ADMIN");
     }
 }

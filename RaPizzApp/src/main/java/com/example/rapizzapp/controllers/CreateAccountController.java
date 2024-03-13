@@ -40,7 +40,7 @@ public class CreateAccountController {
             int numeroAbonnement = (int) (Math.random() * 1000000);
             int solde = Integer.parseInt(soldeField.getText());
 
-            Client newClient = new Client(0, nom, prenom, numeroAbonnement, solde); // Assumer que l'ID est auto-généré ou ignoré pour l'insertion
+            Client newClient = new Client(0, nom, prenom, numeroAbonnement, solde, "USER"); // Assumer que l'ID est auto-généré ou ignoré pour l'insertion
 
             if (customerService.insertClient(newClient)) {
                 showAlert("Succès", "Le compte a été créé avec succès. Votre numéro d'abonnement qui vous servira pour la connexion est : "+numeroAbonnement, Alert.AlertType.INFORMATION);

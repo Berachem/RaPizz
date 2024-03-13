@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.rapizzapp.controllers.AdminDashboardController">
+
+    <!-- Logo de la page -->
+    <ImageView fitHeight="150.0" fitWidth="150.0">
+        <Image url="@images/rapizz_logo.png"/>
+    </ImageView>
+
+    <Label text="Admin Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #337ab7;" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+</VBox>

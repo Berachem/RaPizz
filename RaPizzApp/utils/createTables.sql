@@ -37,6 +37,7 @@ CREATE TABLE Client(
    Prenom VARCHAR(50),
    NumeroAbonnement INT UNIQUE,
    Solde INT,
+   Role ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
    PRIMARY KEY(IdClient)
 );
 
