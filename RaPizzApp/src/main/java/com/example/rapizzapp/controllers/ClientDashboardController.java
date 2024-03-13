@@ -41,7 +41,7 @@ public class ClientDashboardController {
     private TableColumn<Commande, String> dateLivraisonColumn;
 
     @FXML
-    private TableColumn<Commande, Number> montantColumn;
+    private TableColumn<Commande, String> montantColumn;
 
     // Supposons que vous avez un modèle pour Client, Commande et d'autres données nécessaires.
 
@@ -78,13 +78,15 @@ public class ClientDashboardController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy à HH:mm");
 
         List<Commande> commandes = customerService.getClientOrderHistory(userHandler.getClient().getIdClient());
-        // TODO : Mettre à jour les données de l'historique des commandes
+        // Mise à jour de l'historique des commandes
         tableHistoriqueCommandes.setItems(FXCollections.observableArrayList(commandes));
-        dateLivraisonColumn.setCellValueFactory(cellData -> {
+        dateLivraisonColumn.setCellValueFactory(cellData -> { // Formater la date de livraison
             LocalDateTime date = cellData.getValue().getDateLivraison();
             String formattedDate = date != null ? date.format(formatter) : "";
             return new ReadOnlyStringWrapper(formattedDate);
         });
+        // rajout du symbole € pour le montant
+        montantColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getMontant() + " €"));
     }
 
     private void showCurrentOrder() {

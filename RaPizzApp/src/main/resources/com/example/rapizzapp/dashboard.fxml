@@ -32,6 +32,12 @@
                 <TableColumn fx:id="dateLivraisonColumn" text="Date de livraison"/>
                 <TableColumn fx:id="montantColumn" text="Montant"/>
             </columns>
+            <style>
+                -fx-background-color: #f0f0f0;
+                -fx-text-fill: #333333;
+                -fx-border-color: #cccccc;
+                -fx-table-cell-border-color: #aaaaaa;
+            </style>
         </TableView>
     </VBox>
 
