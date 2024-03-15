@@ -14,7 +14,7 @@
 
     <Label text="Créer une commande" styleClass="h2"/>
 
-    <Label text="Total : 0" styleClass="h3" fx:id="total"/>
+    <Label text="Total : 0" styleClass="h3" fx:id="totalPrice"/>
     <VBox alignment="CENTER" maxWidth="350" fx:id="form"></VBox>
 
     <Button text="ajouter une pizza" onAction="#addPizza" styleClass="btn-warning"></Button>

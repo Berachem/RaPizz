@@ -5,6 +5,12 @@ public class Pizza {
     private String libellePizza;
     private double prix;
 
+    public Pizza(){
+        this.idPizza = 0;
+        this.libellePizza = "";
+        this.prix = 0;
+    }
+
     public Pizza(int idPizza,String libellePizza,double prix){
         this.idPizza = idPizza;
         this.libellePizza = libellePizza;

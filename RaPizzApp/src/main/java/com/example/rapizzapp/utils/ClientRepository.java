@@ -8,9 +8,10 @@ import java.util.List;
 
 public class ClientRepository {
     private DatabaseHandler dbHandler;
-
+    private CommandeRepository commandeRepository;
     public ClientRepository() {
         dbHandler = new DatabaseHandler();
+        commandeRepository = new CommandeRepository();
     }
 
     public List<Client> getAllClients() {
@@ -77,26 +78,6 @@ public class ClientRepository {
         }
     }
 
-    public double getMontantTotalCommande(int idCommande) {
-        String sql = "SELECT SUM(Pizza.Prix * Taille.ModificateurPrix) AS MontantTotal " +
-                "FROM Contient " +
-                "JOIN Pizza ON Contient.IdPizza = Pizza.IdPizza " +
-                "JOIN Taille ON Contient.idTaille = Taille.idTaille " +
-                "WHERE Contient.idCommande = ?";
-        try (Connection conn = dbHandler.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, idCommande);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getDouble("MontantTotal");
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return 0.0;
-    }
-
-
     public List<Commande> getClientOrderHistory(int clientId) {
         List<Commande> commandes = new ArrayList<>();
         String sql = "SELECT * FROM Commande WHERE IdClient = ?";
@@ -123,7 +104,7 @@ public class ClientRepository {
 
         // Calculer le montant total pour chaque commande
         for (Commande commande : commandes) {
-            commande.setMontant(getMontantTotalCommande(commande.getIdCommande()));
+            commande.setMontant(commandeRepository.getMontantTotalCommande(commande.getIdCommande()));
         }
 
         return commandes;

@@ -5,6 +5,12 @@ public class Taille {
     private String libelleTaille;
     private String modificateurPrix;
 
+    public Taille(){
+        this.idTaille=0;
+        this.libelleTaille="";
+        this.modificateurPrix="1";
+    }
+
     public Taille(int idTaille,String libelleTaille,String modificateurPrix){
         this.idTaille=idTaille;
         this.libelleTaille=libelleTaille;

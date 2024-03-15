@@ -1,6 +1,7 @@
 package com.example.rapizzapp.entities;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 public class Commande {
     private int idCommande;
@@ -10,6 +11,8 @@ public class Commande {
     private int idClient;
     private int idLivreur;
     private int idVehicule;
+
+    private HashMap<Pizza,Taille> pizzas;
 
     private double montant = 0.0; // Valeur par défaut
 
@@ -22,9 +25,10 @@ public class Commande {
         this.idClient = 0;
         this.idLivreur = 0;
         this.idVehicule = 0;
+        this.pizzas =new HashMap<Pizza,Taille>();
     }
 
-    public Commande(int idCommande, String adresseCommande, LocalDateTime dateCommande, LocalDateTime dateLivraison, int idClient, int idLivreur, int idVehicule) {
+    public Commande(int idCommande, String adresseCommande, LocalDateTime dateCommande, LocalDateTime dateLivraison, int idClient, int idLivreur, int idVehicule,HashMap<Pizza,Taille> commande) {
         this.idCommande = idCommande;
         this.adresseCommande = adresseCommande;
         this.dateCommande = dateCommande;
@@ -32,6 +36,7 @@ public class Commande {
         this.idClient = idClient;
         this.idLivreur = idLivreur;
         this.idVehicule = idVehicule;
+        this.pizzas = commande;
     }
 
     // Getters et setters
@@ -98,4 +103,8 @@ public class Commande {
     public void setMontant(double montant) {
         this.montant = montant;
     }
+
+    public HashMap<Pizza,Taille> getPizzas(){ return this.pizzas; }
+
+    public void setPizzas(HashMap<Pizza,Taille> pizzas){ this.pizzas = pizzas; }
 }
