@@ -3,8 +3,9 @@ package com.example.rapizzapp.controllers;
 import com.example.rapizzapp.RaPizzApplication;
 import com.example.rapizzapp.entities.Client;
 import com.example.rapizzapp.entities.Commande;
-import com.example.rapizzapp.utils.ClientRepository;
-import com.example.rapizzapp.utils.UserHandler;
+import com.example.rapizzapp.repositories.ClientRepository;
+import com.example.rapizzapp.handlers.UserHandler;
+import com.example.rapizzapp.repositories.CommandeRepository;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -26,8 +27,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class ClientDashboardController {
-
-    private ClientRepository customerService;
+    private CommandeRepository commandeRepository;
     private UserHandler userHandler = UserHandler.getInstance();
 
     @FXML
@@ -55,8 +55,7 @@ public class ClientDashboardController {
     // Supposons que vous avez un modèle pour Client, Commande et d'autres données nécessaires.
 
     public void initialize() {
-        customerService = new ClientRepository();
-
+        commandeRepository = CommandeRepository.getInstance();
 
         // Configure les colonnes
         idCommandeColumn.setCellValueFactory(new PropertyValueFactory<>("idCommande"));
@@ -86,7 +85,7 @@ public class ClientDashboardController {
     private void updateOrderHistory() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy à HH:mm");
 
-        List<Commande> commandes = customerService.getClientOrderHistory(userHandler.getClient().getIdClient());
+        List<Commande> commandes = commandeRepository.getClientOrderHistory(userHandler.getClient().getIdClient());
         // Mise à jour de l'historique des commandes
         tableHistoriqueCommandes.setItems(FXCollections.observableArrayList(commandes));
         dateLivraisonColumn.setCellValueFactory(cellData -> { // Formater la date de livraison

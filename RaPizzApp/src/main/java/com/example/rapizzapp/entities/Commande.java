@@ -1,5 +1,6 @@
 package com.example.rapizzapp.entities;
 
+import java.lang.invoke.VarHandle;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
@@ -8,9 +9,9 @@ public class Commande {
     private String adresseCommande;
     private LocalDateTime dateCommande;
     private LocalDateTime dateLivraison;
-    private int idClient;
-    private int idLivreur;
-    private int idVehicule;
+    private Client client;
+    private Livreur livreur;
+    private Vehicule vehicule;
 
     private HashMap<Pizza,Taille> pizzas;
 
@@ -18,24 +19,24 @@ public class Commande {
 
     // Constructeur
     public Commande() {
-        this.idCommande = 0;
+        this.idCommande = -1;
         this.adresseCommande = "";
         this.dateCommande = LocalDateTime.now();
         this.dateLivraison = LocalDateTime.now();
-        this.idClient = 0;
-        this.idLivreur = 0;
-        this.idVehicule = 0;
+        this.client = new Client();
+        this.livreur = new Livreur();
+        this.vehicule = new Vehicule();
         this.pizzas =new HashMap<Pizza,Taille>();
     }
 
-    public Commande(int idCommande, String adresseCommande, LocalDateTime dateCommande, LocalDateTime dateLivraison, int idClient, int idLivreur, int idVehicule,HashMap<Pizza,Taille> commande) {
+    public Commande(int idCommande, String adresseCommande, LocalDateTime dateCommande, LocalDateTime dateLivraison, Client cLient, Livreur livreur, Vehicule vehicule,HashMap<Pizza,Taille> commande) {
         this.idCommande = idCommande;
         this.adresseCommande = adresseCommande;
         this.dateCommande = dateCommande;
         this.dateLivraison = dateLivraison;
-        this.idClient = idClient;
-        this.idLivreur = idLivreur;
-        this.idVehicule = idVehicule;
+        this.client = client;
+        this.livreur = livreur;
+        this.vehicule = vehicule;
         this.pizzas = commande;
     }
 
@@ -72,28 +73,28 @@ public class Commande {
         this.dateLivraison = dateLivraison;
     }
 
-    public int getIdClient() {
-        return idClient;
+    public Client getClient() {
+        return client;
     }
 
-    public void setIdClient(int idClient) {
-        this.idClient = idClient;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public int getIdLivreur() {
-        return idLivreur;
+    public Livreur getLivreur() {
+        return livreur;
     }
 
-    public void setIdLivreur(int idLivreur) {
-        this.idLivreur = idLivreur;
+    public void setLivreur(Livreur livreur) {
+        this.livreur = livreur;
     }
 
-    public int getIdVehicule() {
-        return idVehicule;
+    public Vehicule getVehicule() {
+        return vehicule;
     }
 
-    public void setIdVehicule(int idVehicule) {
-        this.idVehicule = idVehicule;
+    public void setVehicule(Vehicule vehicule) {
+        this.vehicule = vehicule;
     }
 
     public double getMontant() {

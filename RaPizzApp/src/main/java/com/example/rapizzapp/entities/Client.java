@@ -9,6 +9,14 @@ public class Client {
 
     private String role;
 
+    public Client() {
+        this.idClient = -1;
+        this.nom = "";
+        this.prenom = "";
+        this.numeroAbonnement = -1;
+        this.solde = -1;
+        this.role = "";
+    }
 
     // Constructeur
     public Client(int idClient, String nom, String prenom, int numeroAbonnement, int solde, String role ) {
@@ -68,7 +76,7 @@ public class Client {
         return role;
     }
 
-public void setRole(String role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

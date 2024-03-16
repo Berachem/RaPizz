@@ -1,26 +1,25 @@
 package com.example.rapizzapp.controllers;
 
 
-import com.example.rapizzapp.entities.Client;
-import com.example.rapizzapp.entities.Commande;
-import com.example.rapizzapp.entities.Pizza;
-import com.example.rapizzapp.entities.Taille;
-import com.example.rapizzapp.utils.*;
+import com.example.rapizzapp.RaPizzApplication;
+import com.example.rapizzapp.entities.*;
+import com.example.rapizzapp.handlers.UserHandler;
+import com.example.rapizzapp.repositories.*;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import org.kordamp.bootstrapfx.BootstrapFX;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import java.time.Duration;
-import java.time.LocalTime;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,12 +29,16 @@ public class CreateCommandController {
     @FXML
     public VBox form;
     public Label totalPrice;
+    public TextField adresse;
 
     //data
     private UserHandler userHandler;
-    private ClientRepository clientRepository;
     private PizzaRepository pizzaRepository;
     private TailleRepository tailleRepository;
+    private LivreurRepository livreurRepository;
+    private VehiculeRepository vehiculeRepository;
+    private CommandeRepository commandeRepository;
+
     private List<Pizza> pizzas;
     private List<Taille> tailles;
     private int pizzaNumber = 1;
@@ -43,10 +46,13 @@ public class CreateCommandController {
 
     public void initialize() {
         //get repositories
-        clientRepository = new ClientRepository();
-        pizzaRepository = new PizzaRepository();
-        tailleRepository = new TailleRepository();
+        pizzaRepository = PizzaRepository.getInstance();
+        tailleRepository = TailleRepository.getInstance();
+        livreurRepository = LivreurRepository.getInstance();
+        vehiculeRepository = VehiculeRepository.getInstance();
+        commandeRepository = CommandeRepository.getInstance();
         userHandler = UserHandler.getInstance();
+
 
         //getData
         pizzas = pizzaRepository.getAllPizza();
@@ -154,7 +160,17 @@ public class CreateCommandController {
         for(int i=1;i<pizzaNumber;i++){
             pizzaSelector = (ChoiceBox) scene.lookup("#"+i+"-pizza");
             tailleSelector = (ChoiceBox) scene.lookup("#"+i+"-taille");
-            pizzas.put(pizzaSelector.getSelectionModel().getSelectedItem(),tailleSelector.getSelectionModel().getSelectedItem());
+
+            Pizza selectedPizza = pizzaSelector.getSelectionModel().getSelectedItem();
+            Taille selectedTaille = tailleSelector.getSelectionModel().getSelectedItem();
+
+            if(selectedPizza != null && selectedTaille != null){
+                pizzas.put(selectedPizza,selectedTaille);
+            }
+        }
+        if(pizzas.isEmpty()){
+            showAlert("Erreur", "Veuillez renseigner au moins une pizza.", Alert.AlertType.ERROR);
+            return;
         }
 
         //date arrivée/fin
@@ -163,15 +179,64 @@ public class CreateCommandController {
         LocalDateTime dateDebut = LocalDateTime.now();
         LocalDateTime dateFin = dateDebut.plus(Duration.ofMinutes(attente));
 
+        //récupération Livreur/vehicule
+        Vehicule vehicule;
+        Livreur livreur = livreurRepository.getRandomAvailableLivreur();
+        if(livreur == null){ //si aucun livreur dispo
+            livreur = livreurRepository.getRandomLivreur();
+            Commande lastCommand = commandeRepository.getLastCommandForLivreur(livreur.getIdLivreur());
+            vehicule = lastCommand.getVehicule();
+            //il faudra attendre que la commande soit livrée avant de repartir
+            dateFin = lastCommand.getDateLivraison().plus(Duration.ofMinutes(attente));
+        }else{
+            vehicule = vehiculeRepository.getRandomAvailableVehicule();
+        }
+
+        //récupération de l'adresse
+        String adresse = this.adresse.getText();
+        if(adresse.isEmpty()){
+            showAlert("Erreur", "Veuillez entrer votre adresse.", Alert.AlertType.ERROR);
+            return;
+        }
 
         //création de la commande
         Commande commande = new Commande();
-        commande.setIdClient(client.getIdClient());
+        commande.setClient(client);
         commande.setPizzas(pizzas);
         commande.setDateCommande(dateDebut);
         commande.setDateLivraison(dateFin);
+        commande.setLivreur(livreur);
+        commande.setVehicule(vehicule);
+        commande.setAdresseCommande(adresse);
 
-        //TODO : livreur,vehicule,adresse
+        //insertion de la commande
+        commandeRepository.insertCommande(commande);
 
+
+        //changement de page
+        scene.getWindow().hide();
+        try {
+            Parent root;
+            Scene newScene = null;
+            Stage stage = (Stage) scene.getWindow();
+            System.out.println("Connected as "+userHandler.getClient().getRole() + " : "+userHandler.getClient().getNom()+" "+userHandler.getClient().getPrenom() + " | "+userHandler.getClient().getNumeroAbonnement());
+            root = FXMLLoader.load(RaPizzApplication.class.getResource("dashboard.fxml"));
+            stage.setTitle("Dashboard");
+            newScene = new Scene(root, 1000, 550);
+            newScene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+            stage.setScene(newScene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void showAlert(String title, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

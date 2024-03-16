@@ -1,7 +1,7 @@
-package com.example.rapizzapp.utils;
+package com.example.rapizzapp.repositories;
 
 import com.example.rapizzapp.entities.Taille;
-import com.example.rapizzapp.utils.DatabaseHandler;
+import com.example.rapizzapp.handlers.DatabaseHandler;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,8 +14,17 @@ public class TailleRepository {
 
     private DatabaseHandler dbHandler;
 
-    public TailleRepository() {
-        dbHandler = new DatabaseHandler();
+    private static TailleRepository tailleRepository;
+
+    private TailleRepository() {
+        dbHandler = DatabaseHandler.getInstance();
+    }
+
+    public static TailleRepository getInstance(){
+        if(tailleRepository == null){
+            tailleRepository = new TailleRepository();
+        }
+        return tailleRepository;
     }
 
     public List<Taille> getAllTailles() {

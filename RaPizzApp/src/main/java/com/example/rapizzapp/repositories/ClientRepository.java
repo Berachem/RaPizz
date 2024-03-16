@@ -1,17 +1,27 @@
-package com.example.rapizzapp.utils;
+package com.example.rapizzapp.repositories;
 
 import com.example.rapizzapp.entities.Client;
 import com.example.rapizzapp.entities.Commande;
+import com.example.rapizzapp.handlers.DatabaseHandler;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientRepository {
     private DatabaseHandler dbHandler;
-    private CommandeRepository commandeRepository;
-    public ClientRepository() {
-        dbHandler = new DatabaseHandler();
-        commandeRepository = new CommandeRepository();
+
+    private static ClientRepository clientRepository;
+
+    private ClientRepository() {
+        dbHandler = DatabaseHandler.getInstance();
+    }
+
+    public static  ClientRepository getInstance(){
+        if(clientRepository == null){
+            clientRepository = new ClientRepository();
+        }
+        return clientRepository;
     }
 
     public List<Client> getAllClients() {
@@ -78,37 +88,7 @@ public class ClientRepository {
         }
     }
 
-    public List<Commande> getClientOrderHistory(int clientId) {
-        List<Commande> commandes = new ArrayList<>();
-        String sql = "SELECT * FROM Commande WHERE IdClient = ?";
 
-        try (Connection conn = dbHandler.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, clientId);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                Commande commande = new Commande();
-                commande.setIdCommande(rs.getInt("idCommande"));
-                commande.setAdresseCommande(rs.getString("adresseCommande"));
-                commande.setDateCommande(rs.getTimestamp("DateCommande").toLocalDateTime());
-                commande.setDateLivraison(rs.getTimestamp("DateLivraison") != null ? rs.getTimestamp("DateLivraison").toLocalDateTime() : null);
-                commande.setIdClient(rs.getInt("IdClient"));
-                commande.setIdLivreur(rs.getInt("IdLivreur"));
-                commande.setIdVehicule(rs.getInt("IdVehicule"));
-                commandes.add(commande);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
-        // Calculer le montant total pour chaque commande
-        for (Commande commande : commandes) {
-            commande.setMontant(commandeRepository.getMontantTotalCommande(commande.getIdCommande()));
-        }
-
-        return commandes;
-    }
 
 /*
     public Commande getCurrentOrder(int clientId) {

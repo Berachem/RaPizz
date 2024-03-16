@@ -15,8 +15,12 @@
     <Label text="Créer une commande" styleClass="h2"/>
 
     <Label text="Total : 0" styleClass="h3" fx:id="totalPrice"/>
-    <VBox alignment="CENTER" maxWidth="350" fx:id="form"></VBox>
+    <VBox alignment="CENTER" maxWidth="350" fx:id="form">
+        <Label text="adresse :" styleClass="label-info"/>
+        <TextField fx:id="adresse" maxWidth="200.0" styleClass="form-control"/>
+    </VBox>
 
     <Button text="ajouter une pizza" onAction="#addPizza" styleClass="btn-warning"></Button>
+    <Button text="commander" onAction="#makeCommand" styleClass="btn-info"></Button>
 
 </VBox>

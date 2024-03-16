@@ -1,7 +1,6 @@
-package com.example.rapizzapp.utils;
+package com.example.rapizzapp.handlers;
 
 import com.example.rapizzapp.entities.Client;
-import javafx.fxml.FXML;
 
 //Singleton permettant de gérer le client qui s'est connecté sur
 //toute l'applis

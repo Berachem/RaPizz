@@ -6,9 +6,9 @@ public class Pizza {
     private double prix;
 
     public Pizza(){
-        this.idPizza = 0;
+        this.idPizza = -1;
         this.libellePizza = "";
-        this.prix = 0;
+        this.prix = -1;
     }
 
     public Pizza(int idPizza,String libellePizza,double prix){

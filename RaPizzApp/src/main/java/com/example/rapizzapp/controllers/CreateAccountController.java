@@ -2,7 +2,7 @@ package com.example.rapizzapp.controllers;
 
 import com.example.rapizzapp.RaPizzApplication;
 import com.example.rapizzapp.entities.Client;
-import com.example.rapizzapp.utils.ClientRepository;
+import com.example.rapizzapp.repositories.ClientRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +28,7 @@ public class CreateAccountController {
     private ClientRepository customerService;
 
     public void initialize() {
-        customerService = new ClientRepository();
+        customerService = ClientRepository.getInstance();
     }
 
     @FXML

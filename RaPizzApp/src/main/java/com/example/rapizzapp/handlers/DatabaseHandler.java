@@ -1,4 +1,4 @@
-package com.example.rapizzapp.utils;
+package com.example.rapizzapp.handlers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,11 +10,19 @@ public class DatabaseHandler {
     private String url = "jdbc:mysql://localhost:3306/rapizz";
     private String user = "root";
     private String password = "";
-
     private Connection conn;
 
-    public DatabaseHandler() {
+    private static DatabaseHandler databaseHandler;
+
+    private DatabaseHandler() {
         establishConnection();
+    }
+
+    public static DatabaseHandler getInstance(){
+        if(databaseHandler == null){
+            databaseHandler = new DatabaseHandler();
+        }
+        return databaseHandler;
     }
 
     private void establishConnection() {

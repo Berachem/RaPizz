@@ -6,7 +6,7 @@ public class Taille {
     private String modificateurPrix;
 
     public Taille(){
-        this.idTaille=0;
+        this.idTaille=-1;
         this.libelleTaille="";
         this.modificateurPrix="1";
     }

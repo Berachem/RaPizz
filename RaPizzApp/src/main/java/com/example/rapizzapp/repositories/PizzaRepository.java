@@ -1,7 +1,7 @@
-package com.example.rapizzapp.utils;
+package com.example.rapizzapp.repositories;
 
-import com.example.rapizzapp.entities.Client;
 import com.example.rapizzapp.entities.Pizza;
+import com.example.rapizzapp.handlers.DatabaseHandler;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,8 +14,17 @@ public class PizzaRepository {
 
     private DatabaseHandler dbHandler;
 
-    public PizzaRepository() {
-        dbHandler = new DatabaseHandler();
+    private static PizzaRepository pizzaRepository;
+
+    private PizzaRepository() {
+        dbHandler = DatabaseHandler.getInstance();
+    }
+
+    public static PizzaRepository getInstance(){
+        if(pizzaRepository == null){
+            pizzaRepository = new PizzaRepository();
+        }
+        return pizzaRepository;
     }
 
     public List<Pizza> getAllPizza() {
