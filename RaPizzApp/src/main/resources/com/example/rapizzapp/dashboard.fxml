@@ -28,9 +28,9 @@
         <TableView fx:id="tableHistoriqueCommandes" styleClass="table-primary" prefWidth="440" prefHeight="300">
             <columns>
                 <TableColumn fx:id="idCommandeColumn" text="ID"/>
-                <TableColumn fx:id="adresseColumn" text="Adresse"/>
-                <TableColumn fx:id="dateLivraisonColumn" text="Date de livraison"/>
                 <TableColumn fx:id="montantColumn" text="Montant"/>
+                <TableColumn fx:id="dateLivraisonColumn" text="Date de livraison"/>
+                <TableColumn fx:id="adresseColumn" text="Adresse"/>
             </columns>
             <style>
                 -fx-background-color: #f0f0f0;

@@ -102,7 +102,8 @@ public class Commande {
     }
 
     public void setMontant(double montant) {
-        this.montant = montant;
+        // arrondir le montant à 2 chiffres après la virgule
+        this.montant = Math.round(montant * 100.0) / 100.0;
     }
 
     public HashMap<Pizza,Taille> getPizzas(){ return this.pizzas; }
