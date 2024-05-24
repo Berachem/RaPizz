@@ -39,3 +39,4 @@ build/
 
 ### Database ###
 RaPizzApp/src/main/java/com/example/rapizzapp/handlers/DatabaseHandler.java
+/RaPizzApp/.idea
