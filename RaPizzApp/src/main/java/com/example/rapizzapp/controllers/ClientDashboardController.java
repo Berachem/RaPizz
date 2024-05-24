@@ -60,7 +60,6 @@ public class ClientDashboardController {
         updateClientInformation();
         // Charger les données de l'historique des commandes
         updateOrderHistory();
-        showCurrentOrder();
         updateIngredientsList();
     }
 
@@ -84,6 +83,9 @@ public class ClientDashboardController {
         List<Commande> commandes = commandeRepository.getClientOrderHistory(userHandler.getClient().getIdClient());
         orderHistoryContainer.getChildren().clear(); // Clear existing content
         historyOrdersTitle.setText("Historique des commandes (" + commandes.size() + ")");
+
+        // sort commandes by date DESC
+        commandes.sort((c1, c2) -> c2.getDateCommande().compareTo(c1.getDateCommande()));
 
         for (Commande commande : commandes) {
             VBox commandeBox = new VBox(5);
@@ -158,8 +160,12 @@ public class ClientDashboardController {
             //actions à effectuer quand la scène de commande se ferme
             stage.setOnHiding((e)->{
                 System.out.println("fenetre close");
-                initialize();
-                showCurrentOrder();
+                        try {
+                            initialize();
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        showCurrentOrder();
             }
             );
         }
