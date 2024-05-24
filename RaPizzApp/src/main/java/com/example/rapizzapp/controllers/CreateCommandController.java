@@ -213,22 +213,8 @@ public class CreateCommandController {
         commandeRepository.insertCommande(commande);
 
 
-        //changement de page
+        //disparition de la page
         scene.getWindow().hide();
-        try {
-            Parent root;
-            Scene newScene = null;
-            Stage stage = (Stage) scene.getWindow();
-            System.out.println("Connected as "+userHandler.getClient().getRole() + " : "+userHandler.getClient().getNom()+" "+userHandler.getClient().getPrenom() + " | "+userHandler.getClient().getNumeroAbonnement());
-            root = FXMLLoader.load(RaPizzApplication.class.getResource("dashboard.fxml"));
-            stage.setTitle("Dashboard");
-            newScene = new Scene(root, 1000, 550);
-            newScene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
-            stage.setScene(newScene);
-            stage.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
     }
 

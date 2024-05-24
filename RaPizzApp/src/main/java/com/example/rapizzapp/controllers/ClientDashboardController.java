@@ -105,20 +105,26 @@ public class ClientDashboardController {
     private void createNewOrder(ActionEvent event) {
         Parent root;
         Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
+        Stage stage = new Stage(); //pop une nouvelle fenetre pas changer la courante
 
         try {
             // Hide this current window
-            node.getScene().getWindow().hide();
+            //node.getScene().getWindow().hide();
 
             //load next window
             root = FXMLLoader.load(RaPizzApplication.class.getResource("createCommand.fxml"));
             stage.setTitle("Créer une commande");
-            Scene scene = new Scene(root, 1000, 550);
+            Scene scene = new Scene(root, 380, 440);
             scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
             stage.setScene(scene);
             stage.show();
 
+            //actions à effectuer quand la scène de commande se ferme
+            stage.setOnHiding((e)->{
+                System.out.println("fenetre close");
+                initialize();
+            }
+            );
         }
         catch (IOException e) {
             e.printStackTrace();
