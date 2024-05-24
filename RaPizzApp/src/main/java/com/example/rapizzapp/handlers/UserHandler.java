@@ -19,6 +19,10 @@ public class UserHandler {
         return userHandler;
     }
 
+    public static void resetLogin() {
+        userHandler = null;
+    }
+
     public void setClient(Client client){
         this.client = client;
     }

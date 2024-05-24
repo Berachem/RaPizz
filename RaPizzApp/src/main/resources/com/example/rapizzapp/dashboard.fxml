@@ -3,34 +3,36 @@
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.*?>
 
-<HBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rapizzapp.controllers.ClientDashboardController"
-      xmlns="http://javafx.com/javafx/8" alignment="TOP_CENTER" spacing="20">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
 
-    <VBox alignment="TOP_CENTER" spacing="10">
-        <Label text="Tableau de bord du client" styleClass="h2"/>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rapizzapp.controllers.ClientDashboardController"
+            xmlns="http://javafx.com/javafx/8">
+    <Button text="Se Déconnecter" onAction="#logout" style="-fx-background-color: red; -fx-text-fill: white;"
+            AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"/>
 
-        <VBox alignment="CENTER_LEFT" spacing="10">
-            <Label fx:id="infoClient" text="Récupération des données..." />
-            <Button text="Créer une Nouvelle Commande" onAction="#createNewOrder" styleClass="btn-primary"/>
+    <HBox alignment="TOP_CENTER" spacing="20" AnchorPane.topAnchor="50" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+        <VBox alignment="TOP_CENTER" spacing="10">
+            <Label text="Tableau de bord du client" styleClass="h2"/>
 
-            <Label text="Carte des Pizzas 🍕" styleClass="h2"/>
-            <ScrollPane maxHeight="200" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc;">
-                <VBox fx:id="ingredientsContainer" spacing="5" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
-                    <!-- Les ingrédients seront ajoutés ici -->
+            <VBox alignment="CENTER_LEFT" spacing="10">
+                <Label fx:id="infoClient" text="Récupération des données..."/>
+                <Button text="Créer une Nouvelle Commande" onAction="#createNewOrder" styleClass="btn-primary"/>
+
+                <Label text="Carte des Pizzas 🍕" styleClass="h2"/>
+                <ScrollPane maxHeight="200" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc;">
+                    <VBox fx:id="ingredientsContainer" spacing="5" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
+                        <!-- Les ingrédients seront ajoutés ici -->
+                    </VBox>
+                </ScrollPane>
+            </VBox>
+        </VBox>
+
+        <VBox alignment="TOP_CENTER" spacing="10">
+            <Label fx:id="historyOrdersTitle" text="Historique des Commandes" styleClass="h2"/>
+            <ScrollPane maxHeight="400" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc;">
+                <VBox fx:id="orderHistoryContainer" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
+                    <!-- Les commandes seront ajoutées ici -->
                 </VBox>
             </ScrollPane>
         </VBox>
-    </VBox>
-
-    <VBox alignment="TOP_CENTER" spacing="10">
-        <Label fx:id="historyOrdersTitle" text="Historique des Commandes" styleClass="h2"/>
-        <ScrollPane maxHeight="700" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc;">
-            <VBox fx:id="orderHistoryContainer" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
-                <!-- Les commandes seront ajoutées ici -->
-            </VBox>
-        </ScrollPane>
-    </VBox>
-</HBox>
+    </HBox>
+</AnchorPane>
