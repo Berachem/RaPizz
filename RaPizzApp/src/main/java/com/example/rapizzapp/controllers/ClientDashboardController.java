@@ -155,7 +155,9 @@ public class ClientDashboardController {
             //node.getScene().getWindow().hide();
 
             //load next window
-            root = FXMLLoader.load(RaPizzApplication.class.getResource("createCommand.fxml"));
+            FXMLLoader loader = new FXMLLoader(RaPizzApplication.class.getResource("createCommand.fxml"));
+            root = loader.load();
+            CreateCommandController controller = loader.getController();
             stage.setTitle("Créer une commande");
             Scene scene = new Scene(root, 380, 440);
             scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
@@ -170,7 +172,10 @@ public class ClientDashboardController {
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
-                        showCurrentOrder();
+
+                        if(controller.isCommandPassed()){
+                    showCurrentOrder();
+                }
             }
             );
         }

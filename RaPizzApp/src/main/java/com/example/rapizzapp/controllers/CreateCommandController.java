@@ -5,6 +5,8 @@ import com.example.rapizzapp.RaPizzApplication;
 import com.example.rapizzapp.entities.*;
 import com.example.rapizzapp.handlers.UserHandler;
 import com.example.rapizzapp.repositories.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,6 +45,8 @@ public class CreateCommandController {
     private List<Taille> tailles;
     private int pizzaNumber = 1;
     private double prixTotal;
+
+    private boolean commandPassed = false;
 
     public void initialize() {
         //get repositories
@@ -134,6 +138,10 @@ public class CreateCommandController {
             labelPrice = (Label) scene.lookup("#"+i+"-prix");
             totalPrice+= Double.parseDouble(labelPrice.getText().replace("€",""));
         }
+
+        //arrondir 2 chiffres après la virgule
+        totalPrice = Math.round(totalPrice * 100.0) / 100.0;
+
         this.prixTotal = totalPrice;
         return prixTotal;
     }
@@ -143,6 +151,11 @@ public class CreateCommandController {
         Double prix = selectedPizza.getPrix();
         Double modificateur = 1 + Double.parseDouble(selectedSize.getModificateurPrix());
         Double realPrix = prix * modificateur;
+
+        //arrondir 2 chiffres après la virgule
+        realPrix = Math.round(realPrix * 100.0) / 100.0;
+
+        //set du prix
         correspondingLabel.setText(realPrix+"");
     }
 
@@ -212,6 +225,9 @@ public class CreateCommandController {
         //insertion de la commande
         commandeRepository.insertCommande(commande);
 
+        //information que la commande est passée
+        commandPassed = true;
+
         //disparition de la page
         scene.getWindow().hide();
     }
@@ -222,5 +238,9 @@ public class CreateCommandController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    public boolean isCommandPassed(){
+        return commandPassed;
     }
 }
