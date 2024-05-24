@@ -36,11 +36,28 @@ public class PizzaRepository {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                pizzas.add(new Pizza(rs.getInt("IdPizza"), rs.getString("libellePizza"), rs.getDouble("Prix"), ""));
+                pizzas.add(new Pizza(rs.getInt("IdPizza"), rs.getString("libellePizza"), rs.getDouble("Prix"), "", new ArrayList<>()));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        // on récupère les ingrédients de chaque pizza (table Contient, jointure avec la table Ingrédient)
+        for (Pizza pizza : pizzas) {
+            List<String> ingredients = new ArrayList<>();
+            String sqlIngredients = "SELECT * FROM Compose, Ingrédient WHERE IdPizza = " + pizza.getIdPizza() + " AND Compose.IdIngredient = Ingrédient.IdIngredient";
+            try (Connection conn = dbHandler.getConnection();
+                 Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(sqlIngredients)) {
+                while (rs.next()) {
+                    ingredients.add(rs.getString("libelleIngredient"));
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            pizza.setIngredients(ingredients);
+        }
+
+
         return pizzas;
     }
 }

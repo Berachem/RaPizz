@@ -10,13 +10,13 @@
     </padding>
 
     <VBox alignment="TOP_CENTER" spacing="10">
-        <Label text="Tableau de bord du client" styleClass="h1"/>
+        <Label text="Tableau de bord du client" styleClass="h2"/>
 
         <VBox alignment="CENTER_LEFT" spacing="10">
             <Label fx:id="infoClient" text="Récupération des données..." />
             <Button text="Créer une Nouvelle Commande" onAction="#createNewOrder" styleClass="btn-primary"/>
 
-            <Label text="Ingrédients de la Pizza" styleClass="h2"/>
+            <Label text="Carte des Pizzas 🍕" styleClass="h2"/>
             <ScrollPane maxHeight="200" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc;">
                 <VBox fx:id="ingredientsContainer" spacing="5" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
                     <!-- Les ingrédients seront ajoutés ici -->

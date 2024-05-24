@@ -7,6 +7,7 @@ import com.example.rapizzapp.entities.Pizza;
 import com.example.rapizzapp.repositories.ClientRepository;
 import com.example.rapizzapp.handlers.UserHandler;
 import com.example.rapizzapp.repositories.CommandeRepository;
+import com.example.rapizzapp.repositories.PizzaRepository;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -59,6 +60,7 @@ public class ClientDashboardController {
         // Charger les données de l'historique des commandes
         updateOrderHistory();
         showCurrentOrder();
+        updateIngredientsList();
     }
 
     private void updateClientInformation() {
@@ -106,6 +108,25 @@ public class ClientDashboardController {
 
             commandeBox.getChildren().addAll(idLabel, montantLabel, dateLabel, adresseLabel, pizzasLabel);
             orderHistoryContainer.getChildren().add(commandeBox);
+        }
+    }
+
+    private void updateIngredientsList() {
+        ingredientsContainer.getChildren().clear(); // Clear existing content
+
+        List<Pizza> pizzas = PizzaRepository.getInstance().getAllPizza();
+
+        if (pizzas != null) {
+            for (Pizza pizza : pizzas) {
+                VBox pizzaBox = new VBox(3);
+                pizzaBox.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-padding: 5;");
+
+                Label pizzaNameLabel = new Label("Pizza: " + pizza.getLibellePizza() );
+                Label ingredientsLabel = new Label("Ingrédients: \n\t" + String.join(", \n\t", pizza.getIngredients()));
+
+                pizzaBox.getChildren().addAll(pizzaNameLabel, ingredientsLabel);
+                ingredientsContainer.getChildren().add(pizzaBox);
+            }
         }
     }
 

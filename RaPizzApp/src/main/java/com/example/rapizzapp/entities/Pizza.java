@@ -1,10 +1,14 @@
 package com.example.rapizzapp.entities;
 
+import java.util.List;
+
 public class Pizza {
     private int idPizza;
     private String libellePizza;
 
     private String taillePizza;
+
+    private List<String> ingredients;
     private double prix;
 
     public Pizza(){
@@ -14,11 +18,13 @@ public class Pizza {
         this.taillePizza = "";
     }
 
-    public Pizza(int idPizza,String libellePizza,double prix, String taillePizza){
+    public Pizza(int idPizza,String libellePizza,double prix, String taillePizza, List<String> ingredients){
         this.idPizza = idPizza;
         this.libellePizza = libellePizza;
         this.prix = prix;
         this.taillePizza = taillePizza;
+        this.ingredients = ingredients;
+
     }
 
     public int getIdPizza() {
@@ -51,6 +57,14 @@ public class Pizza {
 
     public void setTaillePizza(String taillePizza) {
         this.taillePizza = taillePizza;
+    }
+
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
     }
 
     @Override
