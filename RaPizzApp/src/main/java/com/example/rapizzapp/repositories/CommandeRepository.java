@@ -78,6 +78,9 @@ public class CommandeRepository {
                 Taille taille = new Taille();
                 taille.setIdTaille(rs.getInt("IdTaille"));
                 taille.setLibelleTaille(rs.getString("LibelleTaille"));
+                pizza.setTaillePizza(taille.getLibelleTaille());
+
+
 
                 pizzas.put(pizza,taille);
             }
@@ -184,7 +187,7 @@ public class CommandeRepository {
         return commande;
     }
 
-    public List<Commande> getClientOrderHistory(int clientId) {
+    public List<Commande> getClientOrderHistory(int clientId) throws SQLException {
         List<Commande> commandes = new ArrayList<>();
         String sql = "SELECT * FROM Commande WHERE IdClient = ?";
 
@@ -228,7 +231,13 @@ public class CommandeRepository {
         // Calculer le montant total pour chaque commande
         for (Commande commande : commandes) {
             commande.setMontant(commandeRepository.getMontantTotalCommande(commande.getIdCommande()));
+
+            // on retrouve les pizzas de la commande dans la table Contient
+            HashMap<Pizza, Taille> pizzas = getPizzasByCommandeId(commande.getIdCommande());
+            commande.setPizzas(pizzas);
         }
+
+
 
         return commandes;
     }

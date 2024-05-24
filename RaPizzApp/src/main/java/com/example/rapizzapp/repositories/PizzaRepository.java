@@ -36,7 +36,7 @@ public class PizzaRepository {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                pizzas.add(new Pizza(rs.getInt("IdPizza"), rs.getString("libellePizza"), rs.getDouble("Prix")));
+                pizzas.add(new Pizza(rs.getInt("IdPizza"), rs.getString("libellePizza"), rs.getDouble("Prix"), ""));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

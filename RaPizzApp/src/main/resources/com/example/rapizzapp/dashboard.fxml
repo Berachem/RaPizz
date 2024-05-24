@@ -3,44 +3,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rapizzapp.controllers.ClientDashboardController"
-      xmlns="http://javafx.com/javafx/8" alignment="TOP_CENTER" spacing="10">
+<HBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rapizzapp.controllers.ClientDashboardController"
+      xmlns="http://javafx.com/javafx/8" alignment="TOP_CENTER" spacing="20">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Label text="Tableau de bord du client" styleClass="h1"/>
+    <VBox alignment="TOP_CENTER" spacing="10">
+        <Label text="Tableau de bord du client" styleClass="h1"/>
 
-    <HBox alignment="CENTER" spacing="10">
-        <VBox alignment="CENTER" spacing="5">
-            <Label fx:id="infoClient" text="Récupération des données..."/>
+        <VBox alignment="CENTER_LEFT" spacing="10">
+            <Label fx:id="infoClient" text="Récupération des données..." />
+            <Button text="Créer une Nouvelle Commande" onAction="#createNewOrder" styleClass="btn-primary"/>
+
+            <Label text="Ingrédients de la Pizza" styleClass="h2"/>
+            <ScrollPane maxHeight="200" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc;">
+                <VBox fx:id="ingredientsContainer" spacing="5" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
+                    <!-- Les ingrédients seront ajoutés ici -->
+                </VBox>
+            </ScrollPane>
         </VBox>
-        <VBox alignment="CENTER" spacing="5">
-            <!-- Détails de la commande en cours ici -->
-        </VBox>
-    </HBox>
-
-    <Button text="Créer une Nouvelle Commande" onAction="#createNewOrder" styleClass="btn-primary"/>
-
-    <VBox alignment="CENTER" spacing="5" maxWidth="440" maxHeight="300">
-        <Label text="Historique des Commandes" styleClass="h2"/>
-        <!-- Liste de l'historique des commandes ici -->
-        <TableView fx:id="tableHistoriqueCommandes" styleClass="table-primary" prefWidth="440" prefHeight="300">
-            <columns>
-                <TableColumn fx:id="idCommandeColumn" text="ID"/>
-                <TableColumn fx:id="montantColumn" text="Montant"/>
-                <TableColumn fx:id="dateLivraisonColumn" text="Date de livraison"/>
-                <TableColumn fx:id="adresseColumn" text="Adresse"/>
-            </columns>
-            <style>
-                -fx-background-color: #f0f0f0;
-                -fx-text-fill: #333333;
-                -fx-border-color: #cccccc;
-                -fx-table-cell-border-color: #aaaaaa;
-            </style>
-        </TableView>
     </VBox>
 
-
-
-</VBox>
+    <VBox alignment="TOP_CENTER" spacing="10">
+        <Label fx:id="historyOrdersTitle" text="Historique des Commandes" styleClass="h2"/>
+        <ScrollPane maxHeight="700" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc;">
+            <VBox fx:id="orderHistoryContainer" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
+                <!-- Les commandes seront ajoutées ici -->
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</HBox>
