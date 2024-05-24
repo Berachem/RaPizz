@@ -106,8 +106,8 @@ public class ClientDashboardController {
 
             Set<Pizza> pizzas = commande.getPizzas().keySet();
             String pizzasString = pizzas.stream()
-                    .map(p -> "\n\t" + p.getLibellePizza() + " (" + p.getTaillePizza() + ") ")
-                    .collect(Collectors.joining(", "));
+                    .map(p -> "\n\t- " + p.getLibellePizza() + " (" + p.getTaillePizza() + ") ")
+                    .collect(Collectors.joining(" "));
             if (pizzasString.isEmpty()) {
                 pizzasString = "Aucune pizza";
             }
@@ -127,10 +127,10 @@ public class ClientDashboardController {
         if (pizzas != null) {
             for (Pizza pizza : pizzas) {
                 VBox pizzaBox = new VBox(3);
-                pizzaBox.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-padding: 5;");
+                pizzaBox.setStyle("-fx-background-color: #eeceb2; -fx-border-color: #522b00; -fx-padding: 5;");
 
                 Label pizzaNameLabel = new Label("Pizza: " + pizza.getLibellePizza() );
-                Label ingredientsLabel = new Label("Ingrédients: \n\t" + String.join(", \n\t", pizza.getIngredients()));
+                Label ingredientsLabel = new Label("Ingrédients: \n\t- " + String.join(" \n\t- ", pizza.getIngredients()));
 
                 pizzaBox.getChildren().addAll(pizzaNameLabel, ingredientsLabel);
                 ingredientsContainer.getChildren().add(pizzaBox);
