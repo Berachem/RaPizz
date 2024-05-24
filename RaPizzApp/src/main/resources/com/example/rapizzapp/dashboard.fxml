@@ -27,7 +27,7 @@
         </VBox>
 
         <VBox alignment="TOP_CENTER" spacing="10">
-            <Label fx:id="historyOrdersTitle" text="Historique des Commandes" styleClass="h2"/>
+            <Label fx:id="historyOrdersTitle" text="Mes commandes" styleClass="h2"/>
             <ScrollPane maxHeight="400" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc;">
                 <VBox fx:id="orderHistoryContainer" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
                     <!-- Les commandes seront ajoutées ici -->

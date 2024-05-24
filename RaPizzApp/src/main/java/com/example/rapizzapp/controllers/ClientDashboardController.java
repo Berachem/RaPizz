@@ -75,44 +75,49 @@ public class ClientDashboardController {
     }
 
     private void updateOrderHistory() throws SQLException {
-
-
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy à HH:mm");
 
         List<Commande> commandes = commandeRepository.getClientOrderHistory(userHandler.getClient().getIdClient());
         orderHistoryContainer.getChildren().clear(); // Clear existing content
-        historyOrdersTitle.setText("Historique des commandes (" + commandes.size() + ")");
+        historyOrdersTitle.setText("Mes commandes (" + commandes.size() + ")");
 
         // sort commandes by date DESC
         commandes.sort((c1, c2) -> c2.getDateCommande().compareTo(c1.getDateCommande()));
 
+        LocalDateTime now = LocalDateTime.now();
+
         for (Commande commande : commandes) {
             VBox commandeBox = new VBox(5);
-            commandeBox.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-padding: 10;");
 
+            // Vérifiez si la commande est en cours ou livrée
+            if (commande.getDateLivraison() != null && commande.getDateLivraison().isAfter(now)) {
+                commandeBox.setStyle("-fx-background-color: #d4ecd4; -fx-border-color: #66ff85; -fx-padding: 10;");
+                 // En cours
+            } else {
+                commandeBox.setStyle("-fx-background-color: #c5c5c5; -fx-border-color: #151515; -fx-padding: 10;"); // Livrée
+            }
+
+            Label statusLabel = new Label(commande.getDateLivraison() != null && commande.getDateLivraison().isBefore(now) ? "Livrée" : "En cours");
+            statusLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
             Label idLabel = new Label("ID: " + commande.getIdCommande());
             Label montantLabel = new Label("Montant: " + commande.getMontant() + " €");
-            Label dateLabel = new Label("Date de livraison: " + (commande.getDateLivraison() != null ? commande.getDateLivraison().format(formatter) : ""));
+            Label dateLabel = new Label("Date de livraison: " + (commande.getDateLivraison() != null ? commande.getDateLivraison().format(formatter) : "N/A"));
             Label adresseLabel = new Label("Adresse: " + commande.getAdresseCommande());
 
-
             Set<Pizza> pizzas = commande.getPizzas().keySet();
-
             String pizzasString = pizzas.stream()
-                    .map(p -> "\n\t" + p.getLibellePizza() + " (" + p.getTaillePizza() + ") " )
+                    .map(p -> "\n\t" + p.getLibellePizza() + " (" + p.getTaillePizza() + ") ")
                     .collect(Collectors.joining(", "));
             if (pizzasString.isEmpty()) {
                 pizzasString = "Aucune pizza";
             }
             Label pizzasLabel = new Label("Pizzas: " + pizzasString);
 
-            System.out.println("Pizzas: " + pizzas + " (" + commande.getIdCommande() + ")" );
-
-            commandeBox.getChildren().addAll(idLabel, montantLabel, dateLabel, adresseLabel, pizzasLabel);
+            commandeBox.getChildren().addAll(statusLabel, idLabel, montantLabel, dateLabel, adresseLabel, pizzasLabel);
             orderHistoryContainer.getChildren().add(commandeBox);
         }
     }
+
 
     private void updateIngredientsList() {
         ingredientsContainer.getChildren().clear(); // Clear existing content
