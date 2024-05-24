@@ -2,6 +2,7 @@ package com.example.rapizzapp.entities;
 
 import java.lang.invoke.VarHandle;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 public class Commande {
@@ -29,7 +30,7 @@ public class Commande {
         this.pizzas =new HashMap<Pizza,Taille>();
     }
 
-    public Commande(int idCommande, String adresseCommande, LocalDateTime dateCommande, LocalDateTime dateLivraison, Client cLient, Livreur livreur, Vehicule vehicule,HashMap<Pizza,Taille> commande) {
+    public Commande(int idCommande, String adresseCommande, LocalDateTime dateCommande, LocalDateTime dateLivraison, Client client, Livreur livreur, Vehicule vehicule,HashMap<Pizza,Taille> commande) {
         this.idCommande = idCommande;
         this.adresseCommande = adresseCommande;
         this.dateCommande = dateCommande;
@@ -109,4 +110,28 @@ public class Commande {
     public HashMap<Pizza,Taille> getPizzas(){ return this.pizzas; }
 
     public void setPizzas(HashMap<Pizza,Taille> pizzas){ this.pizzas = pizzas; }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Commande ID: ").append(idCommande).append("\n");
+        sb.append("Adresse de commande: ").append(adresseCommande).append("\n");
+        sb.append("Date de commande: ").append(dateCommande.format(formatter)).append("\n");
+        sb.append("Date de livraison: ").append(dateLivraison.format(formatter)).append("\n");
+        sb.append("Client: ").append(client.toString()).append("\n");
+        sb.append("Livreur: ").append(livreur.toString()).append("\n");
+        sb.append("Véhicule: ").append(vehicule.toString()).append("\n");
+        sb.append("Pizzas:\n");
+
+        for (Pizza pizza : pizzas.keySet()) {
+            Taille taille = pizzas.get(pizza);
+            sb.append("\t").append(pizza.toString()).append(" - Taille: ").append(taille.toString()).append("\n");
+        }
+
+        sb.append("Montant total: ").append(String.format("%.2f", montant)).append(" €\n");
+        return sb.toString();
+    }
+
 }

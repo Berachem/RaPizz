@@ -83,4 +83,9 @@ public class Client {
     public boolean isAdmin() {
         return role.equalsIgnoreCase("ADMIN");
     }
+
+    @Override
+    public String toString(){
+        return nom + " " + prenom;
+    }
 }

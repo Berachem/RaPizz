@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -131,30 +132,47 @@ public class ClientDashboardController {
     }
 
     private void showCurrentOrder() {
-        // Utilisez customerService pour obtenir la commande en cours et l'afficher
+        int clientId = userHandler.getClient().getIdClient();
+        Commande commande = commandeRepository.getLastCommandeFromClient(clientId);
+        showAlert("Récapitulatif",commande.toString(), Alert.AlertType.INFORMATION);
     }
 
     @FXML
     private void createNewOrder(ActionEvent event) {
         Parent root;
         Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
+        Stage stage = new Stage(); //pop une nouvelle fenetre pas changer la courante
 
         try {
             // Hide this current window
-            node.getScene().getWindow().hide();
+            //node.getScene().getWindow().hide();
 
             //load next window
             root = FXMLLoader.load(RaPizzApplication.class.getResource("createCommand.fxml"));
             stage.setTitle("Créer une commande");
-            Scene scene = new Scene(root, 1000, 550);
+            Scene scene = new Scene(root, 380, 440);
             scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
             stage.setScene(scene);
             stage.show();
 
+            //actions à effectuer quand la scène de commande se ferme
+            stage.setOnHiding((e)->{
+                System.out.println("fenetre close");
+                initialize();
+                showCurrentOrder();
+            }
+            );
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void showAlert(String title, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

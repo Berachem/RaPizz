@@ -241,5 +241,49 @@ public class CommandeRepository {
 
         return commandes;
     }
+
+    public Commande getLastCommandeFromClient(int clientId) {
+        Commande commande = null;
+
+        String sql = "SELECT * FROM Commande " +
+                "WHERE IdClient = ? " +
+                "ORDER BY DateCommande DESC " +
+                "LIMIT 1";
+
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, clientId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int idCommande = rs.getInt("idCommande");
+                    String adresseCommande = rs.getString("adresseCommande");
+                    LocalDateTime dateCommande = rs.getTimestamp("DateCommande").toLocalDateTime();
+                    LocalDateTime dateLivraison = rs.getTimestamp("DateLivraison") != null ? rs.getTimestamp("DateLivraison").toLocalDateTime() : null;
+
+                    int idLivreur = rs.getInt("IdLivreur");
+                    int idVehicule = rs.getInt("IdVehicule");
+
+                    Client client = clientRepository.getClient(clientId);
+                    System.out.println(clientId + " : "+client);
+                    Livreur livreur = livreurRepository.getLivreur(idLivreur);
+                    Vehicule vehicule = vehiculeRepository.getVehicule(idVehicule);
+
+                    // Récupération des pizzas associées à la commande
+                    HashMap<Pizza, Taille> pizzas = getPizzasByCommandeId(idCommande);
+
+                    // Créer un objet Commande avec les données récupérées
+                    commande = new Commande(idCommande, adresseCommande, dateCommande, dateLivraison, client, livreur, vehicule, pizzas);
+
+                    // Calculer et définir le montant total de la commande
+                    commande.setMontant(getMontantTotalCommande(idCommande));
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return commande;
+    }
 }
 
