@@ -40,4 +40,9 @@ public class Livreur {
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
+
+    @Override
+    public String toString(){
+        return nom + " " + prenom;
+    }
 }

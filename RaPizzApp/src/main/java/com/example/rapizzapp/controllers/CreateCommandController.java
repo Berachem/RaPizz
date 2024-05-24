@@ -212,10 +212,8 @@ public class CreateCommandController {
         //insertion de la commande
         commandeRepository.insertCommande(commande);
 
-
         //disparition de la page
         scene.getWindow().hide();
-
     }
 
     private void showAlert(String title, String content, Alert.AlertType type) {

@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -68,7 +69,6 @@ public class ClientDashboardController {
         updateClientInformation();
         // Charger les données de l'historique des commandes
         updateOrderHistory();
-        showCurrentOrder();
     }
 
     private void updateClientInformation() {
@@ -98,7 +98,9 @@ public class ClientDashboardController {
     }
 
     private void showCurrentOrder() {
-        // Utilisez customerService pour obtenir la commande en cours et l'afficher
+        int clientId = userHandler.getClient().getIdClient();
+        Commande commande = commandeRepository.getLastCommandeFromClient(clientId);
+        showAlert("Récapitulatif",commande.toString(), Alert.AlertType.INFORMATION);
     }
 
     @FXML
@@ -123,11 +125,20 @@ public class ClientDashboardController {
             stage.setOnHiding((e)->{
                 System.out.println("fenetre close");
                 initialize();
+                showCurrentOrder();
             }
             );
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void showAlert(String title, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }
