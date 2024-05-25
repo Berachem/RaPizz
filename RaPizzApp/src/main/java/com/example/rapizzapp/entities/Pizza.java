@@ -11,11 +11,14 @@ public class Pizza {
     private List<String> ingredients;
     private double prix;
 
+    private boolean isGratuit;
+
     public Pizza(){
         this.idPizza = -1;
         this.libellePizza = "";
         this.prix = -1;
         this.taillePizza = "";
+        this.isGratuit = false;
     }
 
     public Pizza(int idPizza,String libellePizza,double prix, String taillePizza, List<String> ingredients){
@@ -24,8 +27,18 @@ public class Pizza {
         this.prix = prix;
         this.taillePizza = taillePizza;
         this.ingredients = ingredients;
-
+        this.isGratuit = false;
     }
+
+    public Pizza(int idPizza,String libellePizza,double prix, String taillePizza, List<String> ingredients,boolean isGratuit){
+        this.idPizza = idPizza;
+        this.libellePizza = libellePizza;
+        this.prix = prix;
+        this.taillePizza = taillePizza;
+        this.ingredients = ingredients;
+        this.isGratuit = isGratuit;
+    }
+
 
     public int getIdPizza() {
         return idPizza;
@@ -55,6 +68,10 @@ public class Pizza {
         return taillePizza;
     }
 
+    public boolean isGratuit(){
+        return isGratuit;
+    }
+
     public void setTaillePizza(String taillePizza) {
         this.taillePizza = taillePizza;
     }
@@ -65,6 +82,10 @@ public class Pizza {
 
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public void setGratuit(boolean isGratuit){
+        this.isGratuit = isGratuit;
     }
 
     @Override
