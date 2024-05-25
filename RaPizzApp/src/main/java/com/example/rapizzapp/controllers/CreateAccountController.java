@@ -2,6 +2,7 @@ package com.example.rapizzapp.controllers;
 
 import com.example.rapizzapp.RaPizzApplication;
 import com.example.rapizzapp.entities.Client;
+import com.example.rapizzapp.handlers.UserHandler;
 import com.example.rapizzapp.repositories.ClientRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +17,7 @@ import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.IOException;
 
-public class CreateAccountController {
+public class CreateAccountController extends LoginController {
 
     @FXML
     private TextField nomField;
@@ -32,7 +33,7 @@ public class CreateAccountController {
     }
 
     @FXML
-    private void handleCreateAccount() {
+    private void handleCreateAccount(ActionEvent event) {
         try {
             String nom = nomField.getText();
             String prenom = prenomField.getText();
@@ -44,6 +45,10 @@ public class CreateAccountController {
 
             if (customerService.insertClient(newClient)) {
                 showAlert("Succès", "Le compte a été créé avec succès. Votre numéro d'abonnement qui vous servira pour la connexion est : "+numeroAbonnement, Alert.AlertType.INFORMATION);
+
+                UserHandler userHandler = UserHandler.getInstance();
+                userHandler.setClient(newClient);
+                passLogin(event);
             } else {
                 showAlert("Erreur", "Impossible de créer le compte.", Alert.AlertType.ERROR);
             }

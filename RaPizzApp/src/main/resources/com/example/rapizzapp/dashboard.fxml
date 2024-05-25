@@ -6,6 +6,8 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rapizzapp.controllers.ClientDashboardController"
             xmlns="http://javafx.com/javafx/8">
+
+    <!-- Bouton deconnexion -->
     <Button text="Se Déconnecter" onAction="#logout" style="-fx-background-color: red; -fx-text-fill: white;"
             AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"/>
 

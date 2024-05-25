@@ -12,6 +12,11 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.rapizzapp.controllers.AdminDashboardController">
 
+
+    <!-- Bouton deconnexion -->
+    <Button text="Se Déconnecter" style="-fx-background-color: red; -fx-text-fill: white;"
+            AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"/>
+
     <!-- Logo de la page -->
     <ImageView fitHeight="150.0" fitWidth="150.0">
         <Image url="@images/rapizz_logo.png"/>
