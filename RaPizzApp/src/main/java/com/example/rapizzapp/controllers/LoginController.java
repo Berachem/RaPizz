@@ -27,6 +27,16 @@ public class LoginController {
         customerService = ClientRepository.getInstance();
     }
 
+    public boolean isInteger( String input ) {
+        try {
+            Integer.parseInt( input );
+            return true;
+        }
+        catch( Exception e ) {
+            return false;
+        }
+    }
+
     @FXML
     public void loginAction(ActionEvent event) {
         String numAbo = abonnementField.getText();
@@ -35,13 +45,18 @@ public class LoginController {
             return;
         }
 
-        Client client = customerService.getClientByNumeroAbonnement(Integer.parseInt(numAbo));
+        if (isInteger(numAbo)){
+            Client client = customerService.getClientByNumeroAbonnement(Integer.parseInt(numAbo));
 
-        if (client != null) {
-            userHandler.setClient(client);
-            passLogin(event);
-        } else {
-            showAlert("Erreur", "Numéro d'abonnement incorrect.", Alert.AlertType.ERROR);
+            if (client != null) {
+                userHandler.setClient(client);
+                passLogin(event);
+            } else {
+                showAlert("Erreur", "Numéro d'abonnement incorrect.", Alert.AlertType.ERROR);
+            }
+
+        }else{
+            showAlert("Erreur", "Veuillez entrer un numéro d'abonnement correct (uniquement des chiffres).", Alert.AlertType.ERROR);
         }
     }
 
