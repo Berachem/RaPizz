@@ -14,7 +14,7 @@
 
 
     <!-- Bouton deconnexion -->
-    <Button text="Se Déconnecter" style="-fx-background-color: red; -fx-text-fill: white;"
+    <Button text="Se Déconnecter" onAction="#logout" style="-fx-background-color: red; -fx-text-fill: white;"
             AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"/>
 
     <!-- Logo de la page -->

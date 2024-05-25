@@ -198,7 +198,7 @@ public class ClientDashboardController {
     }
 
     public void logout(ActionEvent actionEvent) {
-        System.out.println("User disconnected");
+        System.out.println("Disconnected " + UserHandler.getInstance().getClient().getRole().toLowerCase() + " : "+UserHandler.getInstance().getClient().getNom()+" "+UserHandler.getInstance().getClient().getPrenom() + " | "+UserHandler.getInstance().getClient().getNumeroAbonnement());
         UserHandler.resetLogin();
         backToLogin(actionEvent);
     }
