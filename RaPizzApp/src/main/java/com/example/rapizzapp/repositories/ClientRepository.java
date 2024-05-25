@@ -106,6 +106,25 @@ public class ClientRepository {
         }
     }
 
+    public int getNombrePizzasCommandeesParClient(int clientId) {
+        String sql = "SELECT COUNT(*) AS NombrePizzas " +
+                "FROM Commande c " +
+                "JOIN Contient co ON c.idCommande = co.idCommande " +
+                "WHERE c.IdClient = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, clientId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("NombrePizzas");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+
 
 
 /*

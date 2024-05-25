@@ -60,4 +60,27 @@ public class PizzaRepository {
 
         return pizzas;
     }
+
+    public static List<Pizza> deepCopyPizzaList(List<Pizza> originalList) {
+        List<Pizza> copiedList = new ArrayList<>();
+
+        for (Pizza pizza : originalList) {
+            // Copie profonde des ingrédients
+            List<String> copiedIngredients = new ArrayList<>(pizza.getIngredients());
+
+            // Création d'un nouvel objet Pizza avec les valeurs copiées
+            Pizza copiedPizza = new Pizza(
+                    pizza.getIdPizza(),
+                    pizza.getLibellePizza(),
+                    pizza.getPrix(),
+                    pizza.getTaillePizza(),
+                    copiedIngredients,
+                    pizza.isGratuit()
+            );
+
+            copiedList.add(copiedPizza);
+        }
+
+        return copiedList;
+    }
 }

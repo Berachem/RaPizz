@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,10 +43,12 @@ public class CreateCommandController {
     private CommandeRepository commandeRepository;
     private ClientRepository clientRepository;
 
+    private Client client;
     private List<Pizza> pizzas;
     private List<Taille> tailles;
     private int pizzaNumber = 1;
     private int prixTotal;
+    private int compteurGratuit;
 
     private boolean commandPassed = false;
 
@@ -61,8 +64,10 @@ public class CreateCommandController {
 
 
         //getData
+        client = userHandler.getClient();
         pizzas = pizzaRepository.getAllPizza();
         tailles = tailleRepository.getAllTailles();
+        compteurGratuit = clientRepository.getNombrePizzasCommandeesParClient(client.getIdClient()) % 10;
 
         //set a first choice
         addPizza();
@@ -78,50 +83,64 @@ public class CreateCommandController {
 
         //select type pizza
         ChoiceBox<Pizza> selectPizzas = new ChoiceBox<>();
-        selectPizzas.getItems().addAll(pizzas);
+        selectPizzas.getItems().addAll(PizzaRepository.deepCopyPizzaList(pizzas));
         selectPizzas.setId(pizzaNumber+"-pizza");
-        selectPizzas.setOnAction(actionEvent -> {
-            //récupération de tout ce qui correspond
-            ChoiceBox<Pizza> source = (ChoiceBox<Pizza>) actionEvent.getSource();
-            String numId = source.getId().split("-")[0];
-            ChoiceBox<Taille> correspondingSize = (ChoiceBox<Taille>) source.getScene().lookup("#"+numId+"-taille");
-            Label correspondingLabel = (Label)  source.getScene().lookup("#"+numId+"-prix");
+        if(compteurGratuit != 0){
+            selectPizzas.setOnAction(actionEvent -> {
+                //récupération de tout ce qui correspond
+                ChoiceBox<Pizza> source = (ChoiceBox<Pizza>) actionEvent.getSource();
+                String numId = source.getId().split("-")[0];
+                ChoiceBox<Taille> correspondingSize = (ChoiceBox<Taille>) source.getScene().lookup("#"+numId+"-taille");
+                Label correspondingLabel = (Label)  source.getScene().lookup("#"+numId+"-prix");
 
-            //récupération des objets
-            Pizza selectedPizza = source.getSelectionModel().getSelectedItem();
-            Taille selectedSize = correspondingSize.getSelectionModel().getSelectedItem();
+                //récupération des objets
+                Pizza selectedPizza = source.getSelectionModel().getSelectedItem();
+                Taille selectedSize = correspondingSize.getSelectionModel().getSelectedItem();
 
-            if(selectedSize != null){
-                actualizePrice(selectedPizza,selectedSize,correspondingLabel);
+                if(selectedSize != null){
+                    actualizePrice(selectedPizza,selectedSize,correspondingLabel);
+                }
+
+                totalPrice.setText("Total : "+getTotalPrice(source.getScene())+"€");
+            });
+        }else{
+            //toutes les pizzas ici seront gratuites
+            for(Pizza pizza : selectPizzas.getItems()){
+                pizza.setGratuit(true);
             }
-
-            totalPrice.setText("Total : "+getTotalPrice(source.getScene())+"€");
-        });
+        }
 
         //select taille pizza
         ChoiceBox<Taille> selectTaille = new ChoiceBox<>();
         selectTaille.getItems().addAll(tailles);
         selectTaille.setId(pizzaNumber+"-taille");
-        selectTaille.setOnAction(actionEvent -> {
-            //récupération de tout ce qui correspond
-            ChoiceBox<Taille> source = (ChoiceBox<Taille>) actionEvent.getSource();
-            String numId = source.getId().split("-")[0];
-            ChoiceBox<Pizza> correspondingPizza = (ChoiceBox<Pizza>) source.getScene().lookup("#"+numId+"-pizza");
-            Label correspondingLabel = (Label)  source.getScene().lookup("#"+numId+"-prix");
+        if(compteurGratuit!=0){
+            selectTaille.setOnAction(actionEvent -> {
+                //récupération de tout ce qui correspond
+                ChoiceBox<Taille> source = (ChoiceBox<Taille>) actionEvent.getSource();
+                String numId = source.getId().split("-")[0];
+                ChoiceBox<Pizza> correspondingPizza = (ChoiceBox<Pizza>) source.getScene().lookup("#"+numId+"-pizza");
+                Label correspondingLabel = (Label)  source.getScene().lookup("#"+numId+"-prix");
 
-                    //récupération des objets
-            Taille selectedSize = source.getSelectionModel().getSelectedItem();
-            Pizza selectedPizza = correspondingPizza.getSelectionModel().getSelectedItem();
+                //récupération des objets
+                Taille selectedSize = source.getSelectionModel().getSelectedItem();
+                Pizza selectedPizza = correspondingPizza.getSelectionModel().getSelectedItem();
 
-            if(selectedPizza != null){
-                actualizePrice(selectedPizza,selectedSize,correspondingLabel);
-            }
+                if(selectedPizza != null){
+                    actualizePrice(selectedPizza,selectedSize,correspondingLabel);
+                }
 
-            totalPrice.setText("Total : "+getTotalPrice(source.getScene())+"€");
-        });
+                totalPrice.setText("Total : "+getTotalPrice(source.getScene())+"€");
+            });
+        }
 
         //label du prix
-        Label prixPizza = new Label("0€");
+        Label prixPizza;
+        if(compteurGratuit != 0){
+            prixPizza = new Label("0€");
+        }else{
+            prixPizza = new Label("GRATUIT");
+        }
         prixPizza.setId(pizzaNumber+"-prix");
 
         //ajout des balises
@@ -130,6 +149,8 @@ public class CreateCommandController {
 
         //incrémentation du nombre pour le prochain tour
         pizzaNumber++;
+        //actualisation du compteur
+        compteurGratuit = (compteurGratuit + 1)%10;
     }
 
     //fonction pour récupérer le prix total des pizzas
@@ -138,7 +159,9 @@ public class CreateCommandController {
         Label labelPrice;
         for(int i=1;i<pizzaNumber;i++){
             labelPrice = (Label) scene.lookup("#"+i+"-prix");
-            totalPrice+= Integer.parseInt(labelPrice.getText().replace("€",""));
+            if(!labelPrice.getText().equals("GRATUIT")){
+                totalPrice+= Integer.parseInt(labelPrice.getText().replace("€",""));
+            }
         }
 
         this.prixTotal = totalPrice;
@@ -162,9 +185,6 @@ public class CreateCommandController {
         Button source = (Button) event.getSource();
         Scene scene = source.getScene();
 
-        //récupération du User
-        Client client = userHandler.getClient();
-
         //récupération de l'adresse
         String adresse = this.adresse.getText();
         if(adresse.isEmpty()){
@@ -176,10 +196,6 @@ public class CreateCommandController {
         if(client.getSolde() < prixTotal){
             showAlert("Sold Insuffisant","Votre solde de compte est insuffisant !", Alert.AlertType.ERROR);
             return;
-        }else{
-            client.setSolde((client.getSolde() - prixTotal));
-            //on persiste le changement
-            clientRepository.updateClient(client);
         }
 
         //récupération de toutes les commandes
@@ -221,8 +237,6 @@ public class CreateCommandController {
             vehicule = vehiculeRepository.getRandomAvailableVehicule();
         }
 
-
-
         //création de la commande
         Commande commande = new Commande();
         commande.setClient(client);
@@ -232,6 +246,15 @@ public class CreateCommandController {
         commande.setLivreur(livreur);
         commande.setVehicule(vehicule);
         commande.setAdresseCommande(adresse);
+
+        //verification de la gratuité de la commande
+        if(ChronoUnit.MINUTES.between(dateDebut, dateFin) > 30){
+            commande.setGratuit(true);
+        }else{
+            client.setSolde((client.getSolde() - prixTotal));
+            //on persiste le changement
+            clientRepository.updateClient(client);
+        }
 
         //insertion de la commande
         commandeRepository.insertCommande(commande);

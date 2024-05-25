@@ -13,6 +13,7 @@ public class Commande {
     private Client client;
     private Livreur livreur;
     private Vehicule vehicule;
+    private boolean gratuit;
 
     private HashMap<Pizza,Taille> pizzas;
 
@@ -28,9 +29,10 @@ public class Commande {
         this.livreur = new Livreur();
         this.vehicule = new Vehicule();
         this.pizzas =new HashMap<Pizza,Taille>();
+        this.gratuit = false;
     }
 
-    public Commande(int idCommande, String adresseCommande, LocalDateTime dateCommande, LocalDateTime dateLivraison, Client client, Livreur livreur, Vehicule vehicule,HashMap<Pizza,Taille> commande) {
+    public Commande(int idCommande, String adresseCommande, LocalDateTime dateCommande, LocalDateTime dateLivraison, Client client, Livreur livreur, Vehicule vehicule,HashMap<Pizza,Taille> commande,boolean gratuit) {
         this.idCommande = idCommande;
         this.adresseCommande = adresseCommande;
         this.dateCommande = dateCommande;
@@ -39,6 +41,7 @@ public class Commande {
         this.livreur = livreur;
         this.vehicule = vehicule;
         this.pizzas = commande;
+        this.gratuit = gratuit;
     }
 
     // Getters et setters
@@ -111,6 +114,13 @@ public class Commande {
 
     public void setPizzas(HashMap<Pizza,Taille> pizzas){ this.pizzas = pizzas; }
 
+    public boolean isGratuit(){
+        return gratuit;
+    }
+
+    public void setGratuit(boolean gratuit){
+        this.gratuit = gratuit;
+    }
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -130,7 +140,12 @@ public class Commande {
             sb.append("\t").append(pizza.toString()).append(" - Taille: ").append(taille.toString()).append("\n");
         }
 
-        sb.append("Montant total: ").append(String.format("%.2f", montant)).append(" €\n");
+        if(gratuit){
+            sb.append("Commande gratuite (livraison de plus de 30min)");
+        }else{
+            sb.append("Montant total: ").append(String.format("%.2f", montant)).append(" €\n");
+        }
+
         return sb.toString();
     }
 

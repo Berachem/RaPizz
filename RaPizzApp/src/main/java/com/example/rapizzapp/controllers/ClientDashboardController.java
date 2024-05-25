@@ -100,7 +100,12 @@ public class ClientDashboardController {
             Label statusLabel = new Label(commande.getDateLivraison() != null && commande.getDateLivraison().isBefore(now) ? "Livrée" : "En cours");
             statusLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
             Label idLabel = new Label("ID: " + commande.getIdCommande());
-            Label montantLabel = new Label("Montant: " + commande.getMontant() + " €");
+            Label montantLabel;
+            if(commande.isGratuit()){
+                montantLabel = new Label("Commande gratuite (livraison de plus de 30min)");
+            }else{
+                montantLabel = new Label("Montant: " + commande.getMontant() + " €");
+            }
             Label dateLabel = new Label("Date de livraison: " + (commande.getDateLivraison() != null ? commande.getDateLivraison().format(formatter) : "N/A"));
             Label adresseLabel = new Label("Adresse: " + commande.getAdresseCommande());
 

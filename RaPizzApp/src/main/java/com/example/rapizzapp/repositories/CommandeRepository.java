@@ -90,8 +90,8 @@ public class CommandeRepository {
     }
 
     public void insertCommande(Commande commande) {
-        String commandeSql = "INSERT INTO Commande (adresseCommande, DateCommande, DateLivraison, IdClient, IdLivreur, IdVehicule) VALUES (?, ?, ?, ?, ?, ?)";
-        String contientSql = "INSERT INTO Contient (IdPizza, idTaille, idCommande) VALUES (?, ?, ?)";
+        String commandeSql = "INSERT INTO Commande (adresseCommande, DateCommande, DateLivraison, IdClient, IdLivreur, IdVehicule, gratuit) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String contientSql = "INSERT INTO Contient (IdPizza, idTaille, idCommande,gratuit) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement commandeStmt = conn.prepareStatement(commandeSql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -104,6 +104,7 @@ public class CommandeRepository {
             commandeStmt.setInt(4, commande.getClient().getIdClient());
             commandeStmt.setInt(5, commande.getLivreur().getIdLivreur());
             commandeStmt.setInt(6, commande.getVehicule().getIdVehicule());
+            commandeStmt.setBoolean(7, commande.isGratuit());
             commandeStmt.executeUpdate();
 
             // Récupération de l'id de la commande insérée
@@ -116,6 +117,7 @@ public class CommandeRepository {
                     contientStmt.setInt(1, pizzas.getKey().getIdPizza());
                     contientStmt.setInt(2, pizzas.getValue().getIdTaille());
                     contientStmt.setInt(3, commandeId);
+                    contientStmt.setBoolean(4, pizzas.getKey().isGratuit());
 
                     contientStmt.addBatch();
                 }
@@ -133,7 +135,10 @@ public class CommandeRepository {
                 "FROM Contient " +
                 "JOIN Pizza ON Contient.IdPizza = Pizza.IdPizza " +
                 "JOIN Taille ON Contient.idTaille = Taille.idTaille " +
-                "WHERE Contient.idCommande = ?";
+                "JOIN Commande ON Contient.idCommande = Commande.idCommande " +
+                "WHERE Contient.idCommande = ? " +
+                "AND Contient.gratuit IS NOT TRUE " +
+                "AND Commande.gratuit IS NOT TRUE ";
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idCommande);
@@ -169,6 +174,7 @@ public class CommandeRepository {
 
                     int idClient= rs.getInt("IdClient");
                     int idVehicule = rs.getInt("IdVehicule");
+                    boolean gratuit = rs.getBoolean("gratuit");
 
                     Client client = clientRepository.getClient(idClient);
                     Vehicule vehicule = vehiculeRepository.getVehicule(idVehicule);
@@ -177,7 +183,7 @@ public class CommandeRepository {
                     // Créer un HashMap pour stocker les pizzas commandées
                     HashMap<Pizza, Taille> pizzas = getPizzasByCommandeId(idCommande);
                     // Créer un objet Commande avec les données récupérées
-                    commande = new Commande(idCommande, adresseCommande, dateCommande, dateLivraison, client, livreur, vehicule, pizzas);
+                    commande = new Commande(idCommande, adresseCommande, dateCommande, dateLivraison, client, livreur, vehicule, pizzas,gratuit);
                 }
             }
         } catch (SQLException ex) {
@@ -205,7 +211,7 @@ public class CommandeRepository {
                 commande.setAdresseCommande(rs.getString("adresseCommande"));
                 commande.setDateCommande(rs.getTimestamp("DateCommande").toLocalDateTime());
                 commande.setDateLivraison(rs.getTimestamp("DateLivraison") != null ? rs.getTimestamp("DateLivraison").toLocalDateTime() : null);
-
+                commande.setGratuit(rs.getBoolean("gratuit"));
                 //vu que chaque statement dans TOUT LE CODE reset le result set
                 //il faut stocker avant de refaire une requette
                 clientIds.add(rs.getInt("IdClient"));
@@ -263,6 +269,7 @@ public class CommandeRepository {
 
                     int idLivreur = rs.getInt("IdLivreur");
                     int idVehicule = rs.getInt("IdVehicule");
+                    boolean gratuit = rs.getBoolean("gratuit");
 
                     Client client = clientRepository.getClient(clientId);
                     System.out.println(clientId + " : "+client);
@@ -273,7 +280,7 @@ public class CommandeRepository {
                     HashMap<Pizza, Taille> pizzas = getPizzasByCommandeId(idCommande);
 
                     // Créer un objet Commande avec les données récupérées
-                    commande = new Commande(idCommande, adresseCommande, dateCommande, dateLivraison, client, livreur, vehicule, pizzas);
+                    commande = new Commande(idCommande, adresseCommande, dateCommande, dateLivraison, client, livreur, vehicule, pizzas,gratuit);
 
                     // Calculer et définir le montant total de la commande
                     commande.setMontant(getMontantTotalCommande(idCommande));
