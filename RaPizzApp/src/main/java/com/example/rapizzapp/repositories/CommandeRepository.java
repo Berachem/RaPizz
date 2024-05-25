@@ -129,7 +129,7 @@ public class CommandeRepository {
     }
 
     public double getMontantTotalCommande(int idCommande) {
-        String sql = "SELECT SUM(Pizza.Prix * (Taille.ModificateurPrix+1)) AS MontantTotal " +
+        String sql = "SELECT SUM(ROUND(Pizza.Prix * (Taille.ModificateurPrix+1))) AS MontantTotal " +
                 "FROM Contient " +
                 "JOIN Pizza ON Contient.IdPizza = Pizza.IdPizza " +
                 "JOIN Taille ON Contient.idTaille = Taille.idTaille " +

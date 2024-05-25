@@ -40,11 +40,12 @@ public class CreateCommandController {
     private LivreurRepository livreurRepository;
     private VehiculeRepository vehiculeRepository;
     private CommandeRepository commandeRepository;
+    private ClientRepository clientRepository;
 
     private List<Pizza> pizzas;
     private List<Taille> tailles;
     private int pizzaNumber = 1;
-    private double prixTotal;
+    private int prixTotal;
 
     private boolean commandPassed = false;
 
@@ -55,6 +56,7 @@ public class CreateCommandController {
         livreurRepository = LivreurRepository.getInstance();
         vehiculeRepository = VehiculeRepository.getInstance();
         commandeRepository = CommandeRepository.getInstance();
+        clientRepository = ClientRepository.getInstance();
         userHandler = UserHandler.getInstance();
 
 
@@ -131,16 +133,13 @@ public class CreateCommandController {
     }
 
     //fonction pour récupérer le prix total des pizzas
-    public Double getTotalPrice(Scene scene){
-        Double totalPrice = 0.0;
+    public int getTotalPrice(Scene scene){
+        int totalPrice = 0;
         Label labelPrice;
         for(int i=1;i<pizzaNumber;i++){
             labelPrice = (Label) scene.lookup("#"+i+"-prix");
-            totalPrice+= Double.parseDouble(labelPrice.getText().replace("€",""));
+            totalPrice+= Integer.parseInt(labelPrice.getText().replace("€",""));
         }
-
-        //arrondir 2 chiffres après la virgule
-        totalPrice = Math.round(totalPrice * 100.0) / 100.0;
 
         this.prixTotal = totalPrice;
         return prixTotal;
@@ -153,10 +152,10 @@ public class CreateCommandController {
         Double realPrix = prix * modificateur;
 
         //arrondir 2 chiffres après la virgule
-        realPrix = Math.round(realPrix * 100.0) / 100.0;
+        int roundedRealPrix = (int) Math.round(realPrix);
 
         //set du prix
-        correspondingLabel.setText(realPrix+"");
+        correspondingLabel.setText(roundedRealPrix+"€");
     }
 
     public void makeCommand(ActionEvent event){
@@ -165,6 +164,23 @@ public class CreateCommandController {
 
         //récupération du User
         Client client = userHandler.getClient();
+
+        //récupération de l'adresse
+        String adresse = this.adresse.getText();
+        if(adresse.isEmpty()){
+            showAlert("Erreur", "Veuillez entrer votre adresse.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        //actualisation du solde
+        if(client.getSolde() < prixTotal){
+            showAlert("Sold Insuffisant","Votre solde de compte est insuffisant !", Alert.AlertType.ERROR);
+            return;
+        }else{
+            client.setSolde((client.getSolde() - prixTotal));
+            //on persiste le changement
+            clientRepository.updateClient(client);
+        }
 
         //récupération de toutes les commandes
         HashMap<Pizza,Taille> pizzas = new HashMap<>();
@@ -205,12 +221,7 @@ public class CreateCommandController {
             vehicule = vehiculeRepository.getRandomAvailableVehicule();
         }
 
-        //récupération de l'adresse
-        String adresse = this.adresse.getText();
-        if(adresse.isEmpty()){
-            showAlert("Erreur", "Veuillez entrer votre adresse.", Alert.AlertType.ERROR);
-            return;
-        }
+
 
         //création de la commande
         Commande commande = new Commande();

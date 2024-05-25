@@ -88,6 +88,24 @@ public class ClientRepository {
         }
     }
 
+    public boolean updateClient(Client client) {
+        String sql = "UPDATE Client SET Nom = ?, Prenom = ?, NumeroAbonnement = ?, Solde = ?, Role = ? WHERE IdClient = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, client.getNom());
+            pstmt.setString(2, client.getPrenom());
+            pstmt.setInt(3, client.getNumeroAbonnement());
+            pstmt.setInt(4, client.getSolde());
+            pstmt.setString(5, client.getRole());
+            pstmt.setInt(6, client.getIdClient());
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
 
 
 /*
