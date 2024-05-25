@@ -8,19 +8,26 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.rapizzapp.controllers.AdminDashboardController">
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.rapizzapp.controllers.AdminDashboardController">
 
+    <!-- Bouton de déconnexion en haut à gauche -->
+    <top>
+        <HBox alignment="TOP_LEFT">
+            <Button text="Se Déconnecter" onAction="#logout" style="-fx-background-color: red; -fx-text-fill: white;"/>
+        </HBox>
+    </top>
 
-    <!-- Bouton deconnexion -->
-    <Button text="Se Déconnecter" onAction="#logout" style="-fx-background-color: red; -fx-text-fill: white;"
-            AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"/>
+    <!-- Centre contenant le logo et le label -->
+    <center>
+        <VBox alignment="CENTER" spacing="10">
+            <!-- Logo de la page -->
+            <ImageView fitHeight="150.0" fitWidth="150.0">
+                <Image url="@images/rapizz_logo.png"/>
+            </ImageView>
 
-    <!-- Logo de la page -->
-    <ImageView fitHeight="150.0" fitWidth="150.0">
-        <Image url="@images/rapizz_logo.png"/>
-    </ImageView>
-
-    <Label text="Admin Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #337ab7;" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
-</VBox>
+            <Label text="Admin Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #337ab7;" />
+        </VBox>
+    </center>
+</BorderPane>

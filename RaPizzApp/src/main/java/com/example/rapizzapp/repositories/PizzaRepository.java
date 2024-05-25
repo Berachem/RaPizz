@@ -36,7 +36,7 @@ public class PizzaRepository {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                pizzas.add(new Pizza(rs.getInt("IdPizza"), rs.getString("libellePizza"), rs.getDouble("Prix"), "", new ArrayList<>()));
+                pizzas.add(new Pizza(rs.getInt("IdPizza"), rs.getString("libellePizza"), rs.getDouble("Prix"), "", rs.getString("Image"),new ArrayList<>()));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -74,6 +74,7 @@ public class PizzaRepository {
                     pizza.getLibellePizza(),
                     pizza.getPrix(),
                     pizza.getTaillePizza(),
+                    pizza.getImagePizza(),
                     copiedIngredients,
                     pizza.isGratuit()
             );

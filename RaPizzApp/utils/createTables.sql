@@ -8,6 +8,7 @@ CREATE TABLE Pizza(
    IdPizza INT AUTO_INCREMENT,
    LibellePizza VARCHAR(50),
    Prix DECIMAL(15,2),
+   Image VARCHAR(200),
    PRIMARY KEY(IdPizza)
 );
 

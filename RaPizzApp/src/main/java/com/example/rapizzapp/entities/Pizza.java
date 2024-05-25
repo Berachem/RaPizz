@@ -8,6 +8,8 @@ public class Pizza {
 
     private String taillePizza;
 
+    private String imageURL;
+
     private List<String> ingredients;
     private double prix;
 
@@ -18,23 +20,26 @@ public class Pizza {
         this.libellePizza = "";
         this.prix = -1;
         this.taillePizza = "";
+        this.imageURL="";
         this.isGratuit = false;
     }
 
-    public Pizza(int idPizza,String libellePizza,double prix, String taillePizza, List<String> ingredients){
+    public Pizza(int idPizza,String libellePizza,double prix, String taillePizza, String imageURL, List<String> ingredients){
         this.idPizza = idPizza;
         this.libellePizza = libellePizza;
         this.prix = prix;
         this.taillePizza = taillePizza;
+        this.imageURL= imageURL;
         this.ingredients = ingredients;
         this.isGratuit = false;
     }
 
-    public Pizza(int idPizza,String libellePizza,double prix, String taillePizza, List<String> ingredients,boolean isGratuit){
+    public Pizza(int idPizza,String libellePizza,double prix, String taillePizza, String imageURL, List<String> ingredients,boolean isGratuit){
         this.idPizza = idPizza;
         this.libellePizza = libellePizza;
         this.prix = prix;
         this.taillePizza = taillePizza;
+        this.imageURL = imageURL;
         this.ingredients = ingredients;
         this.isGratuit = isGratuit;
     }
@@ -66,6 +71,14 @@ public class Pizza {
 
     public String getTaillePizza() {
         return taillePizza;
+    }
+
+    public void setImagePizza(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public String getImagePizza() {
+        return imageURL;
     }
 
     public boolean isGratuit(){

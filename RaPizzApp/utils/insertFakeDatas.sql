@@ -7,12 +7,12 @@ INSERT INTO Ingrédient(IdIngredient, libelleIngredient) VALUES
 (5, 'Olives');
 
 -- Insertion de données pour la table Pizza
-INSERT INTO Pizza(IdPizza, LibellePizza, Prix) VALUES
-(1, 'Margherita', 10.00),
-(2, 'Reine', 12.00),
-(3, 'Napolitaine', 11.00),
-(4, 'Quatre fromages', 13.00),
-(5, 'Calzone', 12.50);
+INSERT INTO Pizza(IdPizza, LibellePizza, Prix, Image) VALUES
+(1, 'Margherita', 10.00, 'https://www.dominospizza.pl/getmedia/35a49b5d-380a-45d3-9c1c-d245efe9e03a/520x520-margherita_2.png'),
+(2, 'Reine', 12.00, 'https://www.leperceneige-arc1950.fr/wp-content/uploads/2020/12/reine.png'),
+(3, 'Napolitaine', 11.00, 'https://www.leperceneige-arc1950.fr/wp-content/uploads/2020/12/napolitaine.png'),
+(4, 'Quatre fromages', 13.00, 'https://pizzatime.fr/wp-content/uploads/2023/11/FROMAGES.png'),
+(5, 'Calzone', 12.50, 'https://www.pizza-91.fr/img/entrees/d13f94e0530450ff4adc7b244125240a.png');
 
 -- Insertion de données pour la table Taille
 INSERT INTO Taille(idTaille, LibelleTaille, ModificateurPrix) VALUES

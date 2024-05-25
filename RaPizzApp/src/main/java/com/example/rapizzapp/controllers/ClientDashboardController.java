@@ -13,6 +13,9 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
@@ -30,6 +34,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -131,14 +136,40 @@ public class ClientDashboardController {
 
         if (pizzas != null) {
             for (Pizza pizza : pizzas) {
+                HBox bigBox = new HBox(2);
+                bigBox.setAlignment(Pos.CENTER_LEFT);
+
                 VBox pizzaBox = new VBox(3);
                 pizzaBox.setStyle("-fx-background-color: #eeceb2; -fx-border-color: #522b00; -fx-padding: 5;");
+                pizzaBox.setMinSize(150,150);
+                pizzaBox.setPrefSize(150,150);
+                pizzaBox.setMaxSize(150,150);
 
                 Label pizzaNameLabel = new Label("Pizza: " + pizza.getLibellePizza() );
                 Label ingredientsLabel = new Label("Ingrédients: \n\t- " + String.join(" \n\t- ", pizza.getIngredients()));
 
                 pizzaBox.getChildren().addAll(pizzaNameLabel, ingredientsLabel);
-                ingredientsContainer.getChildren().add(pizzaBox);
+
+                VBox imageBox = new VBox(3);
+                imageBox.setAlignment(javafx.geometry.Pos.CENTER);
+
+                String imageURL = pizza.getImagePizza();
+                ImageView imageView = new ImageView(imageURL);
+
+                if (!imageView.getImage().isError()){
+                    imageView.setFitWidth(150);
+                    imageView.setFitHeight(150);
+                    imageBox.getChildren().add(imageView);
+                }else{
+                    Label errorLabel = new Label("Echec de chargement de l'image :(");
+                    errorLabel.setWrapText(true);
+                    errorLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+                    errorLabel.setMaxWidth(150);
+                    imageBox.getChildren().add(errorLabel);
+                }
+
+                bigBox.getChildren().addAll(pizzaBox, imageBox);
+                ingredientsContainer.getChildren().add(bigBox);
             }
         }
     }
