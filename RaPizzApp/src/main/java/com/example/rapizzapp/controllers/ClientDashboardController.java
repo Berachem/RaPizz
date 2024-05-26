@@ -161,7 +161,7 @@ public class ClientDashboardController {
                     imageView.setFitHeight(150);
                     imageBox.getChildren().add(imageView);
                 }else{
-                    Label errorLabel = new Label("Echec de chargement de l'image :(");
+                    Label errorLabel = new Label("  Image non disponible  ");
                     errorLabel.setWrapText(true);
                     errorLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
                     errorLabel.setMaxWidth(150);

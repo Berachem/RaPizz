@@ -71,7 +71,19 @@ INSERT INTO Compose(IdIngredient, IdPizza) VALUES
 (1, 2), -- Tomate pour Reine
 (2, 2), -- Fromage pour Reine
 (3, 2), -- Jambon pour Reine
-(4, 2); -- Champignons pour Reine
+(4, 2), -- Champignons pour Reine
+(1, 3), -- Tomate pour Napolitaine
+(2, 3), -- Fromage pour Napolitaine
+(5, 3), -- Olives pour Napolitaine
+(2, 4), -- Fromage pour Quatre fromages
+(1, 5), -- Tomate pour Calzone
+(2, 5), -- Fromage pour Calzone
+(3, 5), -- Jambon pour Calzone
+(4, 5); -- Champignons pour Calzone
+
+
+
+
 
 -- Insertion de données pour la table Contient
 -- Détails des commandes (quelle pizza, quelle taille, quelle commande)
@@ -85,5 +97,10 @@ INSERT INTO Contient(IdPizza, idTaille, idCommande) VALUES
 (1, 3, 11), -- Pizza Margherita de taille Ogresse dans la commande 11
 (2, 2, 12), -- Pizza Reine de taille Humaine dans la commande 12
 (3, 1, 13), -- Pizza Napolitaine de taille Naine dans la commande 13
-(4, 2, 14); -- Pizza Quatre fromages de taille Humaine dans la commande 14
+(4, 2, 14), -- Pizza Quatre fromages de taille Humaine dans la commande 14
+(1, 2, 1),  -- Pizza Margherita de taille Humaine dans la commande 1
+(2, 1, 2),  -- Pizza Reine de taille Naine dans la commande 2
+(3, 3, 3),  -- Pizza Napolitaine de taille Ogresse dans la commande 3
+(4, 2, 4),  -- Pizza Quatre fromages de taille Humaine dans la commande 4
+(5, 1, 15); -- Pizza Calzone de taille Naine dans la commande 15
 
