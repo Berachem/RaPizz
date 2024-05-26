@@ -16,15 +16,18 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import net.synedra.validatorfx.Check;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CreateCommandController {
 
@@ -44,9 +47,8 @@ public class CreateCommandController {
     private ClientRepository clientRepository;
 
     private Client client;
-    private List<Pizza> pizzas;
+    private HashMap<Integer,Pizza> pizzas = new HashMap<>();
     private List<Taille> tailles;
-    private int pizzaNumber = 1;
     private int prixTotal;
     private int compteurGratuit;
 
@@ -65,101 +67,90 @@ public class CreateCommandController {
 
         //getData
         client = userHandler.getClient();
-        pizzas = pizzaRepository.getAllPizza();
         tailles = tailleRepository.getAllTailles();
         compteurGratuit = clientRepository.getNombrePizzasCommandeesParClient(client.getIdClient()) % 10;
 
-        //set a first choice
-        addPizza();
-    }
 
-    //ajout des champs pour selectionner une pizza suplémentaire
-    public void addPizza() {
-        HBox container = new HBox();
-        container.setSpacing(10);
+        //setup the page
+        for(Pizza pizza : pizzaRepository.getAllPizza()){
 
-        //numéro de pizza
-        Label numPizza = new Label("pizza "+pizzaNumber+" : ");
+            //actualisation hashmap
+            pizzas.put(pizza.getIdPizza(),pizza);
 
-        //select type pizza
-        ChoiceBox<Pizza> selectPizzas = new ChoiceBox<>();
-        selectPizzas.getItems().addAll(PizzaRepository.deepCopyPizzaList(pizzas));
-        selectPizzas.setId(pizzaNumber+"-pizza");
-        if(compteurGratuit != 0){
-            selectPizzas.setOnAction(actionEvent -> {
-                //récupération de tout ce qui correspond
-                ChoiceBox<Pizza> source = (ChoiceBox<Pizza>) actionEvent.getSource();
-                String numId = source.getId().split("-")[0];
-                ChoiceBox<Taille> correspondingSize = (ChoiceBox<Taille>) source.getScene().lookup("#"+numId+"-taille");
-                Label correspondingLabel = (Label)  source.getScene().lookup("#"+numId+"-prix");
+            //container
+            HBox container = new HBox();
+            container.setSpacing(10);
 
-                //récupération des objets
-                Pizza selectedPizza = source.getSelectionModel().getSelectedItem();
-                Taille selectedSize = correspondingSize.getSelectionModel().getSelectedItem();
+            //nom de pizza
+            Label nomPizza = new Label("pizza "+pizza+" : ");
 
-                if(selectedSize != null){
-                    actualizePrice(selectedPizza,selectedSize,correspondingLabel);
-                }
-
-                totalPrice.setText("Total : "+getTotalPrice(source.getScene())+"€");
-            });
-        }else{
-            //toutes les pizzas ici seront gratuites
-            for(Pizza pizza : selectPizzas.getItems()){
-                pizza.setGratuit(true);
-            }
-        }
-
-        //select taille pizza
-        ChoiceBox<Taille> selectTaille = new ChoiceBox<>();
-        selectTaille.getItems().addAll(tailles);
-        selectTaille.setId(pizzaNumber+"-taille");
-        if(compteurGratuit!=0){
+            //taille de la pizza
+            ChoiceBox<Taille> selectTaille = new ChoiceBox<>();
+            selectTaille.getItems().addAll(tailles);
+            selectTaille.setId(pizza.getIdPizza()+"-taille");
             selectTaille.setOnAction(actionEvent -> {
                 //récupération de tout ce qui correspond
                 ChoiceBox<Taille> source = (ChoiceBox<Taille>) actionEvent.getSource();
-                String numId = source.getId().split("-")[0];
-                ChoiceBox<Pizza> correspondingPizza = (ChoiceBox<Pizza>) source.getScene().lookup("#"+numId+"-pizza");
-                Label correspondingLabel = (Label)  source.getScene().lookup("#"+numId+"-prix");
+                Integer numId = Integer.parseInt(source.getId().split("-")[0]);
+                CheckBox checkPizza = (CheckBox) source.getScene().lookup("#"+numId+"-check");
 
-                //récupération des objets
-                Taille selectedSize = source.getSelectionModel().getSelectedItem();
-                Pizza selectedPizza = correspondingPizza.getSelectionModel().getSelectedItem();
+                //si on décide de commander la pizza
+                if(checkPizza.isSelected()){
+                    Label correspondingLabel = (Label)  source.getScene().lookup("#"+numId+"-prix");
 
-                if(selectedPizza != null){
-                    actualizePrice(selectedPizza,selectedSize,correspondingLabel);
+                    //récupération des objets
+                    Taille selectedSize = source.getSelectionModel().getSelectedItem();
+                    Pizza selectedPizza = pizzas.get(numId);
+
+                    if(selectedPizza != null){
+                        actualizePrice(selectedPizza,selectedSize,correspondingLabel);
+                    }
+
+                    totalPrice.setText("Total : "+getTotalPrice(source.getScene())+"€");
                 }
-
-                totalPrice.setText("Total : "+getTotalPrice(source.getScene())+"€");
             });
+
+            //case à cocher
+            CheckBox pizzaCheck = new CheckBox("ajouter");
+            pizzaCheck.setId(pizza.getIdPizza()+"-check");
+            pizzaCheck.setOnAction(actionEvent -> {
+                CheckBox source = (CheckBox) actionEvent.getSource();
+                Integer numId = Integer.parseInt(source.getId().split("-")[0]);
+                Label correspondingLabel = (Label)  source.getScene().lookup("#"+numId+"-prix");
+                if(source.isSelected()){
+                    ChoiceBox<Taille> size = (ChoiceBox) source.getScene().lookup("#"+numId+"-taille");
+                    Taille selectedSize = size.getSelectionModel().getSelectedItem();
+                    Pizza selectedPizza = pizzas.get(numId);
+
+                    if(selectedSize != null){
+                        actualizePrice(selectedPizza,selectedSize,correspondingLabel);
+                    }
+
+                    totalPrice.setText("Total : "+getTotalPrice(source.getScene())+"€");
+                }else{
+                    correspondingLabel.setText("0€");
+                    totalPrice.setText("Total : "+getTotalPrice(source.getScene())+"€");
+                }
+            });
+
+            //label du prix
+            Label prixPizza = new Label("0€");
+            prixPizza.setId(pizza.getIdPizza()+"-prix");
+
+            //ajout des balises
+            container.getChildren().addAll(nomPizza,selectTaille,pizzaCheck,prixPizza);
+            form.getChildren().add(container);
         }
-
-        //label du prix
-        Label prixPizza;
-        if(compteurGratuit != 0){
-            prixPizza = new Label("0€");
-        }else{
-            prixPizza = new Label("GRATUIT");
-        }
-        prixPizza.setId(pizzaNumber+"-prix");
-
-        //ajout des balises
-        container.getChildren().addAll(numPizza,selectPizzas,selectTaille,prixPizza);
-        form.getChildren().add(container);
-
-        //incrémentation du nombre pour le prochain tour
-        pizzaNumber++;
-        //actualisation du compteur
-        compteurGratuit = (compteurGratuit + 1)%10;
     }
 
     //fonction pour récupérer le prix total des pizzas
     public int getTotalPrice(Scene scene){
         int totalPrice = 0;
         Label labelPrice;
-        for(int i=1;i<pizzaNumber;i++){
-            labelPrice = (Label) scene.lookup("#"+i+"-prix");
-            if(!labelPrice.getText().equals("GRATUIT")){
+        for(Map.Entry<Integer,Pizza> entry : pizzas.entrySet()){
+            labelPrice = (Label) scene.lookup("#"+entry.getKey()+"-prix");
+            CheckBox checkpizza = (CheckBox) scene.lookup("#"+entry.getKey()+"-check");
+            if(checkpizza.isSelected()){
                 totalPrice+= Integer.parseInt(labelPrice.getText().replace("€",""));
             }
         }
@@ -174,7 +165,7 @@ public class CreateCommandController {
         Double modificateur = 1 + Double.parseDouble(selectedSize.getModificateurPrix());
         Double realPrix = prix * modificateur;
 
-        //arrondir 2 chiffres après la virgule
+        //arrondir
         int roundedRealPrix = (int) Math.round(realPrix);
 
         //set du prix
@@ -199,21 +190,28 @@ public class CreateCommandController {
         }
 
         //récupération de toutes les commandes
-        HashMap<Pizza,Taille> pizzas = new HashMap<>();
-        ChoiceBox<Pizza> pizzaSelector;
+        HashMap<Pizza,Taille> pizzaCommande = new HashMap<>();
+        CheckBox pizzaCheck;
         ChoiceBox<Taille> tailleSelector;
-        for(int i=1;i<pizzaNumber;i++){
-            pizzaSelector = (ChoiceBox) scene.lookup("#"+i+"-pizza");
-            tailleSelector = (ChoiceBox) scene.lookup("#"+i+"-taille");
+        for(Map.Entry<Integer,Pizza> entry : pizzas.entrySet()){
+            Integer id = entry.getKey();
+            Pizza pizza = entry.getValue();
 
-            Pizza selectedPizza = pizzaSelector.getSelectionModel().getSelectedItem();
+            pizzaCheck = (CheckBox) scene.lookup("#"+id+"-check");
+            tailleSelector = (ChoiceBox) scene.lookup("#"+id+"-taille");
+
             Taille selectedTaille = tailleSelector.getSelectionModel().getSelectedItem();
 
-            if(selectedPizza != null && selectedTaille != null){
-                pizzas.put(selectedPizza,selectedTaille);
+            if(pizzaCheck.isSelected() && selectedTaille != null){
+                compteurGratuit++;
+                if(compteurGratuit%10 == 0){ //verification des pizzas gratuites
+                    pizza.setGratuit(true);
+                }
+                pizzaCommande.put(pizza,selectedTaille);
             }
         }
-        if(pizzas.isEmpty()){
+
+        if(pizzaCommande.isEmpty()){
             showAlert("Erreur", "Veuillez renseigner au moins une pizza.", Alert.AlertType.ERROR);
             return;
         }
@@ -240,7 +238,7 @@ public class CreateCommandController {
         //création de la commande
         Commande commande = new Commande();
         commande.setClient(client);
-        commande.setPizzas(pizzas);
+        commande.setPizzas(pizzaCommande);
         commande.setDateCommande(dateDebut);
         commande.setDateLivraison(dateFin);
         commande.setLivreur(livreur);

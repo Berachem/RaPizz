@@ -20,7 +20,6 @@
         <TextField fx:id="adresse" maxWidth="200.0" styleClass="form-control"/>
     </VBox>
 
-    <Button text="ajouter une pizza" onAction="#addPizza" styleClass="btn-warning"></Button>
     <Button text="commander" onAction="#makeCommand" styleClass="btn-info"></Button>
 
 </VBox>
