@@ -1,16 +1,20 @@
 package com.example.rapizzapp.controllers;
 
+
 import com.example.rapizzapp.RaPizzApplication;
 import com.example.rapizzapp.entities.Client;
 import com.example.rapizzapp.entities.Commande;
 import com.example.rapizzapp.entities.Pizza;
+import com.example.rapizzapp.handlers.ImageLoaderTask;
 import com.example.rapizzapp.repositories.ClientRepository;
 import com.example.rapizzapp.handlers.UserHandler;
 import com.example.rapizzapp.repositories.CommandeRepository;
 import com.example.rapizzapp.repositories.PizzaRepository;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
@@ -128,7 +132,6 @@ public class ClientDashboardController {
         }
     }
 
-
     private void updateIngredientsList() {
         ingredientsContainer.getChildren().clear(); // Clear existing content
 
@@ -141,39 +144,52 @@ public class ClientDashboardController {
 
                 VBox pizzaBox = new VBox(3);
                 pizzaBox.setStyle("-fx-background-color: #eeceb2; -fx-border-color: #522b00; -fx-padding: 5;");
-                pizzaBox.setMinSize(150,150);
-                pizzaBox.setPrefSize(150,150);
-                pizzaBox.setMaxSize(150,150);
+                pizzaBox.setMinSize(150, 150);
+                pizzaBox.setPrefSize(150, 150);
+                pizzaBox.setMaxSize(150, 150);
 
-                Label pizzaNameLabel = new Label("Pizza: " + pizza.getLibellePizza() );
+                Label pizzaNameLabel = new Label("Pizza: " + pizza.getLibellePizza());
                 Label ingredientsLabel = new Label("Ingrédients: \n\t- " + String.join(" \n\t- ", pizza.getIngredients()));
 
                 pizzaBox.getChildren().addAll(pizzaNameLabel, ingredientsLabel);
 
                 VBox imageBox = new VBox(3);
-                imageBox.setAlignment(javafx.geometry.Pos.CENTER);
+                imageBox.setAlignment(Pos.CENTER);
 
                 String imageURL = pizza.getImagePizza();
-                ImageView imageView = new ImageView(imageURL);
+                ImageView imageView = new ImageView();
 
-                if (!imageView.getImage().isError()){
-                    imageView.setFitWidth(150);
-                    imageView.setFitHeight(150);
-                    imageBox.getChildren().add(imageView);
-                }else{
-                    Label errorLabel = new Label("  Image non disponible  ");
+                imageView.setFitWidth(150);
+                imageView.setFitHeight(150);
+                imageView.setPreserveRatio(true);
+
+                // Load image asynchronously
+                ImageLoaderTask task = new ImageLoaderTask(imageURL);
+                task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+                    @Override
+                    public void handle(WorkerStateEvent event) {
+                        Image image = task.getValue();
+                        imageView.setImage(image);
+                    }
+                });
+                task.setOnFailed(event -> {
+                    Label errorLabel = new Label("Image non disponible");
                     errorLabel.setWrapText(true);
                     errorLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
                     errorLabel.setMaxWidth(150);
                     imageBox.getChildren().add(errorLabel);
-                }
+                });
 
+                Thread thread = new Thread(task);
+                thread.setDaemon(true);
+                thread.start();
+
+                imageBox.getChildren().add(imageView);
                 bigBox.getChildren().addAll(pizzaBox, imageBox);
                 ingredientsContainer.getChildren().add(bigBox);
             }
         }
     }
-
     private void showCurrentOrder() {
         int clientId = userHandler.getClient().getIdClient();
         Commande commande = commandeRepository.getLastCommandeFromClient(clientId);
