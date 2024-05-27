@@ -7,19 +7,31 @@
 <?import javafx.scene.layout.*?>
 
 <VBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.rapizzapp.controllers.CreateCommandController"
-            prefHeight="400.0" prefWidth="600.0"
-            alignment="CENTER" spacing="10">
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.rapizzapp.controllers.CreateCommandController"
+      prefHeight="500.0" prefWidth="400.0"
+      alignment="CENTER" spacing="20"
+      style="-fx-padding: 10;">
 
-    <Label text="Créer une commande" styleClass="h2"/>
+    <Label text="Créer une commande"
+           style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
-    <Label text="Total : 0" styleClass="h3" fx:id="totalPrice"/>
-    <VBox alignment="CENTER" maxWidth="350" fx:id="form">
-        <Label text="adresse :" styleClass="label-info"/>
-        <TextField fx:id="adresse" maxWidth="200.0" styleClass="form-control"/>
+    <Label text="Total : 0"
+           style="-fx-font-size: 18px; -fx-font-weight: bold;"
+           fx:id="totalPrice"/>
+
+    <VBox alignment="CENTER" maxWidth="350" spacing="10" fx:id="form">
+        <Label text="adresse :" style="-fx-font-size: 14px;"/>
+        <TextField fx:id="adresse" maxWidth="200.0" style="-fx-font-size: 14px;"/>
     </VBox>
 
-    <Button text="commander" onAction="#makeCommand" styleClass="btn-info"></Button>
+    <Button text="commander"
+            onAction="#makeCommand"
+            style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20; -fx-border-radius: 5; -fx-background-radius: 5;"/>
 
+    <HBox alignment="CENTER">
+        <Label text="PROMOTION ! Au bout de 10 pizzas achetées, la 11ème offerte !"
+               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #e53935; -fx-background-color: #ffeb3b; -fx-padding: 10; -fx-border-color: #ff9800; -fx-border-width: 2; -fx-border-radius: 5; -fx-background-radius: 5; -fx-text-alignment: center; -fx-wrap-text: true;"
+               maxWidth="600" alignment="CENTER"/>
+    </HBox>
 </VBox>

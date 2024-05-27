@@ -211,7 +211,7 @@ public class ClientDashboardController {
             root = loader.load();
             CreateCommandController controller = loader.getController();
             stage.setTitle("Créer une commande");
-            Scene scene = new Scene(root, 380, 440);
+            Scene scene = new Scene(root);
             scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
             stage.setScene(scene);
             stage.show();
