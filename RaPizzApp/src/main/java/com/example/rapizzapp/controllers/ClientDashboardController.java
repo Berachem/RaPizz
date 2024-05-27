@@ -265,6 +265,7 @@ public class ClientDashboardController {
             scene = new Scene(root, 320, 440);
 
             scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+            stage.setTitle("Bienvenue sur Rapizz ! 🍕");
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {

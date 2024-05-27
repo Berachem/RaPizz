@@ -14,7 +14,7 @@ public class RaPizzApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(RaPizzApplication.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 440);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
-        stage.setTitle("Bienvenue sur RapizzApp ! 🍕");
+        stage.setTitle("Bienvenue sur Rapizz ! 🍕");
         stage.setScene(scene);
         stage.show();
     }

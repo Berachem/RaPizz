@@ -97,10 +97,10 @@ public class LoginController {
             System.out.println("Connected as "+userHandler.getClient().getRole() + " : "+userHandler.getClient().getNom()+" "+userHandler.getClient().getPrenom() + " | "+userHandler.getClient().getNumeroAbonnement());
             if (userHandler.getClient().isAdmin()){ // ADMIN
                 root = FXMLLoader.load(RaPizzApplication.class.getResource("dashboardAdmin.fxml"));
-                stage.setTitle("Dashboard Admin");
+                stage.setTitle("Dashboard ADMIN : " + userHandler.getClient().getPrenom() + " " + userHandler.getClient().getNom());
             }else { // CLIENT
                 root = FXMLLoader.load(RaPizzApplication.class.getResource("dashboard.fxml"));
-                stage.setTitle("Dashboard");
+                stage.setTitle("Dashboard de " + userHandler.getClient().getPrenom());
             }
             scene = new Scene(root, 1000, 550);
 

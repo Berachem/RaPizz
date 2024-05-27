@@ -32,9 +32,11 @@
 
 
     <!-- Boutons d'action -->
-    <VBox spacing="10" alignment="CENTER">
-        <Button text="Se connecter" styleClass="btn-primary" onAction="#loginAction"/>
-        <Button text="Créer un compte" styleClass="btn-warning" onAction="#createAccountAction"/>
+    <VBox spacing="20" alignment="CENTER" styleClass="action-buttons">
+        <Button text="Se connecter" styleClass="btn-primary" onAction="#loginAction"
+                style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 16; -fx-border-radius: 5; -fx-background-radius: 5;"/>
+        <Button text="Créer un compte" styleClass="btn-warning" onAction="#createAccountAction"
+                style="-fx-background-color: #ffc107; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 16; -fx-border-radius: 5; -fx-background-radius: 5;"/>
         <!-- <Button text="(DEV) Passer" styleClass="btn-success" onAction="#passLogin"/> -->
     </VBox>
 </VBox>
