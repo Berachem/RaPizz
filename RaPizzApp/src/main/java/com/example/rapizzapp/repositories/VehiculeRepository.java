@@ -149,4 +149,17 @@ public class VehiculeRepository {
             return false;
         }
     }
+
+    public boolean deleteVehicule(Vehicule vehicule) {
+        String sql = "DELETE FROM TypeVehicule WHERE IdType = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, vehicule.getIdVehicule());
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
 }

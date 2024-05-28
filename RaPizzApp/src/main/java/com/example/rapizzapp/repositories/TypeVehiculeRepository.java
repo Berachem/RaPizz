@@ -97,7 +97,7 @@ public class TypeVehiculeRepository {
         }
     }
 
-    public boolean deleteTaille(TypeVehicule typeVehicule) {
+    public boolean deleteTypeVehicule(TypeVehicule typeVehicule) {
         String sql = "DELETE FROM TypeVehicule WHERE IdType = ?";
         try (Connection conn = dbHandler.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
