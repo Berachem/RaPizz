@@ -149,7 +149,7 @@ public class ClientDashboardController {
                 pizzaBox.setMaxSize(150, 150);
 
                 Label pizzaNameLabel = new Label("Pizza: " + pizza.getLibellePizza());
-                Label ingredientsLabel = new Label("Ingrédients: \n\t- " + String.join(" \n\t- ", pizza.getIngredients()));
+                Label ingredientsLabel = new Label("Ingrédients: \n\t- " + String.join(" \n\t- ", pizza.getLibelleIngredients()));
 
                 pizzaBox.getChildren().addAll(pizzaNameLabel, ingredientsLabel);
 

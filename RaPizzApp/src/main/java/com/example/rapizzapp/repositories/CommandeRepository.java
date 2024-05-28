@@ -292,5 +292,38 @@ public class CommandeRepository {
 
         return commande;
     }
+
+    public void updateCommande(Commande commande){
+        String commandeSql = "UPDATE Commande SET adresseCommande = ?, DateCommande = ?, DateLivraison = ?, IdClient = ?, IdLivreur = ?, IdVehicule = ?, gratuit = ? WHERE IdCommande = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement commandeStmt = conn.prepareStatement(commandeSql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            // Insertion de la commande
+            commandeStmt.setString(1, commande.getAdresseCommande());
+            commandeStmt.setTimestamp(2, java.sql.Timestamp.valueOf(commande.getDateCommande()));
+            commandeStmt.setTimestamp(3, java.sql.Timestamp.valueOf(commande.getDateLivraison()));
+            commandeStmt.setInt(4, commande.getClient().getIdClient());
+            commandeStmt.setInt(5, commande.getLivreur().getIdLivreur());
+            commandeStmt.setInt(6, commande.getVehicule().getIdVehicule());
+            commandeStmt.setBoolean(7, commande.isGratuit());
+            commandeStmt.setInt(8, commande.getIdCommande());
+            commandeStmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public boolean deleteCommande(Commande commande){
+        String sql = "DELETE FROM Commande WHERE IdCommande = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, commande.getIdCommande());
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
 }
 

@@ -121,4 +121,32 @@ public class VehiculeRepository {
         return vehicule;
     }
 
+    public boolean insertVehicule(Vehicule vehicule) {
+        String sql = "INSERT INTO Vehicule(IdType, Nom) VALUES (?, ?)";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, vehicule.getType().getIdType());
+            pstmt.setString(2, vehicule.getNom());
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateVehicule(Vehicule vehicule) {
+        String sql = "UPDATE Vehicule SET IdType = ?, Nom = ? WHERE IdVehicule = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, vehicule.getType().getIdType());
+            pstmt.setString(2, vehicule.getNom());
+            pstmt.setInt(3, vehicule.getIdVehicule());
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
 }

@@ -10,7 +10,7 @@ public class Pizza {
 
     private String imageURL;
 
-    private List<String> ingredients;
+    private List<Ingredient> ingredients;
     private double prix;
 
     private boolean isGratuit;
@@ -24,7 +24,7 @@ public class Pizza {
         this.isGratuit = false;
     }
 
-    public Pizza(int idPizza,String libellePizza,double prix, String taillePizza, String imageURL, List<String> ingredients){
+    public Pizza(int idPizza,String libellePizza,double prix, String taillePizza, String imageURL, List<Ingredient> ingredients){
         this.idPizza = idPizza;
         this.libellePizza = libellePizza;
         this.prix = prix;
@@ -34,7 +34,7 @@ public class Pizza {
         this.isGratuit = false;
     }
 
-    public Pizza(int idPizza,String libellePizza,double prix, String taillePizza, String imageURL, List<String> ingredients,boolean isGratuit){
+    public Pizza(int idPizza,String libellePizza,double prix, String taillePizza, String imageURL, List<Ingredient> ingredients,boolean isGratuit){
         this.idPizza = idPizza;
         this.libellePizza = libellePizza;
         this.prix = prix;
@@ -89,11 +89,18 @@ public class Pizza {
         this.taillePizza = taillePizza;
     }
 
-    public List<String> getIngredients() {
+    public List<String> getLibelleIngredients() {
+        List<String> libelleIngredients = ingredients.stream().map(
+                ingredient -> ingredient.getLibelleIngredient()
+        ).toList();
+        return libelleIngredients;
+    }
+
+    public List<Ingredient> getIngredients(){
         return ingredients;
     }
 
-    public void setIngredients(List<String> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 

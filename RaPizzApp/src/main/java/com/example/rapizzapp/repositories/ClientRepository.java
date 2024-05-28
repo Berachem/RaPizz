@@ -125,6 +125,18 @@ public class ClientRepository {
         return 0;
     }
 
+    public boolean deleteClient(Client client){
+        String sql = "DELETE FROM Client WHERE IdClient = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, client.getIdClient());
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
 
 
 /*

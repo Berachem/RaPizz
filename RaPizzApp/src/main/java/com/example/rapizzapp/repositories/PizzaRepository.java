@@ -1,14 +1,12 @@
 package com.example.rapizzapp.repositories;
 
-import com.example.rapizzapp.entities.Pizza;
+import com.example.rapizzapp.entities.*;
 import com.example.rapizzapp.handlers.DatabaseHandler;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PizzaRepository {
 
@@ -29,6 +27,7 @@ public class PizzaRepository {
 
     public List<Pizza> getAllPizza() {
         List<Pizza> pizzas= new ArrayList<Pizza>();
+        Ingredient ingredient = null;
 
         String sql = "SELECT * FROM Pizza";
         try (Connection conn = dbHandler.getConnection();
@@ -43,13 +42,14 @@ public class PizzaRepository {
         }
         // on récupère les ingrédients de chaque pizza (table Contient, jointure avec la table Ingrédient)
         for (Pizza pizza : pizzas) {
-            List<String> ingredients = new ArrayList<>();
+            List<Ingredient> ingredients = new ArrayList<>();
             String sqlIngredients = "SELECT * FROM Compose, Ingrédient WHERE IdPizza = " + pizza.getIdPizza() + " AND Compose.IdIngredient = Ingrédient.IdIngredient";
             try (Connection conn = dbHandler.getConnection();
                  Statement stmt = conn.createStatement();
                  ResultSet rs = stmt.executeQuery(sqlIngredients)) {
                 while (rs.next()) {
-                    ingredients.add(rs.getString("libelleIngredient"));
+                    ingredient = new Ingredient(rs.getInt("IdIngredient"), rs.getString("libelleIngredient"));
+                    ingredients.add(ingredient);
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -61,12 +61,53 @@ public class PizzaRepository {
         return pizzas;
     }
 
+    public Pizza getPizza(int idPizza) {
+        Pizza pizza = null;
+        Ingredient ingredient = null;
+
+        String sql = "SELECT * FROM Pizza WHERE idPizza  = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idPizza);
+            try (ResultSet rs = stmt.executeQuery()){
+                if (rs.next()) {
+                    pizza = new Pizza(
+                            rs.getInt("IdPizza"),
+                            rs.getString("libellePizza"),
+                            rs.getDouble("Prix"),
+                            "",
+                            rs.getString("Image"),
+                            new ArrayList<>()
+                    );
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        // on récupère les ingrédients de la pizza (table Contient, jointure avec la table Ingrédient)
+        List<Ingredient> ingredients = new ArrayList<>();
+        String sqlIngredients = "SELECT * FROM Compose, Ingrédient WHERE IdPizza = " + pizza.getIdPizza() + " AND Compose.IdIngredient = Ingrédient.IdIngredient";
+        try (Connection conn = dbHandler.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sqlIngredients)) {
+            while (rs.next()) {
+                ingredient = new Ingredient(rs.getInt("IdIngredient"), rs.getString("libelleIngredient"));
+                ingredients.add(ingredient);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        pizza.setIngredients(ingredients);
+
+        return pizza;
+    }
+
     public static List<Pizza> deepCopyPizzaList(List<Pizza> originalList) {
         List<Pizza> copiedList = new ArrayList<>();
 
         for (Pizza pizza : originalList) {
             // Copie profonde des ingrédients
-            List<String> copiedIngredients = new ArrayList<>(pizza.getIngredients());
+            List<Ingredient> copiedIngredients = new ArrayList<>(pizza.getIngredients());
 
             // Création d'un nouvel objet Pizza avec les valeurs copiées
             Pizza copiedPizza = new Pizza(
@@ -83,5 +124,71 @@ public class PizzaRepository {
         }
 
         return copiedList;
+    }
+
+    public void insertPizza(Pizza pizza) {
+        String pizzaSql = "INSERT INTO Pizza(LibellePizza, Prix, Image) VALUES (?, ?, ?)";
+        String composeSql = "INSERT INTO Compose(IdIngredient, IdPizza) VALUES (?, ?)";
+
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pizzaStmt = conn.prepareStatement(pizzaSql, PreparedStatement.RETURN_GENERATED_KEYS);
+             PreparedStatement composeStmt = conn.prepareStatement(composeSql)) {
+
+            // Insertion de la pizza
+            pizzaStmt.setString(1, pizza.getLibellePizza());
+            pizzaStmt.setDouble(2, pizza.getPrix());
+            pizzaStmt.setString(3, pizza.getImagePizza());
+            pizzaStmt.executeUpdate();
+
+            // Récupération de l'id de la pizza insérée
+            ResultSet generatedKeys = pizzaStmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int pizzaId = generatedKeys.getInt(1);
+
+                // Insertion des ingrédients associées à la pizza
+                for (Ingredient ingredient : pizza.getIngredients()) {
+                    composeStmt.setInt(1, ingredient.getIdIngredient());
+                    composeStmt.setInt(2, pizzaId);
+
+                    composeStmt.addBatch();
+                }
+
+                // Exécution de l'insertion des pizzas
+                composeStmt.executeBatch();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void updatePizza(Pizza pizza) {
+        String pizzaSql = "UPDATE Pizza SET LibellePizza = ?, Prix = ?, Image = ? WHERE IdPizza = ?";
+
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pizzaStmt = conn.prepareStatement(pizzaSql);){
+
+            // modification de la pizza
+            pizzaStmt.setString(1, pizza.getLibellePizza());
+            pizzaStmt.setDouble(2, pizza.getPrix());
+            pizzaStmt.setString(3, pizza.getImagePizza());
+            pizzaStmt.setInt(4, pizza.getIdPizza());
+            pizzaStmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public boolean deletePizza(Pizza pizza){
+        String sql = "DELETE FROM Pizza WHERE IdPizza = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, pizza.getIdPizza());
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
     }
 }

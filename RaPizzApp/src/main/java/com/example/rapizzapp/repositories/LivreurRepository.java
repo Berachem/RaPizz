@@ -1,5 +1,6 @@
 package com.example.rapizzapp.repositories;
 
+import com.example.rapizzapp.entities.Client;
 import com.example.rapizzapp.entities.Livreur;
 import com.example.rapizzapp.handlers.DatabaseHandler;
 
@@ -113,5 +114,47 @@ public class LivreurRepository {
             ex.printStackTrace();
         }
         return livreur;
+    }
+
+    public boolean insertLivreur(Livreur livreur) {
+        String sql = "INSERT INTO Livreur(Nom, Prenom) VALUES (?, ?)";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, livreur.getNom());
+            pstmt.setString(2, livreur.getPrenom());
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateLivreur(Livreur livreur) {
+        String sql = "UPDATE Livreur SET Nom = ?, Prenom = ? WHERE IdLivreur = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, livreur.getNom());
+            pstmt.setString(2, livreur.getPrenom());
+            pstmt.setInt(3, livreur.getIdLivreur());
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean deleteLiveur(Livreur livreur) {
+        String sql = "DELETE FROM Livreur WHERE IdLivreur = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, livreur.getIdLivreur());
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
     }
 }

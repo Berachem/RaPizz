@@ -1,5 +1,6 @@
 package com.example.rapizzapp.repositories;
 
+import com.example.rapizzapp.entities.Taille;
 import com.example.rapizzapp.entities.TypeVehicule;
 import com.example.rapizzapp.handlers.DatabaseHandler;
 
@@ -67,5 +68,45 @@ public class TypeVehiculeRepository {
             ex.printStackTrace();
         }
         return typeVehicule;
+    }
+
+    public boolean insertTypeVehicule(TypeVehicule typeVehicule) {
+        String sql = "INSERT INTO TypeVehicule(LibelleVehicule) VALUES (?)";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, typeVehicule.getLibelleVehicule());
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateTypeVehicule(TypeVehicule typeVehicule) {
+        String sql = "UPDATE TypeVehicule SET LibelleVehicule = ? WHERE IdType = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, typeVehicule.getLibelleVehicule());
+            pstmt.setInt(2, typeVehicule.getIdType());
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean deleteTaille(TypeVehicule typeVehicule) {
+        String sql = "DELETE FROM TypeVehicule WHERE IdType = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, typeVehicule.getIdType());
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
     }
 }
