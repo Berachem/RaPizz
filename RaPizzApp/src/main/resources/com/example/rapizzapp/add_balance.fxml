@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rapizzapp.controllers.AddBalanceController"
+      xmlns="http://javafx.com/javafx/8" alignment="CENTER" spacing="10" style="-fx-padding: 20;">
+
+    <Label text="Ajouter du solde (en €)" styleClass="h2"/>
+    <TextField fx:id="amountField" promptText="Montant à ajouter"/>
+    <Button text="Ajouter" onAction="#addBalance" style="-fx-background-color: green; -fx-text-fill: white;"/>
+</VBox>

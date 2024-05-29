@@ -88,4 +88,8 @@ public class Client {
     public String toString(){
         return nom + " " + prenom;
     }
+
+    public void addSolde(double amount) {
+        solde += amount;
+    }
 }

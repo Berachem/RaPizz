@@ -138,6 +138,18 @@ public class ClientRepository {
         }
     }
 
+    public void addSolde(int idClient, int amount) {
+        String sql = "UPDATE Client SET Solde = Solde + ? WHERE IdClient = ?";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDouble(1, amount);
+            pstmt.setInt(2, idClient);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
 
 /*
     public Commande getCurrentOrder(int clientId) {

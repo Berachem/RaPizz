@@ -77,10 +77,14 @@ public class ClientDashboardController {
         infoClient.setText(
                 "Nom : "+client.getNom()+ " "+client.getPrenom()+" \n"+
                 "Numéro d'abonnement : "+client.getNumeroAbonnement()+" \n"+
-                "Solde : "+client.getSolde()+" euros"
+                "Solde : "+client.getSolde()+" euros (€)"
         );
+        if(client.getSolde() < 0){
+            infoClient.setStyle("-fx-border-color: red; -fx-border-width: 2px; -fx-padding: 10; -fx-border-radius: 5px;");
+        }else{
+            infoClient.setStyle("-fx-border-color: blue; -fx-border-width: 2px; -fx-padding: 10; -fx-border-radius: 5px;");
+        }
 
-        // Utilisez customerService pour obtenir les informations du client et les afficher
     }
 
     private void updateOrderHistory() throws SQLException {
@@ -272,4 +276,27 @@ public class ClientDashboardController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void openAddBalancePage(ActionEvent event) {
+        Parent root;
+        Stage stage = new Stage();
+
+        try {
+            FXMLLoader loader = new FXMLLoader(RaPizzApplication.class.getResource("add_balance.fxml"));
+            root = loader.load();
+            stage.setTitle("Ajouter du solde");
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+            //actions à effectuer quand la scène d'ajout de solde se ferme
+            stage.setOnHiding((e) -> {
+                updateClientInformation();
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

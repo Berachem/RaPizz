@@ -11,14 +11,18 @@
     <Button text="Se Déconnecter" onAction="#logout" style="-fx-background-color: red; -fx-text-fill: white;"
             AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"/>
 
+
+
     <HBox alignment="TOP_CENTER" spacing="20" AnchorPane.topAnchor="50" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
         <VBox alignment="TOP_CENTER" spacing="10">
             <Label text="Tableau de bord du client" styleClass="h2"/>
 
             <VBox alignment="CENTER_LEFT" spacing="10">
                 <Label fx:id="infoClient" text="Récupération des données..."/>
-                <Button text="Créer une Nouvelle Commande" onAction="#createNewOrder" styleClass="btn-primary"/>
-
+                <HBox spacing="10">
+                    <Button text="Ajouter Solde" onAction="#openAddBalancePage" style="-fx-background-color: green; -fx-text-fill: white;"/>
+                    <Button text="Créer une Nouvelle Commande" onAction="#createNewOrder" style="-fx-background-color: blue; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);"/>
+                </HBox>
                 <Label text="Carte des Pizzas 🍕" styleClass="h2"/>
                 <ScrollPane maxHeight="260" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc;">
                     <VBox fx:id="ingredientsContainer" spacing="5" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
