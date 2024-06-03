@@ -23,7 +23,7 @@
                     <Button text="Ajouter Solde" onAction="#openAddBalancePage" style="-fx-background-color: green; -fx-text-fill: white;"/>
                     <Button text="Créer une Nouvelle Commande" onAction="#createNewOrder" style="-fx-background-color: blue; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);"/>
                 </HBox>
-                <Label text="Carte des Pizzas 🍕" styleClass="h2"/>
+                <Label text="Carte des Pizzas" styleClass="h2"/>
                 <ScrollPane maxHeight="260" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc;">
                     <VBox fx:id="ingredientsContainer" spacing="5" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
                         <!-- Les ingrédients seront ajoutés ici -->

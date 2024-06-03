@@ -122,7 +122,7 @@ public class ClientDashboardController {
                 montantLabel = new Label("Montant: " + commande.getMontant() + " €");
             }
             Label dateLabel = new Label("Date de livraison: " + (commande.getDateLivraison() != null ? commande.getDateLivraison().format(formatter) : "N/A"));
-            Label livreurLabel = new Label("Livreur: " + (commande.getLivreur() != null ? commande.getLivreur().getNom() + " " + commande.getLivreur().getPrenom() : "N/A"));
+            Label livreurLabel = new Label("Livreur: " + (commande.getLivreur() != null ? commande.getLivreur().getNom() + " " + commande.getLivreur().getPrenom() + " (" + commande.getVehicule().getNom() + ")" : "N/A"));
             Label adresseLabel = new Label("Adresse: " + commande.getAdresseCommande());
 
             Set<Pizza> pizzas = commande.getPizzas().keySet();
