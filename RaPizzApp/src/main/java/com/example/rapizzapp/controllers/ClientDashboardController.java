@@ -33,6 +33,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -120,6 +122,7 @@ public class ClientDashboardController {
                 montantLabel = new Label("Montant: " + commande.getMontant() + " €");
             }
             Label dateLabel = new Label("Date de livraison: " + (commande.getDateLivraison() != null ? commande.getDateLivraison().format(formatter) : "N/A"));
+            Label livreurLabel = new Label("Livreur: " + (commande.getLivreur() != null ? commande.getLivreur().getNom() + " " + commande.getLivreur().getPrenom() : "N/A"));
             Label adresseLabel = new Label("Adresse: " + commande.getAdresseCommande());
 
             Set<Pizza> pizzas = commande.getPizzas().keySet();
@@ -131,7 +134,7 @@ public class ClientDashboardController {
             }
             Label pizzasLabel = new Label("Pizzas: " + pizzasString);
 
-            commandeBox.getChildren().addAll(statusLabel, idLabel, montantLabel, dateLabel, adresseLabel, pizzasLabel);
+            commandeBox.getChildren().addAll(statusLabel, idLabel, montantLabel, dateLabel, livreurLabel, adresseLabel, pizzasLabel);
             orderHistoryContainer.getChildren().add(commandeBox);
         }
     }
@@ -147,12 +150,13 @@ public class ClientDashboardController {
                 bigBox.setAlignment(Pos.CENTER_LEFT);
 
                 VBox pizzaBox = new VBox(3);
-                pizzaBox.setStyle("-fx-background-color: #eeceb2; -fx-border-color: #522b00; -fx-padding: 5;");
+                pizzaBox.setStyle("-fx-background-color: #eeceb2; -fx-border-color: #522b00; -fx-padding: 5; -fx-border-radius: 5px;");
                 pizzaBox.setMinSize(150, 150);
                 pizzaBox.setPrefSize(150, 150);
                 pizzaBox.setMaxSize(150, 150);
 
                 Label pizzaNameLabel = new Label("Pizza: " + pizza.getLibellePizza());
+                pizzaNameLabel.setStyle("-fx-font-weight: bold;");
                 Label ingredientsLabel = new Label("Ingrédients: \n\t- " + String.join(" \n\t- ", pizza.getLibelleIngredients()));
 
                 pizzaBox.getChildren().addAll(pizzaNameLabel, ingredientsLabel);
@@ -299,4 +303,34 @@ public class ClientDashboardController {
         }
     }
 
+    public void exportPizzaMenu(ActionEvent actionEvent) {
+        PizzaRepository pizzaRepository = PizzaRepository.getInstance();
+        List<Pizza> pizzas = pizzaRepository.getAllPizza();
+        if (pizzas != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Liste des pizzas disponibles : \n");
+            for (Pizza pizza : pizzas) {
+                sb.append(pizza.getLibellePizza());
+                for (String ingredient : pizza.getLibelleIngredients()) {
+                    sb.append("\n\t- ").append(ingredient);
+                }
+                sb.append("\n");
+            }
+
+
+            // Afficher le menu
+            showAlert("Menu des pizzas", sb+"\n\nLe menu a été exporté avec succès dans le fichier menu_pizzas.txt !", Alert.AlertType.INFORMATION);
+
+            // Enregistrer le menu dans un fichier texte
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("menu_pizzas.txt"))) {
+                writer.write(sb.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert("Erreur", "Une erreur s'est produite lors de l'enregistrement du menu.", Alert.AlertType.ERROR);
+            }
+
+        } else {
+            showAlert("Menu des pizzas", "Aucune pizza disponible", Alert.AlertType.INFORMATION);
+        }
+    }
 }

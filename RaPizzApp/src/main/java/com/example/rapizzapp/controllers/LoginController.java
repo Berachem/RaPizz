@@ -101,7 +101,7 @@ public class LoginController {
                 stage.setTitle("Dashboard ADMIN : " + userHandler.getClient().getPrenom() + " " + userHandler.getClient().getNom());
             }else { // CLIENT
                 root = FXMLLoader.load(RaPizzApplication.class.getResource("dashboard.fxml"));
-                scene = new Scene(root, 1000, 550);
+                scene = new Scene(root, 1000, 575);
                 stage.setTitle("Dashboard de " + userHandler.getClient().getPrenom());
             }
 

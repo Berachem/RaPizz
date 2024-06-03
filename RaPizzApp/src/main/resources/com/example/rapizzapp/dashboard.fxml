@@ -29,6 +29,7 @@
                         <!-- Les ingrédients seront ajoutés ici -->
                     </VBox>
                 </ScrollPane>
+                <Button text="Exporter la carte des pizzas" onAction="#exportPizzaMenu" style="-fx-background-color: #6f1c1c; -fx-text-fill: white;"/>
             </VBox>
         </VBox>
 
