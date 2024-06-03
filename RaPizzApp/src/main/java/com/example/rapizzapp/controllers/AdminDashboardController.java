@@ -74,14 +74,14 @@ public class AdminDashboardController{
 
     private void updateStatistics() throws SQLException {
 
-        // Récupération des informations  // TODO : ce sont ces fonctions que tu dois modifier Antonin !!
-        String bestClient =  statsRepository.getBestClient(); // TODO : ici
-        Pair<String, String> worstDeliveryPerson = statsRepository.getWorstDeliveryPerson(); // TODO : ici
+        // Récupération des informations
+        String bestClient =  statsRepository.getBestClient();
+        Pair<String, String> worstDeliveryPerson = statsRepository.getWorstDeliveryPerson();
         String worstDeliveryPersonName = worstDeliveryPerson.getKey();
         String vehicle = worstDeliveryPerson.getValue();
-        String mostPopularPizza = statsRepository.getMostPopularPizza(); // TODO : ici
-        String leastPopularPizza = statsRepository.getLeastPopularPizza(); // TODO : ici
-        String favoriteIngredient = statsRepository.getFavoriteIngredient(); // TODO : ici
+        String mostPopularPizza = statsRepository.getMostPopularPizza();
+        String leastPopularPizza = statsRepository.getLeastPopularPizza();
+        String favoriteIngredient = statsRepository.getFavoriteIngredient();
 
         // Mise à jour des labels
         bestClientLabel.setText(bestClient);

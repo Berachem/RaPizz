@@ -27,29 +27,31 @@ public class StatsRepository {
         return statsRepository;
     }
 
-    // Retourne le nom du client
+    // TODO : ce sont ces fonctions que tu dois modifier Antonin !!
+
+    // TODO : Retourne le nom du client
     public String getBestClient() {
         return "Client A";
     }
 
-    // Retourne un objet Pair contenant le nom du livreur et son véhicule
+    // TODO : Retourne un objet Pair contenant le nom du livreur et son véhicule
     public Pair<String, String> getWorstDeliveryPerson() {
         String name = "Livreur B";
         String vehicule = "Véhicule X";
         return new Pair<>(name, vehicule);
     }
 
-    // Retourne le nom de la pizza
+    // TODO : Retourne le nom de la pizza favorite
     public String getMostPopularPizza() {
         return "Pizza P";
     }
 
-    // Retourne le nom de la pizza
+    // TODO : Retourne le nom de la pizza détestée
     public String getLeastPopularPizza() {
         return "Pizza Q";
     }
 
-    // Retourne le nom de l'ingrédient
+    // TODO : Retourne le nom de l'ingrédient favori
     public String getFavoriteIngredient() {
         return "Ingrédient I";
     }
