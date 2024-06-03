@@ -1,33 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.rapizzapp.controllers.AdminDashboardController">
 
-    <!-- Bouton de déconnexion en haut à gauche -->
-    <top>
-        <HBox alignment="TOP_LEFT">
-            <Button text="Se Déconnecter" onAction="#logout" style="-fx-background-color: red; -fx-text-fill: white;"/>
-        </HBox>
-    </top>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rapizzapp.controllers.AdminDashboardController"
+            xmlns="http://javafx.com/javafx/8">
 
-    <!-- Centre contenant le logo et le label -->
-    <center>
-        <VBox alignment="CENTER" spacing="10">
-            <!-- Logo de la page -->
-            <ImageView fitHeight="150.0" fitWidth="150.0">
-                <Image url="@images/rapizz_logo.png"/>
-            </ImageView>
+    <!-- Bouton deconnexion -->
+    <Button text="Se Déconnecter" onAction="#logout" style="-fx-background-color: red; -fx-text-fill: white;"
+            AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"/>
 
-            <Label text="Admin Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #337ab7;" />
+    <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="50" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <!-- Logo de la page -->
+        <ImageView fitHeight="150.0" fitWidth="150.0">
+            <Image url="@images/rapizz_logo.png"/>
+        </ImageView>
+
+        <!-- Titre Admin Dashboard -->
+        <Label text="Admin Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #337ab7;" />
+
+        <!-- Section des statistiques -->
+        <VBox spacing="10" alignment="TOP_CENTER">
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Meilleur Client : " />
+                <Label fx:id="bestClientLabel" text="Inconnu" style="-fx-font-weight: bold;" />
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Plus Mauvais Livreur : " />
+                <Label fx:id="worstDeliveryPersonLabel" text="Inconnu" style="-fx-font-weight: bold;" />
+                <Label text="Véhicule : " />
+                <Label fx:id="worstDeliveryPersonVehicleLabel" text="Inconnu" style="-fx-font-weight: bold;" />
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Pizza la Plus Demandée : " />
+                <Label fx:id="mostPopularPizzaLabel" text="Inconnu" style="-fx-font-weight: bold;" />
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Pizza la Moins Demandée : " />
+                <Label fx:id="leastPopularPizzaLabel" text="Inconnu" style="-fx-font-weight: bold;" />
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Ingrédient Favori : " />
+                <Label fx:id="favoriteIngredientLabel" text="Inconnu" style="-fx-font-weight: bold;" />
+            </HBox>
         </VBox>
-    </center>
-</BorderPane>
+    </VBox>
+
+</AnchorPane>
