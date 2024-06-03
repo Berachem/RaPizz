@@ -1,7 +1,9 @@
 package com.example.rapizzapp.controllers;
 
 import com.example.rapizzapp.RaPizzApplication;
+import com.example.rapizzapp.entities.Client;
 import com.example.rapizzapp.handlers.UserHandler;
+import com.example.rapizzapp.repositories.ClientRepository;
 import com.example.rapizzapp.repositories.CommandeRepository;
 import com.example.rapizzapp.repositories.StatsRepository;
 import javafx.event.ActionEvent;
@@ -10,6 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.util.Pair;
@@ -34,8 +38,11 @@ public class AdminDashboardController{
     private Label leastPopularPizzaLabel;
     @FXML
     private Label favoriteIngredientLabel;
+    @FXML
+    private TextField clientNumAboTextField;
 
     private StatsRepository statsRepository;
+    private ClientRepository clientRepository;
 
     @FXML
     public void logout(ActionEvent actionEvent) {
@@ -67,8 +74,19 @@ public class AdminDashboardController{
         }
     }
 
+    public boolean isInteger( String input ) {
+        try {
+            Integer.parseInt( input );
+            return true;
+        }
+        catch( Exception e ) {
+            return false;
+        }
+    }
+
     public void initialize() throws SQLException {
         statsRepository = StatsRepository.getInstance();
+        clientRepository = ClientRepository.getInstance();
         updateStatistics();
     }
 
@@ -90,5 +108,34 @@ public class AdminDashboardController{
         mostPopularPizzaLabel.setText(mostPopularPizza);
         leastPopularPizzaLabel.setText(leastPopularPizza);
         favoriteIngredientLabel.setText(favoriteIngredient);
+    }
+
+    @FXML
+    private void searchClient() {
+        String clientNumAbo = clientNumAboTextField.getText();
+        if (!isInteger(clientNumAbo)){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez entrer un numéro d'abonnement de client valide");
+            alert.showAndWait();
+        }
+        else{
+            Client client = clientRepository.getClientByNumeroAbonnement(Integer.parseInt(clientNumAbo));
+
+            if (client == null){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText(null);
+                alert.setContentText("Aucun client n'a été trouvé avec ce numéro d'abonnement");
+                alert.showAndWait();
+            }else{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Résultat de la recherche");
+                alert.setHeaderText(null);
+                alert.setContentText("Nom d'utilisateur pour le numéro d'abonnement \"" + clientNumAbo + "\" :\n" + client.getPrenom() + " " + client.getNom() + " (" + client.getRole()+")");
+                alert.showAndWait();
+            }
+        }
     }
 }

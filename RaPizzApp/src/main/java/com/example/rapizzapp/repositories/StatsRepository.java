@@ -56,3 +56,4 @@ public class StatsRepository {
         return "Ingrédient I";
     }
 }
+
