@@ -19,7 +19,7 @@
         </ImageView>
 
         <!-- Titre Admin Dashboard -->
-        <Label text="Admin Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #337ab7;" />
+        <Label text="Tableau de bord Administrateur" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #337ab7;" />
 
         <!-- Section des statistiques -->
         <VBox spacing="10" alignment="TOP_CENTER">
@@ -59,8 +59,10 @@
                 <content>
                     <VBox spacing="10" alignment="CENTER">
                         <TextField fx:id="livreurIdTextField" promptText="Entrez l'ID du livreur" onAction="#searchLivreur"/>
-                        <Button text="Chercher" defaultButton="true" onAction="#searchLivreur"/>
-                        <Button text="Ajouter" defaultButton="true" onAction="#addLivreur"/>
+                        <HBox spacing="20" alignment="CENTER">
+                            <Button text="Chercher" defaultButton="true" onAction="#searchLivreur"/>
+                            <Button text="Ajouter" defaultButton="true" onAction="#addLivreur"/>
+                        </HBox>
                     </VBox>
                 </content>
             </TitledPane>

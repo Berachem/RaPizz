@@ -15,7 +15,9 @@
 
     <HBox alignment="TOP_CENTER" spacing="20" AnchorPane.topAnchor="50" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
         <VBox alignment="TOP_CENTER" spacing="10">
-            <Label text="Tableau de bord du client" styleClass="h2"/>
+            <HBox alignment="CENTER">
+                <Label text="Tableau de bord du client" styleClass="h2" style=" -fx-font-weight: bold; -fx-text-fill: #337ab7;" />
+            </HBox>
 
             <VBox alignment="CENTER_LEFT" spacing="10">
                 <Label fx:id="infoClient" text="Récupération des données..."/>
@@ -23,7 +25,9 @@
                     <Button text="Ajouter Solde" onAction="#openAddBalancePage" style="-fx-background-color: green; -fx-text-fill: white;"/>
                     <Button text="Créer une Nouvelle Commande" onAction="#createNewOrder" style="-fx-background-color: blue; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);"/>
                 </HBox>
-                <Label text="Carte des Pizzas" styleClass="h2"/>
+                <HBox alignment="CENTER">
+                    <Label text="Carte des Pizzas" styleClass="h2" style=" -fx-font-weight: bold; -fx-text-fill: #337ab7;" />
+                </HBox>
                 <ScrollPane maxHeight="260" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc;">
                     <VBox fx:id="ingredientsContainer" spacing="5" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
                         <!-- Les ingrédients seront ajoutés ici -->
@@ -34,8 +38,10 @@
         </VBox>
 
         <VBox alignment="TOP_CENTER" spacing="10">
-            <Label fx:id="historyOrdersTitle" text="Mes commandes" styleClass="h2"/>
-            <ScrollPane minWidth="350" maxHeight="400" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc;"
+            <HBox alignment="CENTER">
+                <Label fx:id="historyOrdersTitle" text="Mes commandes" styleClass="h2" style=" -fx-font-weight: bold; -fx-text-fill: #337ab7;" />
+            </HBox>
+            <ScrollPane minWidth="350" maxHeight="420" style="-fx-background-color: #f0f0f0; -fx-border-color: #cccccc;"
                         hbarPolicy="NEVER">
                 <VBox fx:id="orderHistoryContainer" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
                     <!-- Les commandes seront ajoutées ici -->
