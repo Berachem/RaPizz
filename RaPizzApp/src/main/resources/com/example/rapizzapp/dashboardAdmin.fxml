@@ -52,14 +52,29 @@
         </VBox>
     </VBox>
 
-    <!-- TitledPane pour la recherche de client -->
-    <TitledPane text="Recherche Client" layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" expanded="false">
-        <content>
-            <VBox spacing="10" alignment="CENTER">
-                <TextField fx:id="clientNumAboTextField" promptText="Entrez le numéro d'abonnement du client" onAction="#searchClient"/>
-                <Button text="Chercher" defaultButton="true" onAction="#searchClient"/>
-            </VBox>
-        </content>
-    </TitledPane>
+    <Accordion layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+        <panes>
+
+            <TitledPane text="Recherche Livreur" expanded="false">
+                <content>
+                    <VBox spacing="10" alignment="CENTER">
+                        <TextField fx:id="livreurIdTextField" promptText="Entrez l'ID du livreur" onAction="#searchLivreur"/>
+                        <Button text="Chercher" defaultButton="true" onAction="#searchLivreur"/>
+                        <Button text="Ajouter" defaultButton="true" onAction="#addLivreur"/>
+                    </VBox>
+                </content>
+            </TitledPane>
+
+            <TitledPane text="Recherche Client" expanded="false">
+                <content>
+                    <VBox spacing="10" alignment="CENTER">
+                        <TextField fx:id="clientNumAboTextField" promptText="Entrez le numéro d'abonnement du client" onAction="#searchClient"/>
+                        <Button text="Chercher" defaultButton="true" onAction="#searchClient"/>
+                    </VBox>
+                </content>
+            </TitledPane>
+
+        </panes>
+    </Accordion>
 
 </AnchorPane>

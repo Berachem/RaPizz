@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rapizzapp.controllers.AddLivreurController"
+      alignment="CENTER" spacing="10" style="-fx-padding: 20;">
+    <Label text="Ajouter un Livreur" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Nom :" />
+        <TextField fx:id="nomTextField" />
+    </HBox>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Prénom :" />
+        <TextField fx:id="prenomTextField" />
+    </HBox>
+
+    <Button text="Ajouter" onAction="#addLivreur" fx:id="saveButton"/>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="confirmLabel" textFill="green"/>
+    </HBox>
+
+</VBox>

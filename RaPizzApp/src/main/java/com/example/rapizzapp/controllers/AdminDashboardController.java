@@ -2,9 +2,10 @@ package com.example.rapizzapp.controllers;
 
 import com.example.rapizzapp.RaPizzApplication;
 import com.example.rapizzapp.entities.Client;
+import com.example.rapizzapp.entities.Livreur;
 import com.example.rapizzapp.handlers.UserHandler;
 import com.example.rapizzapp.repositories.ClientRepository;
-import com.example.rapizzapp.repositories.CommandeRepository;
+import com.example.rapizzapp.repositories.LivreurRepository;
 import com.example.rapizzapp.repositories.StatsRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,9 +41,12 @@ public class AdminDashboardController{
     private Label favoriteIngredientLabel;
     @FXML
     private TextField clientNumAboTextField;
+    @FXML
+    private TextField livreurIdTextField;
 
     private StatsRepository statsRepository;
     private ClientRepository clientRepository;
+    private LivreurRepository livreurRepository;
 
     @FXML
     public void logout(ActionEvent actionEvent) {
@@ -87,6 +91,7 @@ public class AdminDashboardController{
     public void initialize() throws SQLException {
         statsRepository = StatsRepository.getInstance();
         clientRepository = ClientRepository.getInstance();
+        livreurRepository = LivreurRepository.getInstance();
         updateStatistics();
     }
 
@@ -149,5 +154,54 @@ public class AdminDashboardController{
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void searchLivreur(ActionEvent actionEvent) {
+        String livreurId = livreurIdTextField.getText();
+        if (!isInteger(livreurId)) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez entrer un ID de livreur valide");
+        } else {
+            Livreur livreur = livreurRepository.getLivreur(Integer.parseInt(livreurId));
+            if (livreur == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun livreur n'a été trouvé avec cet ID");
+            } else {
+                openLivreurDetailsWindow(livreur);
+            }
+        }
+    }
+
+    private void openLivreurDetailsWindow(Livreur livreur) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/rapizzapp/livreurDetails.fxml"));
+            Parent root = loader.load();
+
+            LivreurDetailsController controller = loader.getController();
+            controller.setLivreurDetails(livreur);
+
+            Stage stage = new Stage();
+            stage.setTitle("Détails du Livreur");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de l'ouverture de la fenêtre de détails du livreur");
+        }
+    }
+
+
+    public void addLivreur(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/rapizzapp/addLivreur.fxml"));
+            Parent root = loader.load();
+
+
+            Stage stage = new Stage();
+            stage.setTitle("Ajouter un Livreur");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de l'ouverture de la fenêtre d'ajout du livreur");
+        }
     }
 }

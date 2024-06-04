@@ -65,7 +65,6 @@ public class ClientDetailsController {
             }catch (Exception e){
             }
         }
-
     }
 
     private void saveClientDetails(Client client, String nom, String prenom, int solde, boolean admin) throws Exception{
