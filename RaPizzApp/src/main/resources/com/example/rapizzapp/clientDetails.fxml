@@ -34,7 +34,9 @@
     <Button text="Enregistrer" onAction="#checkClientDetails"/>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="" fx:id="confirmLabel" textFill="red"/>
+        <Label text="" fx:id="confirmLabel" textFill="green"/>
     </HBox>
+
+    <Button text="Supprimer l'utilisateur" onAction="#deleteClient" style="-fx-background-color: red; -fx-text-fill: white;"/>
 
 </VBox>

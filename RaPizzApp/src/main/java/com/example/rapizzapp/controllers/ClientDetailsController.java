@@ -99,4 +99,12 @@ public class ClientDetailsController {
             return false;
         }
     }
+
+    public void deleteClient(ActionEvent actionEvent) {
+        if (!clientRepository.deleteClient(this.client)){
+            showErrorAlert("Erreur !", "Une erreur a eu lieu lors de la suppression de l'utilisateur !");
+        }else{
+            confirmLabel.setText("Utilisateur supprimé! Veuillez fermer la fenêtre");
+        }
+    }
 }
