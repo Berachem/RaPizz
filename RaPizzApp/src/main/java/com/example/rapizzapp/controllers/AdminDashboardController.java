@@ -113,29 +113,41 @@ public class AdminDashboardController{
     @FXML
     private void searchClient() {
         String clientNumAbo = clientNumAboTextField.getText();
-        if (!isInteger(clientNumAbo)){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Veuillez entrer un numéro d'abonnement de client valide");
-            alert.showAndWait();
-        }
-        else{
+        if (!isInteger(clientNumAbo)) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez entrer un numéro d'abonnement de client valide");
+        } else {
             Client client = clientRepository.getClientByNumeroAbonnement(Integer.parseInt(clientNumAbo));
-
-            if (client == null){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur");
-                alert.setHeaderText(null);
-                alert.setContentText("Aucun client n'a été trouvé avec ce numéro d'abonnement");
-                alert.showAndWait();
-            }else{
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Résultat de la recherche");
-                alert.setHeaderText(null);
-                alert.setContentText("Nom d'utilisateur pour le numéro d'abonnement \"" + clientNumAbo + "\" :\n" + client.getPrenom() + " " + client.getNom() + " (" + client.getRole()+")");
-                alert.showAndWait();
+            if (client == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun client n'a été trouvé avec ce numéro d'abonnement");
+            } else {
+                openClientDetailsWindow(client);
             }
         }
+    }
+
+    private void openClientDetailsWindow(Client client) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/rapizzapp/ClientDetails.fxml"));
+            Parent root = loader.load();
+
+            ClientDetailsController controller = loader.getController();
+            controller.setClientDetails(client);
+
+            Stage stage = new Stage();
+            stage.setTitle("Détails du Client");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de l'ouverture de la fenêtre de détails du client");
+        }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
