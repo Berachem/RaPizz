@@ -53,7 +53,7 @@ public class CreateAccountController extends LoginController {
                 showAlert("Erreur", "Impossible de créer le compte.", Alert.AlertType.ERROR);
             }
         } catch (NumberFormatException nfe) {
-            showAlert("Erreur", "Numéro d'abonnement et solde doivent être des valeurs numériques.", Alert.AlertType.ERROR);
+            showAlert("Erreur", "Le solde doit être une valeur numérique.", Alert.AlertType.ERROR);
         }
     }
 

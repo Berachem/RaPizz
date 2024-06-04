@@ -31,12 +31,12 @@
         <CheckBox fx:id="adminCheckBox" />
     </HBox>
 
-    <Button text="Enregistrer" onAction="#checkClientDetails"/>
+    <Button text="Enregistrer" onAction="#checkClientDetails" fx:id="saveButton"/>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
         <Label text="" fx:id="confirmLabel" textFill="green"/>
     </HBox>
 
-    <Button text="Supprimer l'utilisateur" onAction="#deleteClient" style="-fx-background-color: red; -fx-text-fill: white;"/>
+    <Button text="Supprimer l'utilisateur" onAction="#deleteClient" fx:id="deleteButton" style="-fx-background-color: red; -fx-text-fill: white;"/>
 
 </VBox>

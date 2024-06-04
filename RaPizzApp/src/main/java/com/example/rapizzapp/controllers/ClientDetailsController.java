@@ -4,10 +4,7 @@ import com.example.rapizzapp.entities.Client;
 import com.example.rapizzapp.repositories.ClientRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class ClientDetailsController {
 
@@ -32,6 +29,12 @@ public class ClientDetailsController {
 
     @FXML
     private CheckBox adminCheckBox;
+
+    @FXML
+    private Button saveButton;
+
+    @FXML
+    private Button deleteButton;
 
     public void setClientDetails(Client client) {
         this.client = client;
@@ -104,7 +107,14 @@ public class ClientDetailsController {
         if (!clientRepository.deleteClient(this.client)){
             showErrorAlert("Erreur !", "Une erreur a eu lieu lors de la suppression de l'utilisateur !");
         }else{
-            confirmLabel.setText("Utilisateur supprimé! Veuillez fermer la fenêtre");
+            confirmLabel.setText("Utilisateur supprimé ! Veuillez fermer la fenêtre");
+
+            nomTextField.setDisable(true);
+            prenomTextField.setDisable(true);
+            soldeTextField.setDisable(true);
+            adminCheckBox.setDisable(true);
+            saveButton.setDisable(true);
+            deleteButton.setDisable(true);
         }
     }
 }
