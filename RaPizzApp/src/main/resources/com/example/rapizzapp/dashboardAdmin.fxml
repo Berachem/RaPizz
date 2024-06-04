@@ -14,20 +14,48 @@
 
     <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="50" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         <!-- Logo de la page -->
-        <ImageView fitHeight="150.0" fitWidth="150.0">
+        <ImageView fitHeight="120.0" fitWidth="120.0">
             <Image url="@images/rapizz_logo.png"/>
         </ImageView>
 
         <!-- Titre Admin Dashboard -->
-        <Label text="Tableau de bord Administrateur" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #337ab7;" />
+        <Label text="Tableau de bord Administrateur" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #337ab7;" />
 
         <!-- Section des statistiques -->
         <VBox spacing="10" alignment="TOP_CENTER">
+
+            <Label text="Clients" styleClass="h4" style=" -fx-font-weight: bold; -fx-text-fill: black;" />
+
             <HBox spacing="10" alignment="CENTER">
                 <Label text="Meilleur Client : " />
                 <Label fx:id="bestClientLabel" text="Inconnu" style="-fx-font-weight: bold;" />
+                <Label text="Argent dépensé : "/>
+                <Label fx:id="bestClientMoney" text="X €" style="-fx-font-weight: bold;" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Jour de la semaine le plus lucratif : " />
+                <Label fx:id="bestWeekDayLabel" text="Jeudi" style="-fx-font-weight: bold;" />
             </HBox>
 
+            <Label text="Commandes" styleClass="h4" style=" -fx-font-weight: bold; -fx-text-fill: black;" />
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Nombre total de commandes : " />
+                <Label fx:id="commandAmountLabel" text="X" style="-fx-font-weight: bold;" />
+                <Label text="Prix moyen d'une commande : " />
+                <Label fx:id="averagePriceLabel" text="X €" style="-fx-font-weight: bold;" />
+            </HBox>
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Date de la dernière commande : " />
+                <Label fx:id="lastCommandDateLabel" text="XX/XX/XXXX" style="-fx-font-weight: bold;" />
+            </HBox>
+
+            <Label text="Livraisons" styleClass="h4" style=" -fx-font-weight: bold; -fx-text-fill: black;" />
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Temps de livraison moyen : " />
+                <Label fx:id="averageDeliveryTimeLabel" text="00:00" style="-fx-font-weight: bold;" />
+            </HBox>
             <HBox spacing="10" alignment="CENTER">
                 <Label text="Plus Mauvais Livreur : " />
                 <Label fx:id="worstDeliveryPersonLabel" text="Inconnu" style="-fx-font-weight: bold;" />
@@ -35,16 +63,16 @@
                 <Label fx:id="worstDeliveryPersonVehicleLabel" text="Inconnu" style="-fx-font-weight: bold;" />
             </HBox>
 
+            <Label text="Pizzas" styleClass="h4" style=" -fx-font-weight: bold; -fx-text-fill: black;" />
+
             <HBox spacing="10" alignment="CENTER">
                 <Label text="Pizza la Plus Demandée : " />
                 <Label fx:id="mostPopularPizzaLabel" text="Inconnu" style="-fx-font-weight: bold;" />
             </HBox>
-
             <HBox spacing="10" alignment="CENTER">
                 <Label text="Pizza la Moins Demandée : " />
                 <Label fx:id="leastPopularPizzaLabel" text="Inconnu" style="-fx-font-weight: bold;" />
             </HBox>
-
             <HBox spacing="10" alignment="CENTER">
                 <Label text="Ingrédient Favori : " />
                 <Label fx:id="favoriteIngredientLabel" text="Inconnu" style="-fx-font-weight: bold;" />

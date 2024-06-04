@@ -21,12 +21,27 @@ import javafx.util.Pair;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
-
+import java.sql.Time;
+import java.time.DayOfWeek;
+import java.util.Locale;
 
 
 public class AdminDashboardController{
 
+    @FXML
+    public Label bestClientMoney;
+    @FXML
+    public Label averagePriceLabel;
+    @FXML
+    public Label lastCommandDateLabel;
+    @FXML
+    public Label commandAmountLabel;
+    @FXML
+    public Label averageDeliveryTimeLabel;
+    @FXML
+    public Label bestWeekDayLabel;
     @FXML
     private Label bestClientLabel;
     @FXML
@@ -98,7 +113,14 @@ public class AdminDashboardController{
     private void updateStatistics() throws SQLException {
 
         // Récupération des informations
-        String bestClient =  statsRepository.getBestClient();
+        Pair<String, Double> bestClient =  statsRepository.getBestClient();
+        String bestClientName = bestClient.getKey();
+        double bestClientMoneySpent = bestClient.getValue();
+        DayOfWeek bestWeekDay = statsRepository.getBestWeekDay();
+        int commandAmount = statsRepository.getcommandAmount();
+        double averagePrice = statsRepository.getAveragePrice();
+        Date lastCommandDate = statsRepository.getLastCommandDate();
+        Time averageDeliveryTime = statsRepository.getAverageDeliveryTime();
         Pair<String, String> worstDeliveryPerson = statsRepository.getWorstDeliveryPerson();
         String worstDeliveryPersonName = worstDeliveryPerson.getKey();
         String vehicle = worstDeliveryPerson.getValue();
@@ -107,7 +129,15 @@ public class AdminDashboardController{
         String favoriteIngredient = statsRepository.getFavoriteIngredient();
 
         // Mise à jour des labels
-        bestClientLabel.setText(bestClient);
+        bestClientLabel.setText(bestClientName);
+        bestClientMoney.setText(bestClientMoneySpent+" €");
+        String frenchBestWeekDayText = bestWeekDay.getDisplayName(java.time.format.TextStyle.FULL, Locale.FRENCH);
+        String capitalizeBestWeekDayText = Character.toUpperCase(frenchBestWeekDayText.charAt(0)) + frenchBestWeekDayText.substring(1);
+        bestWeekDayLabel.setText(capitalizeBestWeekDayText);
+        commandAmountLabel.setText(String.valueOf(commandAmount));
+        averagePriceLabel.setText(averagePrice+" €");
+        averageDeliveryTimeLabel.setText(averageDeliveryTime.toString());
+        lastCommandDateLabel.setText(lastCommandDate.toGMTString()); // TODO : format à modifier si on change en java.util.sql
         worstDeliveryPersonLabel.setText(worstDeliveryPersonName);
         worstDeliveryPersonVehicleLabel.setText(vehicle);
         mostPopularPizzaLabel.setText(mostPopularPizza);

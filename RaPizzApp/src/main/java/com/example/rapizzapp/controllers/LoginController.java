@@ -97,7 +97,7 @@ public class LoginController {
             System.out.println("Connected as "+userHandler.getClient().getRole() + " : "+userHandler.getClient().getNom()+" "+userHandler.getClient().getPrenom() + " | "+userHandler.getClient().getNumeroAbonnement());
             if (userHandler.getClient().isAdmin()){ // ADMIN
                 root = FXMLLoader.load(RaPizzApplication.class.getResource("dashboardAdmin.fxml"));
-                scene = new Scene(root, 500, 470);
+                scene = new Scene(root, 500, 650);
                 stage.setTitle("Dashboard ADMIN : " + userHandler.getClient().getPrenom() + " " + userHandler.getClient().getNom());
             }else { // CLIENT
                 root = FXMLLoader.load(RaPizzApplication.class.getResource("dashboard.fxml"));
