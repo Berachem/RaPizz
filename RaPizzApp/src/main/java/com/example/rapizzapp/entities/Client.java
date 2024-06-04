@@ -84,6 +84,14 @@ public class Client {
         return role.equalsIgnoreCase("ADMIN");
     }
 
+    public void setAdmin(boolean admin){
+        if (admin){
+            role = "ADMIN";
+        }else{
+            role = "USER";
+        }
+    }
+
     @Override
     public String toString(){
         return nom + " " + prenom;
