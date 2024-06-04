@@ -26,6 +26,6 @@
         <Label fx:id="confirmLabel" textFill="green"/>
     </HBox>
 
-    <Button text="Supprimer l'utilisateur" onAction="#deleteLivreur" fx:id="deleteButton" style="-fx-background-color: red; -fx-text-fill: white;"/>
+    <Button text="Supprimer le livreur" onAction="#deleteLivreur" fx:id="deleteButton" style="-fx-background-color: red; -fx-text-fill: white;"/>
 
 </VBox>
