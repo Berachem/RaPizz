@@ -17,16 +17,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -318,8 +315,31 @@ public class ClientDashboardController {
             }
 
 
-            // Afficher le menu
-            showAlert("Menu des pizzas", sb+"\n\nLe menu a été exporté avec succès dans le fichier menu_pizzas.txt !", Alert.AlertType.INFORMATION);
+            String exportMessage = "\nLe menu a été exporté avec succès dans le fichier menu_pizzas.txt !";
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Menu des pizzas");
+            alert.setHeaderText(null);
+
+            TextArea textArea = new TextArea(sb.toString());
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+
+            textArea.setPrefWidth(400);
+            textArea.setPrefHeight(365);
+
+            textArea.setStyle("-fx-control-inner-background: transparent; "
+                    + "-fx-background-color: transparent; "
+                    + "-fx-text-fill: black;");
+
+            Label exportLabel = new Label(exportMessage);
+
+            VBox vBox = new VBox();
+            vBox.getChildren().addAll(textArea, exportLabel);
+
+            alert.getDialogPane().setContent(vBox);
+
+            alert.showAndWait();
 
             // Enregistrer le menu dans un fichier texte
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("menu_pizzas.txt"))) {

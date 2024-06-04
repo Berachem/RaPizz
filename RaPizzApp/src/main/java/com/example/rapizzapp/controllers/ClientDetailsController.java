@@ -31,7 +31,7 @@ public class ClientDetailsController {
         numAboTextField.setText(String.valueOf(this.client.getNumeroAbonnement()));
         soldeTextField.setText(String.valueOf(this.client.getSolde()));
     }
-    
+
     public void saveClientDetails(ActionEvent actionEvent) {
     }
 }
