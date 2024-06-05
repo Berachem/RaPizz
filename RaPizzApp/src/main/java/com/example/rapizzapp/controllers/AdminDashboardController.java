@@ -31,6 +31,8 @@ import java.util.Locale;
 public class AdminDashboardController{
 
     @FXML
+    public Label salesRevenueLabel;
+    @FXML
     public Label bestClientMoney;
     @FXML
     public Label averagePriceLabel;
@@ -48,6 +50,8 @@ public class AdminDashboardController{
     private Label worstDeliveryPersonLabel;
     @FXML
     private Label worstDeliveryPersonVehicleLabel;
+    @FXML
+    public Label lateDeliveriesCountLabel;
     @FXML
     private Label mostPopularPizzaLabel;
     @FXML
@@ -113,6 +117,7 @@ public class AdminDashboardController{
     private void updateStatistics() throws SQLException {
 
         // Récupération des informations
+        double salesRevenue = statsRepository.getSalesRevenue();
         Pair<String, Double> bestClient =  statsRepository.getBestClient();
         String bestClientName = bestClient.getKey();
         double bestClientMoneySpent = bestClient.getValue();
@@ -122,6 +127,7 @@ public class AdminDashboardController{
         Date lastCommandDate = statsRepository.getLastCommandDate();
         Time averageDeliveryTime = statsRepository.getAverageDeliveryTime();
         Pair<String, String> worstDeliveryPerson = statsRepository.getWorstDeliveryPerson();
+        int lateDeliveriesCount = statsRepository.getLateDeliveriesCount();
         String worstDeliveryPersonName = worstDeliveryPerson.getKey();
         String vehicle = worstDeliveryPerson.getValue();
         String mostPopularPizza = statsRepository.getMostPopularPizza();
@@ -129,6 +135,7 @@ public class AdminDashboardController{
         String favoriteIngredient = statsRepository.getFavoriteIngredient();
 
         // Mise à jour des labels
+        salesRevenueLabel.setText(salesRevenue+" €");
         bestClientLabel.setText(bestClientName);
         bestClientMoney.setText(bestClientMoneySpent+" €");
         String frenchBestWeekDayText = bestWeekDay.getDisplayName(java.time.format.TextStyle.FULL, Locale.FRENCH);
@@ -140,6 +147,7 @@ public class AdminDashboardController{
         lastCommandDateLabel.setText(lastCommandDate.toGMTString()); // TODO : format à modifier si on change en java.util.sql
         worstDeliveryPersonLabel.setText(worstDeliveryPersonName);
         worstDeliveryPersonVehicleLabel.setText(vehicle);
+        lateDeliveriesCountLabel.setText(String.valueOf(lateDeliveriesCount));
         mostPopularPizzaLabel.setText(mostPopularPizza);
         leastPopularPizzaLabel.setText(leastPopularPizza);
         favoriteIngredientLabel.setText(favoriteIngredient);

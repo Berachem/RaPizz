@@ -30,6 +30,9 @@ public class StatsRepository {
 
     // TODO : ce sont ces fonctions que tu dois modifier Antonin !!
 
+    // TODO : Retourne le chiffre d'affaire de l'entreprise (l'argent total des ventes)
+    public double getSalesRevenue() { return 12.34; }
+
     // TODO : Retourne un objet pair contenant le prénom+nom du client et son argent total dépensé
     public Pair<String, Double> getBestClient() {
         String name = "Client A";
@@ -41,13 +44,17 @@ public class StatsRepository {
     // TODO : Retourne le prix moyen d'une commande
     public double getAveragePrice() { return  12.34; }
 
-    // TODO : Retourne un objet Pair contenant le nom du livreur et son véhicule
+    // TODO : Retourne un objet Pair contenant le prenom+nom du livreur et son véhicule le plus utilisé
     public Pair<String, String> getWorstDeliveryPerson() {
         String name = "Livreur B";
         String vehicule = "Véhicule X";
 
         return new Pair<>(name, vehicule);
     }
+
+    // TODO : Retourne le nombre de livraisons en retard du pire livreur
+    // TODO : (Désolé, j'ai pas réussi à l'inclure dans la fonction précédente... :c)
+    public int getLateDeliveriesCount() { return 1; }
 
     // TODO : Retourne le nom de la pizza favorite
     public String getMostPopularPizza() {
@@ -89,5 +96,6 @@ public class StatsRepository {
     public DayOfWeek getBestWeekDay() {
         return DayOfWeek.MONDAY;
     }
+
 }
 
