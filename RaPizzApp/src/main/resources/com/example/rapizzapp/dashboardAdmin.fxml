@@ -19,7 +19,7 @@
         </ImageView>
 
         <!-- Titre Admin Dashboard -->
-        <Label text="Tableau de bord Administrateur" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #337ab7;" />
+        <Label text="Tableau de bord Administrateur" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #337ab7; -fx-font-family: 'Arial'; -fx-border-width: 1; -fx-border-color: #337ab7; -fx-padding: 5px;"/>
 
         <!-- Section des statistiques -->
         <VBox spacing="10" alignment="TOP_CENTER">
@@ -36,6 +36,7 @@
                 <Label text="Jour de la semaine le plus lucratif : " />
                 <Label fx:id="bestWeekDayLabel" text="Jeudi" style="-fx-font-weight: bold;" />
             </HBox>
+
 
             <Label text="Commandes" styleClass="h4" style=" -fx-font-weight: bold; -fx-text-fill: black;" />
 
