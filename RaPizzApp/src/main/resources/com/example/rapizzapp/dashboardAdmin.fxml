@@ -5,6 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
+<?import javafx.scene.shape.Line?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rapizzapp.controllers.AdminDashboardController"
             xmlns="http://javafx.com/javafx/8">
 
@@ -25,13 +26,13 @@
         <VBox spacing="10" alignment="TOP_CENTER">
 
             <HBox spacing="10" alignment="CENTER">
-                <Label text="Chiffre d'affaires :" styleClass="h4" style="-fx-font-weight: bold; -fx-text-fill: green"/>
+                <Label text="Chiffre d'affaires :" styleClass="h4" style="-fx-font-weight: bold; -fx-text-fill: green;"/>
                 <Label fx:id="salesRevenueLabel" text="X €" styleClass="h5" style="-fx-font-weight: bold;"/>
             </HBox>
 
-            <Label text="Commandes" styleClass="h4" style=" -fx-font-weight: bold; -fx-text-fill: black;" />
+            <Label text="Commandes" styleClass="h4" style=" -fx-font-weight: bold; -fx-text-fill: black; -fx-border-color: transparent transparent gray transparent; -fx-border-width: 0 0 1 0;" />
 
-            <HBox spacing="10" alignment="CENTER">
+            <HBox spacing="10" alignment="CENTER" >
                 <Label text="Nombre total de commandes :" />
                 <Label fx:id="commandAmountLabel" text="X" style="-fx-font-weight: bold;" />
                 <Label text="Prix moyen d'une commande :" />
@@ -42,7 +43,7 @@
                 <Label fx:id="lastCommandDateLabel" text="XX/XX/XXXX" style="-fx-font-weight: bold;" />
             </HBox>
 
-            <Label text="Clients" styleClass="h4" style=" -fx-font-weight: bold; -fx-text-fill: black;" />
+            <Label text="Clients" styleClass="h4" style=" -fx-font-weight: bold; -fx-text-fill: black; -fx-border-color: transparent transparent gray transparent; -fx-border-width: 0 0 1 0;" />
 
             <HBox spacing="10" alignment="CENTER">
                 <Label text="Meilleur Client :" />
@@ -55,7 +56,7 @@
                 <Label fx:id="bestWeekDayLabel" text="Jeudi" style="-fx-font-weight: bold;" />
             </HBox>
 
-            <Label text="Livraisons" styleClass="h4" style=" -fx-font-weight: bold; -fx-text-fill: black;" />
+            <Label text="Livraisons" styleClass="h4" style=" -fx-font-weight: bold; -fx-text-fill: black; -fx-border-color: transparent transparent gray transparent; -fx-border-width: 0 0 1 0;" />
 
             <HBox spacing="10" alignment="CENTER">
                 <Label text="Temps de livraison moyen :" />
@@ -70,7 +71,7 @@
                 <Label fx:id="worstDeliveryPersonVehicleLabel" text="Inconnu" style="-fx-font-weight: bold;" />
             </HBox>
 
-            <Label text="Pizzas" styleClass="h4" style=" -fx-font-weight: bold; -fx-text-fill: black;" />
+            <Label text="Pizzas" styleClass="h4" style=" -fx-font-weight: bold; -fx-text-fill: black; -fx-border-color: transparent transparent gray transparent; -fx-border-width: 0 0 1 0;" />
 
             <HBox spacing="10" alignment="CENTER">
                 <Label text="Pizza la Plus Demandée :" />
