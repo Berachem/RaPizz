@@ -2,9 +2,11 @@ package com.example.rapizzapp.controllers;
 
 import com.example.rapizzapp.entities.Client;
 import com.example.rapizzapp.repositories.ClientRepository;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.Duration;
 
 public class ClientDetailsController {
 
@@ -82,6 +84,10 @@ public class ClientDetailsController {
         }catch (Exception e){
             showErrorAlert("Erreur !", "La base de données a échoué l'enregistrement des données, veuillez vérifier les valeurs ou réessayer plus tard");
         }
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(1.5));
+        delay.setOnFinished(event -> confirmLabel.setText(""));
+        delay.play();
     }
 
     private void showErrorAlert(String title, String message) {

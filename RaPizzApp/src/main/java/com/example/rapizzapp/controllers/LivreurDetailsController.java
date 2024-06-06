@@ -3,11 +3,13 @@ package com.example.rapizzapp.controllers;
 import com.example.rapizzapp.entities.Client;
 import com.example.rapizzapp.entities.Livreur;
 import com.example.rapizzapp.repositories.LivreurRepository;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.util.Duration;
 
 public class LivreurDetailsController {
 
@@ -56,6 +58,10 @@ public class LivreurDetailsController {
         }catch (Exception e){
             showErrorAlert("Erreur !", "La base de données a échoué l'enregistrement des données, veuillez vérifier les valeurs ou réessayer plus tard");
         }
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(1.5));
+        delay.setOnFinished(event -> confirmLabel.setText(""));
+        delay.play();
     }
 
     public void deleteLivreur(ActionEvent actionEvent) {
