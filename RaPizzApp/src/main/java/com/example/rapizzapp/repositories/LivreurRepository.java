@@ -1,15 +1,11 @@
 package com.example.rapizzapp.repositories;
 
-import com.example.rapizzapp.entities.Client;
-import com.example.rapizzapp.entities.Livreur;
+import com.example.rapizzapp.entities.*;
 import com.example.rapizzapp.handlers.DatabaseHandler;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class LivreurRepository {
 
@@ -114,6 +110,87 @@ public class LivreurRepository {
             ex.printStackTrace();
         }
         return livreur;
+    }
+
+    public String[] getWorstLivreur(){
+        String sql = "WITH LivraisonTemps AS (" +
+                "    SELECT " +
+                "        L.IdLivreur," +
+                "        L.Nom," +
+                "        L.Prenom," +
+                "        V.Nom AS NomVehicule," +
+                "        TIMESTAMPDIFF(MINUTE, Co.DateCommande, Co.DateLivraison) AS TempsLivraison, " +
+                "        CASE WHEN TIMESTAMPDIFF(MINUTE, Co.DateCommande, Co.DateLivraison) > 30 THEN 1 ELSE 0 END AS Retard " +
+                "    FROM " +
+                "        Livreur L" +
+                "    JOIN " +
+                "        Commande Co ON L.IdLivreur = Co.IdLivreur " +
+                "    JOIN " +
+                "        Vehicule V ON Co.IdVehicule = V.IdVehicule " +
+                "), " +
+                "LivreurAvecTempsMax AS (" +
+                "    SELECT " +
+                "        L.IdLivreur," +
+                "        L.Nom," +
+                "        L.Prenom," +
+                "        AVG(TIMESTAMPDIFF(MINUTE, Co.DateCommande, Co.DateLivraison)) AS TempsMoyenLivraison," +
+                "        SUM(CASE WHEN TIMESTAMPDIFF(MINUTE, Co.DateCommande, Co.DateLivraison) > 30 THEN 1 ELSE 0 END) AS NombreRetards," +
+                "        RANK() OVER (ORDER BY AVG(TIMESTAMPDIFF(MINUTE, Co.DateCommande, Co.DateLivraison)) DESC) AS Rang " +
+                "    FROM " +
+                "        Livreur L " +
+                "    JOIN " +
+                "        Commande Co ON L.IdLivreur = Co.IdLivreur " +
+                "    GROUP BY " +
+                "        L.IdLivreur, L.Nom, L.Prenom" +
+                "), " +
+                "LivraisonStatistiques AS (" +
+                "    SELECT" +
+                "        L.IdLivreur," +
+                "        V.Nom AS NomVehicule," +
+                "        COUNT(*) AS UtilisationVehicule " +
+                "    FROM " +
+                "        Livreur L" +
+                "    JOIN " +
+                "        Commande Co ON L.IdLivreur = Co.IdLivreur " +
+                "    JOIN " +
+                "        Vehicule V ON Co.IdVehicule = V.IdVehicule " +
+                "    WHERE " +
+                "        L.IdLivreur = (SELECT IdLivreur FROM LivreurAvecTempsMax WHERE Rang = 1) " +
+                "    GROUP BY " +
+                "        L.IdLivreur, V.Nom" +
+                ")" +
+                "SELECT " +
+                "    L.Nom," +
+                "    L.Prenom," +
+                "    V.NomVehicule," +
+                "    L.TempsMoyenLivraison," +
+                "    L.NombreRetards " +
+                "FROM" +
+                "    LivreurAvecTempsMax L " +
+                "JOIN" +
+                "    (SELECT NomVehicule FROM LivraisonStatistiques ORDER BY UtilisationVehicule DESC LIMIT 1) V " +
+                "ON" +
+                "    L.IdLivreur = (SELECT IdLivreur FROM LivreurAvecTempsMax WHERE Rang = 1)" +
+                "WHERE" +
+                "    L.Rang = 1";
+        try (Connection conn = dbHandler.getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            try (ResultSet rs = stmt.executeQuery(sql)) {
+                if (rs.next()) {
+                    String nom = rs.getString("Nom");
+                    String prenom = rs.getString("Prenom");
+                    String nomVehicle = rs.getString("NomVehicule");
+                    String nombreRetards = rs.getString("NombreRetards");
+                    String[] result = {nom, prenom, nomVehicle, nombreRetards};
+                    return result;
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        String[] result = {};
+        return result;
     }
 
     public boolean insertLivreur(Livreur livreur) {

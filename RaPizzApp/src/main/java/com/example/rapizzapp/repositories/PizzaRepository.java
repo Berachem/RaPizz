@@ -102,6 +102,69 @@ public class PizzaRepository {
         return pizza;
     }
 
+    public String getBestPizza(){
+        String sql = "SELECT P.LibellePizza, COUNT(Ct.IdCommande) AS NombreCommandes " +
+                "FROM Pizza P " +
+                "JOIN Contient Ct ON P.IdPizza = Ct.IdPizza " +
+                "GROUP BY P.LibellePizza " +
+                "ORDER BY NombreCommandes DESC " +
+                "LIMIT 1";
+        try (Connection conn = dbHandler.getConnection();
+            Statement stmt = conn.createStatement()) {
+            try (ResultSet rs = stmt.executeQuery(sql)){
+                if (rs.next()) {
+                    return rs.getString("LibellePizza");
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return "";
+    }
+
+    public String getWorstPizza(){
+        String sql = "SELECT P.LibellePizza, COUNT(Ct.IdCommande) AS NombreCommandes " +
+                "FROM Pizza P " +
+                "JOIN Contient Ct ON P.IdPizza = Ct.IdPizza " +
+                "GROUP BY P.LibellePizza " +
+                "ORDER BY NombreCommandes ASC " +
+                "LIMIT 1";
+        try (Connection conn = dbHandler.getConnection();
+             Statement stmt = conn.createStatement()) {
+            try (ResultSet rs = stmt.executeQuery(sql)){
+                if (rs.next()) {
+                    return rs.getString("LibellePizza");
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return "";
+    }
+
+    public String getMostOrderedIngredient() {
+        String sql = "SELECT I.libelleIngredient, COUNT(Cp.IdPizza) AS NombreCommandes " +
+                "FROM Ingrédient I " +
+                "JOIN Compose Cp ON I.IdIngredient = Cp.IdIngredient " +
+                "JOIN Contient C ON Cp.IdPizza = C.IdPizza " +
+                "GROUP BY I.libelleIngredient " +
+                "ORDER BY NombreCommandes DESC " +
+                "LIMIT 1";
+
+        try (Connection conn = dbHandler.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                return rs.getString("libelleIngredient");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+
     public static List<Pizza> deepCopyPizzaList(List<Pizza> originalList) {
         List<Pizza> copiedList = new ArrayList<>();
 

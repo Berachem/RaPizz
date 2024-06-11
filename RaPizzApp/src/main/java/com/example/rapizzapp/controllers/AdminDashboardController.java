@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.DayOfWeek;
 import java.util.Locale;
 
@@ -124,7 +125,7 @@ public class AdminDashboardController{
         DayOfWeek bestWeekDay = statsRepository.getBestWeekDay();
         int commandAmount = statsRepository.getcommandAmount();
         double averagePrice = statsRepository.getAveragePrice();
-        Date lastCommandDate = statsRepository.getLastCommandDate();
+        Timestamp lastCommandDate = statsRepository.getLastOrderDateTime();
         Time averageDeliveryTime = statsRepository.getAverageDeliveryTime();
         Pair<String, String> worstDeliveryPerson = statsRepository.getWorstDeliveryPerson();
         int lateDeliveriesCount = statsRepository.getLateDeliveriesCount();
@@ -144,7 +145,7 @@ public class AdminDashboardController{
         commandAmountLabel.setText(String.valueOf(commandAmount));
         averagePriceLabel.setText(averagePrice+" €");
         averageDeliveryTimeLabel.setText(averageDeliveryTime.toString());
-        lastCommandDateLabel.setText(lastCommandDate.toGMTString()); // TODO : format à modifier si on change en java.util.sql
+        lastCommandDateLabel.setText(lastCommandDate.toString());
         worstDeliveryPersonLabel.setText(worstDeliveryPersonName);
         worstDeliveryPersonVehicleLabel.setText(vehicle);
         lateDeliveriesCountLabel.setText(String.valueOf(lateDeliveriesCount));

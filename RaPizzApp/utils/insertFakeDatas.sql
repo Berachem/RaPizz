@@ -46,22 +46,22 @@ INSERT INTO Vehicule(IdVehicule, IdType, Nom) VALUES
 (3, 1, 'Citroen C3');
 
 -- Insertion de données pour la table Commande
-INSERT INTO Commande(adresseCommande, DateCommande, DateLivraison, IdClient, IdLivreur, IdVehicule) VALUES
-('15 rue des Lilas, Montreuil 93100', '2023-04-01 18:30:00', '2023-04-01 19:15:00', 1, 1, 1),
-('28 avenue de la République, Rosny 93110', '2023-04-02 19:00:00', '2023-04-02 19:45:00', 2, 2, 2),
-('33 boulevard de la Liberté, Bondy 93140', '2023-04-03 12:30:00', '2023-04-03 13:20:00', 3, 3, 3),
-('47 rue Pasteur, Noisy-le-Sec 93130', '2023-04-04 20:00:00', '2023-04-04 20:50:00', 1, 2, 1),
-('59 avenue Gallieni, Bagnolet 93170', '2023-04-05 18:00:00', '2023-04-05 18:45:00', 2, 1, 2),
-('11 rue de Paris, Vincennes 94300', '2023-04-06 19:30:00', '2023-04-06 20:15:00', 3, 3, 1),
-('22 avenue du Château, Le Perreux 94170', '2023-04-07 12:45:00', '2023-04-07 13:30:00', 1, 2, 2),
-('8 boulevard de Strasbourg, Saint-Maur 94100', '2023-04-08 20:30:00', '2023-04-08 21:10:00', 2, 1, 3),
-('77 rue Jean Jaurès, Champigny 94500', '2023-04-09 18:20:00', '2023-04-09 19:05:00', 3, 3, 2),
-('2 allée des Roses, Fontenay 94120', '2023-04-10 19:40:00', '2023-04-10 20:30:00', 1, 1, 3),
-('90 rue Victor Hugo, Nogent 94130', '2023-04-11 18:10:00', '2023-04-11 18:55:00', 2, 2, 1),
-('55 avenue Mozart, Joinville 94340', '2023-04-12 20:05:00', '2023-04-12 20:50:00', 3, 1, 2),
-('6 rue des Peupliers, Neuilly-Plaisance 93360', '2023-04-13 19:50:00', '2023-04-13 20:35:00', 1, 3, 1),
-('44 avenue de Verdun, Ivry 94200', '2023-04-14 18:30:00', '2023-04-14 19:15:00', 2, 2, 3),
-('17 rue de l’Égalité, Villejuif 94800', '2023-04-15 20:00:00', '2023-04-15 20:45:00', 3, 1, 2);
+INSERT INTO Commande(idCommande, adresseCommande, DateCommande, DateLivraison, IdClient, IdLivreur, IdVehicule) VALUES
+(1, '15 rue des Lilas, Montreuil 93100', '2023-04-01 18:30:00', '2023-04-01 19:15:00', 1, 1, 1),
+(2, '28 avenue de la République, Rosny 93110', '2023-04-02 19:00:00', '2023-04-02 19:45:00', 2, 2, 2),
+(3, '33 boulevard de la Liberté, Bondy 93140', '2023-04-03 12:30:00', '2023-04-03 13:20:00', 3, 3, 3),
+(4, '47 rue Pasteur, Noisy-le-Sec 93130', '2023-04-04 20:00:00', '2023-04-04 20:50:00', 1, 2, 1),
+(5, '59 avenue Gallieni, Bagnolet 93170', '2023-04-05 18:00:00', '2023-04-05 18:45:00', 2, 1, 2),
+(6, '11 rue de Paris, Vincennes 94300', '2023-04-06 19:30:00', '2023-04-06 20:15:00', 3, 3, 1),
+(7, '22 avenue du Château, Le Perreux 94170', '2023-04-07 12:45:00', '2023-04-07 13:30:00', 1, 2, 2),
+(8, '8 boulevard de Strasbourg, Saint-Maur 94100', '2023-04-08 20:30:00', '2023-04-08 21:10:00', 2, 1, 3),
+(9, '77 rue Jean Jaurès, Champigny 94500', '2023-04-09 18:20:00', '2023-04-09 19:05:00', 3, 3, 2),
+(10, '2 allée des Roses, Fontenay 94120', '2023-04-10 19:40:00', '2023-04-10 20:30:00', 1, 1, 3),
+(11, '90 rue Victor Hugo, Nogent 94130', '2023-04-11 18:10:00', '2023-04-11 18:55:00', 2, 2, 1),
+(12, '55 avenue Mozart, Joinville 94340', '2023-04-12 20:05:00', '2023-04-12 20:50:00', 3, 1, 2),
+(13, '6 rue des Peupliers, Neuilly-Plaisance 93360', '2023-04-13 19:50:00', '2023-04-13 20:35:00', 1, 3, 1),
+(14, '44 avenue de Verdun, Ivry 94200', '2023-04-14 18:30:00', '2023-04-14 19:15:00', 2, 2, 3),
+(15, '17 rue de l’Égalité, Villejuif 94800', '2023-04-15 20:00:00', '2023-04-15 20:45:00', 3, 1, 2);
 
 -- Insertion de données pour la table Compose
 -- Associant chaque pizza à ses ingrédients

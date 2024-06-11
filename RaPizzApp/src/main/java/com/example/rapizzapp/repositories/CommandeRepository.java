@@ -3,12 +3,10 @@ package com.example.rapizzapp.repositories;
 import com.example.rapizzapp.entities.*;
 import com.example.rapizzapp.handlers.DatabaseHandler;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.time.Duration;
 
 public class CommandeRepository {
 
@@ -33,13 +31,13 @@ public class CommandeRepository {
         return commandeRepository;
     }
 
-    public List<Commande> getAllCommandes() {
-        List<Commande> commandes = new ArrayList<>();
+    public List<Commande> getAllCommandes() throws SQLException {
+        List<Commande> commandes = new ArrayList<Commande>();
 
         String sql = "SELECT * FROM Commande";
         try (Connection conn = dbHandler.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 Commande commande = new Commande();
@@ -48,14 +46,15 @@ public class CommandeRepository {
                 commande.setDateCommande(rs.getTimestamp("DateCommande").toLocalDateTime());
                 commande.setDateLivraison(rs.getTimestamp("DateLivraison").toLocalDateTime());
 
-                // Récupération des pizzas associées à la commande
-                HashMap<Pizza, Taille> pizzas = getPizzasByCommandeId(commande.getIdCommande());
-                commande.setPizzas(pizzas);
-
                 commandes.add(commande);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+        }
+        for (Commande commande: commandes){
+            // Récupération des pizzas associées à la commande
+            HashMap<Pizza, Taille> pizzas = getPizzasByCommandeId(commande.getIdCommande());
+            commande.setPizzas(pizzas);
         }
         return commandes;
     }
@@ -78,6 +77,7 @@ public class CommandeRepository {
                 Taille taille = new Taille();
                 taille.setIdTaille(rs.getInt("IdTaille"));
                 taille.setLibelleTaille(rs.getString("LibelleTaille"));
+                taille.setModificateurPrix(rs.getString("ModificateurPrix"));
                 pizza.setTaillePizza(taille.getLibelleTaille());
 
 
@@ -152,6 +152,24 @@ public class CommandeRepository {
         return 0.0;
     }
 
+    public double getPrixMoyenCommandes(){
+        String sql = "SELECT AVG(P.Prix * COALESCE(CAST(T.ModificateurPrix AS DECIMAL(5,2)), 1)) AS PrixMoyenCommande " +
+                "FROM Commande Co " +
+                "JOIN Contient Ct ON Co.idCommande = Ct.idCommande " +
+                "JOIN Pizza P ON Ct.IdPizza = P.IdPizza " +
+                "JOIN Taille T ON Ct.idTaille = T.idTaille";
+        try (Connection conn = dbHandler.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getDouble("PrixMoyenCommande");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return 0.0;
+    }
+
     public Commande getLastCommandForLivreur(int livreurId) {
         Commande commande = null;
 
@@ -192,6 +210,60 @@ public class CommandeRepository {
 
         return commande;
     }
+
+    public Timestamp getLastOrderDateTime() {
+        String sql = "SELECT MAX(DateCommande) AS DerniereCommande FROM Commande";
+
+        try (Connection conn = dbHandler.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                return rs.getTimestamp("DerniereCommande");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public Time getOrderAverageTime() {
+        String sql = "SELECT AVG(TIMESTAMPDIFF(SECOND, DateCommande, DateLivraison)) AS TempsLivraisonMoyen " +
+        "FROM Commande";
+
+        try (Connection conn = dbHandler.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                int tempsLivraisonMoyen = rs.getInt("TempsLivraisonMoyen");
+                int hours = tempsLivraisonMoyen / 3600;
+                int minutes = tempsLivraisonMoyen / 60;
+                int secondes = minutes % 60;
+                Time time = new Time(hours, minutes, secondes);
+                return time;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return new Time(0);
+    }
+
+    public int getcommandAmount() {
+        String sql = "SELECT count(*) AS nombreCommandes FROM Commande";
+        try (Connection conn = dbHandler.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                return rs.getInt("nombreCommandes");
+            }
+        } catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        return -1;
+    }
+
 
     public List<Commande> getClientOrderHistory(int clientId) throws SQLException {
         List<Commande> commandes = new ArrayList<>();
@@ -291,6 +363,27 @@ public class CommandeRepository {
         }
 
         return commande;
+    }
+    
+    public String getBestWeekDay() {
+        String sql = "SELECT DAYNAME(DateCommande) AS JourSemaine, SUM(P.Prix) AS TotalVentes " +
+                "FROM Commande C " +
+                "JOIN Contient Ct ON C.idCommande = Ct.idCommande " +
+                "JOIN Pizza P ON Ct.IdPizza = P.IdPizza " +
+                "GROUP BY DAYNAME(DateCommande) " +
+                "ORDER BY TotalVentes DESC " +
+                "LIMIT 1";
+        try (Connection conn = dbHandler.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                return rs.getString("JourSemaine");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return "not found";
     }
 
     public void updateCommande(Commande commande){

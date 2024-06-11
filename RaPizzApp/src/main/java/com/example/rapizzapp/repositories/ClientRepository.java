@@ -125,6 +125,55 @@ public class ClientRepository {
         return 0;
     }
 
+    public String[] getMontantDepenseParMeilleurClient() {
+        String sql = "SELECT " +
+                "    Montants.IdClient, " +
+                "    Montants.Nom, " +
+                "    Montants.Prenom, " +
+                "    Montants.MontantTotalDepense " +
+                "FROM (" +
+                "    SELECT " +
+                "        C.IdClient, " +
+                "        C.Nom, " +
+                "        C.Prenom, " +
+                "        SUM(P.Prix * COALESCE(CAST(T.ModificateurPrix AS DECIMAL(5,2)), 1)) AS MontantTotalDepense " +
+                "    FROM " +
+                "        Client C " +
+                "    JOIN " +
+                "        Commande Co ON C.IdClient = Co.IdClient " +
+                "    JOIN " +
+                "        Contient Ct ON Co.idCommande = Ct.idCommande " +
+                "    JOIN " +
+                "        Pizza P ON Ct.IdPizza = P.IdPizza " +
+                "    JOIN " +
+                "        Taille T ON Ct.idTaille = T.idTaille " +
+                "    GROUP BY " +
+                "        C.IdClient, " +
+                "        C.Nom, " +
+                "        C.Prenom" +
+                ") AS Montants " +
+                "ORDER BY " +
+                "    Montants.MontantTotalDepense DESC " +
+                "LIMIT 1";
+        try (Connection conn = dbHandler.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                String[] result = {
+                    rs.getString("Nom"),
+                    rs.getString("Prenom"),
+                    rs.getString("MontantTotalDepense")
+                };
+                return result;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        String[] result = {"", "", ""};
+        return result;
+    }
+
     public boolean deleteClient(Client client){
         String sql = "DELETE FROM Client WHERE IdClient = ?";
         try (Connection conn = dbHandler.getConnection();
