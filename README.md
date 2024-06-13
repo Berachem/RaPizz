@@ -1,4 +1,4 @@
-# 🍕 RaPizz - Gestion d’une entreprise de pizzas à domicile
+# RaPizz
 ![image](https://github.com/Berachem/RaPizz/assets/61350744/09fdd6c5-f7f0-4f04-8daf-666dd5dd4ba3)
 
 ## Présentation du Projet
