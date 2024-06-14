@@ -1,4 +1,12 @@
 # RaPizz
+
+<center>
+  <video width="640" height="480" controls>
+    <source src="https://igadvisory.fr/opendata/Rapizz_Trailer.mp4" type="video/mp4">
+  </video>
+</center>
+
+
 ![image](https://github.com/Berachem/RaPizz/assets/61350744/09fdd6c5-f7f0-4f04-8daf-666dd5dd4ba3)
 
 ## Présentation du Projet
