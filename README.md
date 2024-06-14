@@ -1,7 +1,7 @@
 # RaPizz
 
 <center>
-  <video width="1280" height="960" controls>
+  <video width="853" height="640" autoplay controls>
     <source src="https://igadvisory.fr/opendata/Rapizz_Trailer.mp4" type="video/mp4">
   </video>
 </center>
