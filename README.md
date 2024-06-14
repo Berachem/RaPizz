@@ -119,7 +119,7 @@ Ces technologies combinées fournissent une infrastructure solide pour développ
 ![image](https://github.com/Berachem/RaPizz/assets/61350744/774a09c1-6da7-41eb-8294-0b1ca77f7f95)
 
 
-Les labels correspondent à une fonctionnalité. TODO : partie BackEnd à enrichir.
+Les labels correspondent à une fonctionnalité.
 
 ## Base de données
 
